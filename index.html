@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merakelysi - Mi Universo Literario</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fef7f0 0%, #faf2f2 25%, #f0f4f8 50%, #f8f0f5 75%, #f5f3ff 100%);
+            min-height: 100vh;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>🦄</text></svg>"), auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #f43f5e, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .title::before {
+            content: '🌸';
+            position: absolute;
+            top: -10px;
+            right: -30px;
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .title::after {
+            content: '🦋';
+            position: absolute;
+            bottom: -10px;
+            left: -30px;
+            font-size: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        .decorative-lines {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .line {
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        .line-1 { width: 64px; background: linear-gradient(to right, #fda4af, #f472b6); }
+        .line-2 { width: 40px; background: linear-gradient(to right, #a78bfa, #8b5cf6); }
+        .line-3 { width: 24px; background: linear-gradient(to right, #60a5fa, #3b82f6); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.8) 100%);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '🦋';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 1.5rem;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        .card-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding-top: 1rem;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+            line-height: 1.4;
+        }
+
+        /* Colores específicos para cada tarjeta */
+        .card-books { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); }
+        .card-calendar { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
+        .card-progress { background: linear-gradient(135deg, #ecfdf5 0%, #dcfce7 100%); }
+        .card-quotes { background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); }
+        .card-challenges { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
+        .card-wishlist { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); }
+        .card-stats { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); }
+        .card-reviews { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); }
+        .card-playlist { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); }
+        .card-scrapbook { background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); }
+        .card-diary { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); }
+        .card-clubs { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
+        .card-monthly { background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); }
+        .card-finished { background: linear-gradient(135deg, #ecfdf5 0%, #bbf7d0 100%); }
+        .card-favorites { background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%); }
+        .card-suggestions { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); }
+
+        /* Elementos decorativos del fondo */
+        .bg-decoration {
+            position: fixed;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-book-1 { top: 10%; left: 5%; font-size: 4rem; animation: float 6s ease-in-out infinite; }
+        .bg-book-2 { top: 20%; right: 10%; font-size: 3rem; animation: float 4s ease-in-out infinite reverse; }
+        .bg-butterfly { bottom: 20%; left: 10%; font-size: 5rem; animation: pulse 3s infinite; }
+        .bg-star { bottom: 10%; right: 5%; font-size: 3rem; animation: float 5s ease-in-out infinite; }
+        .bg-flower { top: 50%; left: 2%; font-size: 3rem; animation: pulse 4s infinite; }
+        .bg-moon { top: 30%; right: 3%; font-size: 4rem; animation: float 7s ease-in-out infinite; }
+
+        /* Animaciones */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title { font-size: 2.5rem; }
+            .grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+            .card { padding: 1.5rem; }
+            .container { padding: 1rem; }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .close {
+            color: #9ca3af;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #374151;
+        }
+
+        .modal h2 {
+            color: #374151;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .modal p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .coming-soon {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Elementos decorativos de fondo -->
+    <div class="bg-decoration bg-book-1">📚</div>
+    <div class="bg-decoration bg-book-2">📖</div>
+    <div class="bg-decoration bg-butterfly">🦋</div>
+    <div class="bg-decoration bg-star">⭐</div>
+    <div class="bg-decoration bg-flower">🌸</div>
+    <div class="bg-decoration bg-moon">🌙</div>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Merakelysi</h1>
+            <p class="subtitle">Mi espacio literario</p>
+            
+            <div class="status">
+                <div class="status-dot"></div>
+                <span class="status-text">Datos guardados automáticamente</span>
+            </div>
+            
+            <div class="decorative-lines">
+                <div class="line line-1"></div>
+                <div class="line line-2"></div>
+                <div class="line line-3"></div>
+            </div>
+        </header>
+
+        <main class="grid">
+            <div class="card card-books" onclick="openModal('Mis Libros por Leer', 'Organiza todos los libros que quieres leer, con fechas límite, capítulos y encuentros con autores. Perfecto para tus clubes de lectura.')">
+                <div class="card-content">
+                    <span class="card-icon">📚</span>
+                    <h3 class="card-title">Mis Libros por Leer</h3>
+                </div>
+            </div>
+
+            <div class="card card-calendar" onclick="openModal('Calendario de Lecturas', 'Visualiza todas tus fechas importantes: deadlines de libros, reuniones de clubes y encuentros con autores en un calendario intuitivo.')">
+                <div class="card-content">
+                    <span class="card-icon">📅</span>
+                    <h3 class="card-title">Calendario de Lecturas</h3>
+                </div>
+            </div>
+
+            <div class="card card-progress" onclick="openModal('Mi Progreso', 'Sigue tu progreso de lectura con estadísticas visuales, retos anuales y logros desbloqueados.')">
+                <div class="card-content">
+                    <span class="card-icon">📈</span>
+                    <h3 class="card-title">Mi Progreso</h3>
+                </div>
+            </div>
+
+            <div class="card card-quotes" onclick="openModal('Frases de Lecturas', 'Guarda tus citas favoritas de los libros que lees, organizadas por autor, libro o tema.')">
+                <div class="card-content">
+                    <span class="card-icon">📝</span>
+                    <h3 class="card-title">Frases de Lecturas</h3>
+                </div>
+            </div>
+
+            <div class="card card-challenges" onclick="openModal('Retos Lectores', 'Participa en desafíos de lectura: leer 50 libros al año, explorar nuevos géneros, autores diversos.')">
+                <div class="card-content">
+                    <span class="card-icon">🧩</span>
+                    <h3 class="card-title">Retos Lectores</h3>
+                </div>
+            </div>
+
+            <div class="card card-wishlist" onclick="openModal('Wishlist de libros', 'Lista de deseos con todos los libros que quieres leer, organizados por prioridad y disponibilidad.')">
+                <div class="card-content">
+                    <span class="card-icon">💖</span>
+                    <h3 class="card-title">Wishlist de libros</h3>
+                </div>
+            </div>
+
+            <div class="card card-stats" onclick="openModal('Estadísticas', 'Analiza tus hábitos de lectura: libros por mes, géneros favoritos, tiempo de lectura promedio.')">
+                <div class="card-content">
+                    <span class="card-icon">📊</span>
+                    <h3 class="card-title">Estadísticas</h3>
+                </div>
+            </div>
+
+            <div class="card card-reviews" onclick="openModal('Reseñas Personales', 'Tu blog de lectura personal donde escribes reseñas detalladas y compartes tus opiniones.')">
+                <div class="card-content">
+                    <span class="card-icon">✍️</span>
+                    <h3 class="card-title">Reseñas Personales</h3>
+                </div>
+            </div>
+
+            <div class="card card-playlist" onclick="openModal('Playlist de Spotify', 'Crea playlists personalizadas para cada libro o estado de ánimo de lectura.')">
+                <div class="card-content">
+                    <span class="card-icon">🎧</span>
+                    <h3 class="card-title">Playlist de Spotify</h3>
+                </div>
+            </div>
+
+            <div class="card card-scrapbook" onclick="openModal('Scrapbook Literario', 'Diseña páginas de scrapbook para cada lectura con imágenes, recuerdos y elementos visuales.')">
+                <div class="card-content">
+                    <span class="card-icon">📔</span>
+                    <h3 class="card-title">Scrapbook Literario</h3>
+                </div>
+            </div>
+
+            <div class="card card-diary" onclick="openModal('Diario de Lectura', 'Registra tus pensamientos, emociones y reflexiones mientras lees cada libro.')">
+                <div class="card-content">
+                    <span class="card-icon">📓</span>
+                    <h3 class="card-title">Diario de Lectura</h3>
+                </div>
+            </div>
+
+            <div class="card card-clubs" onclick="openModal('Mis Clubes de Lectura', 'Gestiona todos tus clubes de lectura: horarios, miembros, libros actuales y próximos encuentros.')">
+                <div class="card-content">
+                    <span class="card-icon">👥</span>
+                    <h3 class="card-title">Mis Clubes de Lectura</h3>
+                </div>
+            </div>
+
+            <div class="card card-monthly" onclick="openModal('Retos del Mes', 'Desafíos mensuales específicos para mantener tu motivación de lectura alta.')">
+                <div class="card-content">
+                    <span class="card-icon">🎯</span>
+                    <h3 class="card-title">Retos del Mes</h3>
+                </div>
+            </div>
+
+            <div class="card card-finished" onclick="openModal('Lecturas Terminadas', 'Celebra tus logros con una galería de todos los libros que has completado.')">
+                <div class="card-content">
+                    <span class="card-icon">✅</span>
+                    <h3 class="card-title">Lecturas Terminadas</h3>
+                </div>
+            </div>
+
+            <div class="card card-favorites" onclick="openModal('Favoritos del Año', 'Los libros que más te han marcado este año, con reseñas especiales y recuerdos.')">
+                <div class="card-content">
+                    <span class="card-icon">🌟</span>
+                    <h3 class="card-title">Favoritos del Año</h3>
+                </div>
+            </div>
+
+            <div class="card card-suggestions" onclick="openModal('Sugerencias Automáticas', 'Recibe recomendaciones personalizadas basadas en tus gustos y historial de lectura.')">
+                <div class="card-content">
+                    <span class="card-icon">🤖</span>
+                    <h3 class="card-title">Sugerencias Automáticas</h3>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="featureModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Función</h2>
+            <p id="modalDescription">Descripción de la función</p>
+            <div class="coming-soon">🚀 Próximamente disponible</div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, description) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDescription').textContent = description;
+            document.getElementById('featureModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('featureModal').style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera de él
+        window.onclick = function(event) {
+            const modal = document.getElementById('featureModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Efectos de cursor
+        document.addEventListener('mousemove', function(e) {
+            // Aquí podrías agregar efectos de cursor más avanzados
+        });
+
+        // Guardar datos localmente (simulado)
+        function saveData(key, data) {
+            localStorage.setItem('merakelysi_' + key, JSON.stringify(data));
+        }
+
+        function loadData(key) {
+            const data = localStorage.getItem('merakelysi_' + key);
+            return data ? JSON.parse(data) : null;
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🦄 Merakelysi - Mi Universo Literario iniciado');
+            
+            // Aquí podrías cargar datos guardados
+            const savedBooks = loadData('books') || [];
+            console.log('Libros guardados:', savedBooks.length);
+        });
+    </script>
+</body>
+</html>
