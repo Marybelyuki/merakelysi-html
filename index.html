@@ -25,6 +25,7 @@
             padding: 2rem;
         }
 
+        /* Header Styles */
         .header {
             text-align: center;
             margin-bottom: 3rem;
@@ -83,27 +84,37 @@
             animation: pulse 2s infinite;
         }
 
-        .status-text {
-            font-size: 0.9rem;
-            color: #9ca3af;
+        .back-btn {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #fda4af, #f472b6);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3);
         }
 
-        .decorative-lines {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
+        .back-btn:hover {
+            transform: translateY(-50%) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 114, 182, 0.4);
         }
 
-        .line {
-            height: 4px;
-            border-radius: 2px;
+        /* Navigation and Sections */
+        .nav-section {
+            display: none;
         }
 
-        .line-1 { width: 64px; background: linear-gradient(to right, #fda4af, #f472b6); }
-        .line-2 { width: 40px; background: linear-gradient(to right, #a78bfa, #8b5cf6); }
-        .line-3 { width: 24px; background: linear-gradient(to right, #60a5fa, #3b82f6); }
+        .nav-section.active {
+            display: block;
+        }
 
+        /* Grid Styles */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -132,30 +143,9 @@
             transition: all 0.3s ease;
         }
 
-        .card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
         .card:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        .card:hover::before {
-            opacity: 1;
-            transform: scale(1.2);
-        }
-
-        .card:hover::after {
-            opacity: 1;
         }
 
         .card-content {
@@ -179,59 +169,169 @@
             line-height: 1.4;
         }
 
-        /* Colores específicos para cada tarjeta */
-        .card-books { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); }
-        .card-calendar { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
-        .card-progress { background: linear-gradient(135deg, #ecfdf5 0%, #dcfce7 100%); }
-        .card-quotes { background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); }
-        .card-challenges { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
-        .card-wishlist { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); }
-        .card-stats { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); }
-        .card-reviews { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); }
-        .card-playlist { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); }
-        .card-scrapbook { background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); }
-        .card-diary { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); }
-        .card-clubs { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
-        .card-monthly { background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); }
-        .card-finished { background: linear-gradient(135deg, #ecfdf5 0%, #bbf7d0 100%); }
-        .card-favorites { background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%); }
-        .card-suggestions { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); }
-
-        /* Elementos decorativos del fondo */
-        .bg-decoration {
-            position: fixed;
-            opacity: 0.1;
-            pointer-events: none;
-            z-index: 0;
+        /* Books Section Styles */
+        .books-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
         }
 
-        .bg-book-1 { top: 10%; left: 5%; font-size: 4rem; animation: float 6s ease-in-out infinite; }
-        .bg-book-2 { top: 20%; right: 10%; font-size: 3rem; animation: float 4s ease-in-out infinite reverse; }
-        .bg-butterfly { bottom: 20%; left: 10%; font-size: 5rem; animation: pulse 3s infinite; }
-        .bg-star { bottom: 10%; right: 5%; font-size: 3rem; animation: float 5s ease-in-out infinite; }
-        .bg-flower { top: 50%; left: 2%; font-size: 3rem; animation: pulse 4s infinite; }
-        .bg-moon { top: 30%; right: 3%; font-size: 4rem; animation: float 7s ease-in-out infinite; }
-
-        /* Animaciones */
-        @keyframes pulse {
-            0%, 100% { opacity: 0.1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.05); }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #374151;
+            margin: 0;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        .add-btn {
+            background: linear-gradient(135deg, #fda4af, #f472b6);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(244, 114, 182, 0.3);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .title { font-size: 2.5rem; }
-            .grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
-            .card { padding: 1.5rem; }
-            .container { padding: 1rem; }
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(244, 114, 182, 0.4);
         }
 
-        /* Modal styles */
+        .books-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .book-card {
+            background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-card::before {
+            content: '🦋';
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .book-content {
+            margin-left: 2.5rem;
+        }
+
+        .book-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-author {
+            color: #6b7280;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-club {
+            color: #f43f5e;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-section {
+            margin-top: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #fda4af, #f472b6);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .chapter-input {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .chapter-input input {
+            width: 80px;
+            padding: 0.5rem;
+            border: 2px solid #fda4af;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            background: rgba(253, 164, 175, 0.1);
+        }
+
+        .chapter-input input:focus {
+            outline: none;
+            border-color: #f472b6;
+            box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.1);
+        }
+
+        .book-dates {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #fca5a5;
+            color: white;
+            border: none;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: #f87171;
+            transform: scale(1.1);
+        }
+
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -246,11 +346,13 @@
 
         .modal-content {
             background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
-            margin: 5% auto;
-            padding: 2rem;
+            margin: 3% auto;
+            padding: 2.5rem;
             border-radius: 24px;
             width: 90%;
-            max-width: 500px;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             border: 1px solid rgba(255, 255, 255, 0.5);
             position: relative;
@@ -271,221 +373,636 @@
 
         .modal h2 {
             color: #374151;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
             font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
         }
 
-        .modal p {
-            color: #6b7280;
-            line-height: 1.6;
-            margin-bottom: 1rem;
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
-        .coming-soon {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            font-size: 0.9rem;
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
             font-weight: 600;
-            display: inline-block;
-            margin-top: 1rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #fda4af;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(253, 164, 175, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #f472b6;
+            box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, #fda4af, #f472b6);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 114, 182, 0.4);
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background: #e5e7eb;
+            color: #374151;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6b7280;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Celebration Styles */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title { font-size: 2.5rem; }
+            .container { padding: 1rem; }
+            .books-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            .back-btn {
+                position: static;
+                transform: none;
+                margin-bottom: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Elementos decorativos de fondo -->
-    <div class="bg-decoration bg-book-1">📚</div>
-    <div class="bg-decoration bg-book-2">📖</div>
-    <div class="bg-decoration bg-butterfly">🦋</div>
-    <div class="bg-decoration bg-star">⭐</div>
-    <div class="bg-decoration bg-flower">🌸</div>
-    <div class="bg-decoration bg-moon">🌙</div>
-
     <div class="container">
-        <header class="header">
-            <h1 class="title">Merakelysi</h1>
-            <p class="subtitle">Mi espacio literario</p>
+        <!-- Home Section -->
+        <section id="home" class="nav-section active">
+            <header class="header">
+                <h1 class="title">Merakelysi</h1>
+                <p class="subtitle">Mi espacio literario</p>
+                
+                <div class="status">
+                    <div class="status-dot"></div>
+                    <span class="status-text">Datos guardados automáticamente</span>
+                </div>
+            </header>
+
+            <main class="grid">
+                <div class="card" onclick="showSection('books')">
+                    <div class="card-content">
+                        <span class="card-icon">📚</span>
+                        <h3 class="card-title">Mis Libros por Leer</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="showSection('clubs')">
+                    <div class="card-content">
+                        <span class="card-icon">👥</span>
+                        <h3 class="card-title">Mis Clubes de Lectura</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="showSection('progress')">
+                    <div class="card-content">
+                        <span class="card-icon">📈</span>
+                        <h3 class="card-title">Mi Progreso</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Calendario de Lecturas')">
+                    <div class="card-content">
+                        <span class="card-icon">📅</span>
+                        <h3 class="card-title">Calendario de Lecturas</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Frases de Lecturas')">
+                    <div class="card-content">
+                        <span class="card-icon">📝</span>
+                        <h3 class="card-title">Frases de Lecturas</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Retos Lectores')">
+                    <div class="card-content">
+                        <span class="card-icon">🧩</span>
+                        <h3 class="card-title">Retos Lectores</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Wishlist de libros')">
+                    <div class="card-content">
+                        <span class="card-icon">💖</span>
+                        <h3 class="card-title">Wishlist de libros</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Estadísticas')">
+                    <div class="card-content">
+                        <span class="card-icon">📊</span>
+                        <h3 class="card-title">Estadísticas</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Reseñas Personales')">
+                    <div class="card-content">
+                        <span class="card-icon">✍️</span>
+                        <h3 class="card-title">Reseñas Personales</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Playlist de Spotify')">
+                    <div class="card-content">
+                        <span class="card-icon">🎧</span>
+                        <h3 class="card-title">Playlist de Spotify</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Scrapbook Literario')">
+                    <div class="card-content">
+                        <span class="card-icon">📔</span>
+                        <h3 class="card-title">Scrapbook Literario</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Diario de Lectura')">
+                    <div class="card-content">
+                        <span class="card-icon">📓</span>
+                        <h3 class="card-title">Diario de Lectura</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Retos del Mes')">
+                    <div class="card-content">
+                        <span class="card-icon">🎯</span>
+                        <h3 class="card-title">Retos del Mes</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Lecturas Terminadas')">
+                    <div class="card-content">
+                        <span class="card-icon">✅</span>
+                        <h3 class="card-title">Lecturas Terminadas</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Favoritos del Año')">
+                    <div class="card-content">
+                        <span class="card-icon">🌟</span>
+                        <h3 class="card-title">Favoritos del Año</h3>
+                    </div>
+                </div>
+
+                <div class="card" onclick="comingSoon('Sugerencias Automáticas')">
+                    <div class="card-content">
+                        <span class="card-icon">🤖</span>
+                        <h3 class="card-title">Sugerencias Automáticas</h3>
+                    </div>
+                </div>
+            </main>
+        </section>
+
+        <!-- Books Section -->
+        <section id="books" class="nav-section">
+            <div class="books-header">
+                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
+                <h2 class="section-title">📚 Mis Libros por Leer</h2>
+                <button class="add-btn" onclick="openAddBookModal()">+ Agregar Libro</button>
+            </div>
             
-            <div class="status">
-                <div class="status-dot"></div>
-                <span class="status-text">Datos guardados automáticamente</span>
+            <div id="booksContainer" class="books-grid">
+                <!-- Los libros se cargarán aquí -->
             </div>
-            
-            <div class="decorative-lines">
-                <div class="line line-1"></div>
-                <div class="line line-2"></div>
-                <div class="line line-3"></div>
-            </div>
-        </header>
+        </section>
 
-        <main class="grid">
-            <div class="card card-books" onclick="openModal('Mis Libros por Leer', 'Organiza todos los libros que quieres leer, con fechas límite, capítulos y encuentros con autores. Perfecto para tus clubes de lectura.')">
-                <div class="card-content">
-                    <span class="card-icon">📚</span>
-                    <h3 class="card-title">Mis Libros por Leer</h3>
-                </div>
+        <!-- Other sections placeholders -->
+        <section id="clubs" class="nav-section">
+            <div class="books-header">
+                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
+                <h2 class="section-title">👥 Mis Clubes de Lectura</h2>
             </div>
+            <div class="empty-state">
+                <div class="empty-state-icon">👥</div>
+                <h3>Próximamente: Gestión de Clubes</h3>
+                <p>Aquí podrás crear y gestionar todos tus clubes de lectura.</p>
+            </div>
+        </section>
 
-            <div class="card card-calendar" onclick="openModal('Calendario de Lecturas', 'Visualiza todas tus fechas importantes: deadlines de libros, reuniones de clubes y encuentros con autores en un calendario intuitivo.')">
-                <div class="card-content">
-                    <span class="card-icon">📅</span>
-                    <h3 class="card-title">Calendario de Lecturas</h3>
-                </div>
+        <section id="progress" class="nav-section">
+            <div class="books-header">
+                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
+                <h2 class="section-title">📈 Mi Progreso</h2>
             </div>
-
-            <div class="card card-progress" onclick="openModal('Mi Progreso', 'Sigue tu progreso de lectura con estadísticas visuales, retos anuales y logros desbloqueados.')">
-                <div class="card-content">
-                    <span class="card-icon">📈</span>
-                    <h3 class="card-title">Mi Progreso</h3>
-                </div>
+            <div class="empty-state">
+                <div class="empty-state-icon">📈</div>
+                <h3>Próximamente: Estadísticas de Progreso</h3>
+                <p>Aquí verás tu progreso de lectura, retos anuales y estadísticas.</p>
             </div>
-
-            <div class="card card-quotes" onclick="openModal('Frases de Lecturas', 'Guarda tus citas favoritas de los libros que lees, organizadas por autor, libro o tema.')">
-                <div class="card-content">
-                    <span class="card-icon">📝</span>
-                    <h3 class="card-title">Frases de Lecturas</h3>
-                </div>
-            </div>
-
-            <div class="card card-challenges" onclick="openModal('Retos Lectores', 'Participa en desafíos de lectura: leer 50 libros al año, explorar nuevos géneros, autores diversos.')">
-                <div class="card-content">
-                    <span class="card-icon">🧩</span>
-                    <h3 class="card-title">Retos Lectores</h3>
-                </div>
-            </div>
-
-            <div class="card card-wishlist" onclick="openModal('Wishlist de libros', 'Lista de deseos con todos los libros que quieres leer, organizados por prioridad y disponibilidad.')">
-                <div class="card-content">
-                    <span class="card-icon">💖</span>
-                    <h3 class="card-title">Wishlist de libros</h3>
-                </div>
-            </div>
-
-            <div class="card card-stats" onclick="openModal('Estadísticas', 'Analiza tus hábitos de lectura: libros por mes, géneros favoritos, tiempo de lectura promedio.')">
-                <div class="card-content">
-                    <span class="card-icon">📊</span>
-                    <h3 class="card-title">Estadísticas</h3>
-                </div>
-            </div>
-
-            <div class="card card-reviews" onclick="openModal('Reseñas Personales', 'Tu blog de lectura personal donde escribes reseñas detalladas y compartes tus opiniones.')">
-                <div class="card-content">
-                    <span class="card-icon">✍️</span>
-                    <h3 class="card-title">Reseñas Personales</h3>
-                </div>
-            </div>
-
-            <div class="card card-playlist" onclick="openModal('Playlist de Spotify', 'Crea playlists personalizadas para cada libro o estado de ánimo de lectura.')">
-                <div class="card-content">
-                    <span class="card-icon">🎧</span>
-                    <h3 class="card-title">Playlist de Spotify</h3>
-                </div>
-            </div>
-
-            <div class="card card-scrapbook" onclick="openModal('Scrapbook Literario', 'Diseña páginas de scrapbook para cada lectura con imágenes, recuerdos y elementos visuales.')">
-                <div class="card-content">
-                    <span class="card-icon">📔</span>
-                    <h3 class="card-title">Scrapbook Literario</h3>
-                </div>
-            </div>
-
-            <div class="card card-diary" onclick="openModal('Diario de Lectura', 'Registra tus pensamientos, emociones y reflexiones mientras lees cada libro.')">
-                <div class="card-content">
-                    <span class="card-icon">📓</span>
-                    <h3 class="card-title">Diario de Lectura</h3>
-                </div>
-            </div>
-
-            <div class="card card-clubs" onclick="openModal('Mis Clubes de Lectura', 'Gestiona todos tus clubes de lectura: horarios, miembros, libros actuales y próximos encuentros.')">
-                <div class="card-content">
-                    <span class="card-icon">👥</span>
-                    <h3 class="card-title">Mis Clubes de Lectura</h3>
-                </div>
-            </div>
-
-            <div class="card card-monthly" onclick="openModal('Retos del Mes', 'Desafíos mensuales específicos para mantener tu motivación de lectura alta.')">
-                <div class="card-content">
-                    <span class="card-icon">🎯</span>
-                    <h3 class="card-title">Retos del Mes</h3>
-                </div>
-            </div>
-
-            <div class="card card-finished" onclick="openModal('Lecturas Terminadas', 'Celebra tus logros con una galería de todos los libros que has completado.')">
-                <div class="card-content">
-                    <span class="card-icon">✅</span>
-                    <h3 class="card-title">Lecturas Terminadas</h3>
-                </div>
-            </div>
-
-            <div class="card card-favorites" onclick="openModal('Favoritos del Año', 'Los libros que más te han marcado este año, con reseñas especiales y recuerdos.')">
-                <div class="card-content">
-                    <span class="card-icon">🌟</span>
-                    <h3 class="card-title">Favoritos del Año</h3>
-                </div>
-            </div>
-
-            <div class="card card-suggestions" onclick="openModal('Sugerencias Automáticas', 'Recibe recomendaciones personalizadas basadas en tus gustos y historial de lectura.')">
-                <div class="card-content">
-                    <span class="card-icon">🤖</span>
-                    <h3 class="card-title">Sugerencias Automáticas</h3>
-                </div>
-            </div>
-        </main>
+        </section>
     </div>
 
-    <!-- Modal -->
-    <div id="featureModal" class="modal">
+    <!-- Add Book Modal -->
+    <div id="addBookModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle">Función</h2>
-            <p id="modalDescription">Descripción de la función</p>
-            <div class="coming-soon">🚀 Próximamente disponible</div>
+            <span class="close" onclick="closeAddBookModal()">&times;</span>
+            <h2>📚 Agregar Nuevo Libro</h2>
+            
+            <form id="addBookForm">
+                <div class="form-group">
+                    <label for="bookTitle">Título del libro *</label>
+                    <input type="text" id="bookTitle" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bookAuthor">Autor/a *</label>
+                    <input type="text" id="bookAuthor" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bookClub">Club de lectura</label>
+                    <select id="bookClub">
+                        <option value="">Seleccionar club</option>
+                        <option value="Club Romántico">Club Romántico</option>
+                        <option value="Club Fantasía">Club Fantasía</option>
+                        <option value="Club Contemporáneo">Club Contemporáneo</option>
+                        <option value="Club Misterio">Club Misterio</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="totalChapters">Total de capítulos</label>
+                    <input type="number" id="totalChapters" min="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="deadline">Fecha límite</label>
+                    <input type="date" id="deadline">
+                </div>
+                
+                <div class="form-group">
+                    <label for="authorMeeting">Encuentro con autor/a (opcional)</label>
+                    <input type="date" id="authorMeeting">
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Notas adicionales</label>
+                    <textarea id="notes" placeholder="Notas sobre el libro, club, etc."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeAddBookModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar Libro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Coming Soon Modal -->
+    <div id="comingSoonModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeComingSoonModal()">&times;</span>
+            <h2 id="comingSoonTitle">Función</h2>
+            <p id="comingSoonDescription">Esta funcionalidad estará disponible pronto.</p>
+            <div style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; padding: 1rem; border-radius: 12px; text-align: center; margin-top: 1rem; font-weight: 600;">
+                🚀 Próximamente disponible
+            </div>
         </div>
     </div>
 
     <script>
-        function openModal(title, description) {
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalDescription').textContent = description;
-            document.getElementById('featureModal').style.display = 'block';
-        }
+        // Data storage
+        let books = [];
+        let currentSection = 'home';
 
-        function closeModal() {
-            document.getElementById('featureModal').style.display = 'none';
-        }
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBooks();
+            renderBooks();
+        });
 
-        // Cerrar modal al hacer clic fuera de él
-        window.onclick = function(event) {
-            const modal = document.getElementById('featureModal');
-            if (event.target === modal) {
-                closeModal();
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.nav-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show target section
+            document.getElementById(sectionId).classList.add('active');
+            currentSection = sectionId;
+            
+            // Update content if needed
+            if (sectionId === 'books') {
+                renderBooks();
             }
         }
 
-        // Efectos de cursor
-        document.addEventListener('mousemove', function(e) {
-            // Aquí podrías agregar efectos de cursor más avanzados
-        });
-
-        // Guardar datos localmente (simulado)
-        function saveData(key, data) {
-            localStorage.setItem('merakelysi_' + key, JSON.stringify(data));
+        // Books Management
+        function loadBooks() {
+            const saved = localStorage.getItem('merakelysi_books');
+            if (saved) {
+                books = JSON.parse(saved);
+            }
         }
 
-        function loadData(key) {
-            const data = localStorage.getItem('merakelysi_' + key);
-            return data ? JSON.parse(data) : null;
+        function saveBooks() {
+            localStorage.setItem('merakelysi_books', JSON.stringify(books));
         }
 
-        // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🦄 Merakelysi - Mi Universo Literario iniciado');
+        function openAddBookModal() {
+            document.getElementById('addBookModal').style.display = 'block';
+        }
+
+        function closeAddBookModal() {
+            document.getElementById('addBookModal').style.display = 'none';
+            document.getElementById('addBookForm').reset();
+        }
+
+        function comingSoon(feature) {
+            document.getElementById('comingSoonTitle').textContent = feature;
+            document.getElementById('comingSoonDescription').textContent = 
+                `La funcionalidad "${feature}" estará disponible pronto. ¡Mantente atenta a las actualizaciones!`;
+            document.getElementById('comingSoonModal').style.display = 'block';
+        }
+
+        function closeComingSoonModal() {
+            document.getElementById('comingSoonModal').style.display = 'none';
+        }
+
+        // Add book form submission
+        document.getElementById('addBookForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // Aquí podrías cargar datos guardados
-            const savedBooks = loadData('books') || [];
-            console.log('Libros guardados:', savedBooks.length);
+            const newBook = {
+                id: Date.now(),
+                title: document.getElementById('bookTitle').value,
+                author: document.getElementById('bookAuthor').value,
+                club: document.getElementById('bookClub').value,
+                totalChapters: parseInt(document.getElementById('totalChapters').value) || 1,
+                currentChapter: 0,
+                deadline: document.getElementById('deadline').value,
+                authorMeeting: document.getElementById('authorMeeting').value,
+                notes: document.getElementById('notes').value,
+                progress: 0,
+                completed: false,
+                dateAdded: new Date().toLocaleDateString()
+            };
+            
+            books.push(newBook);
+            saveBooks();
+            renderBooks();
+            closeAddBookModal();
+            
+            // Show success message
+            showCelebration();
         });
+
+        function renderBooks() {
+            const container = document.getElementById('booksContainer');
+            
+            if (books.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📚</div>
+                        <h3>¡Agrega tu primer libro!</h3>
+                        <p>Comienza tu viaje literario agregando un libro que quieras leer.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = books.map(book => `
+                <div class="book-card">
+                    <button class="delete-btn" onclick="deleteBook(${book.id})" title="Eliminar libro">×</button>
+                    
+                    <div class="book-content">
+                        <h3 class="book-title">${book.title}</h3>
+                        <p class="book-author">por ${book.author}</p>
+                        ${book.club ? `<p class="book-club">${book.club}</p>` : ''}
+                        
+                        <div class="progress-section">
+                            <div class="progress-label">
+                                <span>Progreso:</span>
+                                <span><strong>${Math.round(book.progress)}%</strong></span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${book.progress}%"></div>
+                            </div>
+                            
+                            <div class="chapter-input">
+                                <span>Capítulo:</span>
+                                <input type="number" 
+                                       value="${book.currentChapter}" 
+                                       min="0" 
+                                       max="${book.totalChapters}"
+                                       onchange="updateProgress(${book.id}, this.value)">
+                                <span>de ${book.totalChapters}</span>
+                            </div>
+                            
+                            ${book.deadline ? `
+                                <div class="book-dates">
+                                    📅 Fecha límite: ${new Date(book.deadline).toLocaleDateString()}
+                                </div>
+                            ` : ''}
+                            
+                            ${book.authorMeeting ? `
+                                <div class="book-dates">
+                                    👤 Encuentro con autor/a: ${new Date(book.authorMeeting).toLocaleDateString()}
+                                </div>
+                            ` : ''}
+                            
+                            ${book.notes ? `
+                                <div class="book-dates">
+                                    📝 ${book.notes}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateProgress(bookId, newChapter) {
+            const book = books.find(b => b.id === bookId);
+            if (book) {
+                book.currentChapter = parseInt(newChapter);
+                book.progress = Math.min((book.currentChapter / book.totalChapters) * 100, 100);
+                book.completed = book.progress >= 100;
+                
+                // Show celebration if book is completed
+                if (book.completed && book.currentChapter === book.totalChapters) {
+                    showCelebration();
+                    setTimeout(() => {
+                        alert(`🎉 ¡Felicidades! Has terminado "${book.title}" 🎉`);
+                    }, 1000);
+                }
+                
+                saveBooks();
+                renderBooks();
+            }
+        }
+
+        function deleteBook(bookId) {
+            if (confirm('¿Estás segura de que quieres eliminar este libro?')) {
+                books = books.filter(book => book.id !== bookId);
+                saveBooks();
+                renderBooks();
+            }
+        }
+
+        function showCelebration() {
+            const celebration = document.createElement('div');
+            celebration.className = 'celebration';
+            
+            // Create confetti
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = ['#FFB6C1', '#87CEEB', '#98FB98', '#DDA0DD', '#F0E68C'][Math.floor(Math.random() * 5)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                celebration.appendChild(confetti);
+            }
+            
+            document.body.appendChild(celebration);
+            
+            // Remove celebration after animation
+            setTimeout(() => {
+                document.body.removeChild(celebration);
+            }, 3000);
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const addBookModal = document.getElementById('addBookModal');
+            const comingSoonModal = document.getElementById('comingSoonModal');
+            
+            if (event.target === addBookModal) {
+                closeAddBookModal();
+            }
+            if (event.target === comingSoonModal) {
+                closeComingSoonModal();
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Escape key closes modals
+            if (e.key === 'Escape') {
+                closeAddBookModal();
+                closeComingSoonModal();
+            }
+            
+            // Ctrl/Cmd + N opens add book modal when in books section
+            if ((e.ctrlKey || e.metaKey) && e.key === 'n' && currentSection === 'books') {
+                e.preventDefault();
+                openAddBookModal();
+            }
+        });
+
+        // Auto-save reminder
+        setInterval(() => {
+            if (books.length > 0) {
+                console.log('📚 Merakelysi: Datos guardados automáticamente');
+            }
+        }, 30000); // Every 30 seconds
+
+        // Welcome message
+        console.log('🦄 ¡Bienvenida a Merakelysi - Tu Universo Literario! 📚');
+        console.log('✨ Todas tus lecturas se guardan automáticamente');
+        console.log('🎯 Usa Ctrl+N para agregar un libro rápidamente');
     </script>
 </body>
 </html>
