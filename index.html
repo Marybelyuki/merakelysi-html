@@ -353,6 +353,28 @@ html
             margin-bottom: 1rem;
         }
 
+         .item-actions {
+             margin-top: 1rem;
+             display: flex;
+             gap: 0.5rem;
+             flex-wrap: wrap;
+         }
+
+         .item-actions button {
+             background: #a78bfa;
+             color: white;
+             border: none;
+             padding: 0.5rem 1rem;
+             border-radius: 8px;
+             font-size: 0.8rem;
+             cursor: pointer;
+             transition: background-color 0.3s ease;
+         }
+          .item-actions button:hover {
+              background: #8b5cf6;
+          }
+
+
         .delete-btn {
             position: absolute;
             top: 1rem;
@@ -407,6 +429,34 @@ html
             animation: slideIn 0.3s ease forwards; /* Added forwards */
         }
 
+         /* Goal Celebration Message */
+         .goal-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8); /* Start smaller */
+            background: linear-gradient(135deg, #f472b6, #a855f7); /* Pink-Purple */
+            color: white;
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
+            z-index: 10000;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            opacity: 0; /* Start hidden */
+            animation: popIn 0.5s ease-out forwards, fadeOut 0.5s ease 2.5s forwards; /* Pop in then fade out */
+         }
+
+         @keyframes popIn {
+             from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+             to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+         }
+         @keyframes fadeOut {
+             to { opacity: 0; }
+         }
+
+
         /* Celebration */
         .celebration {
             position: fixed;
@@ -426,6 +476,51 @@ html
             border-radius: 50%;
             animation: confetti-fall 3s linear forwards;
         }
+
+         /* Balloons for goal celebration */
+         .balloon {
+             position: fixed; /* Use fixed for consistent positioning */
+             bottom: -150px; /* Start below viewport */
+             width: 60px;
+             height: 80px;
+             background-color: #f472b6; /* Example color */
+             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+             z-index: 9999;
+             animation: riseUp 6s ease-in forwards;
+             opacity: 0.8;
+             box-shadow: inset -10px -10px 0 rgba(0,0,0,0.1); /* Simple highlight */
+         }
+
+         .balloon::before {
+             content: '';
+             position: absolute;
+             bottom: -10px;
+             left: 50%;
+             transform: translateX(-50%);
+             width: 0;
+             height: 0;
+             border-left: 5px solid transparent;
+             border-right: 5px solid transparent;
+             border-top: 10px solid #f472b6; /* Match balloon color */
+         }
+
+         .balloon::after {
+             content: '';
+             position: absolute;
+             top: 100%;
+             left: 50%;
+             transform: translateX(-50%);
+             width: 2px;
+             height: 100px; /* String length */
+             background-color: rgba(0,0,0,0.3);
+         }
+
+
+         @keyframes riseUp {
+             0% { bottom: -150px; opacity: 0.8; }
+             100% { bottom: 100%; opacity: 0.5; } /* Go above viewport */
+         }
+
 
         /* Animations */
         @keyframes confetti-fall {
@@ -529,7 +624,8 @@ html
         .modal-form input[type="text"],
         .modal-form input[type="number"],
         .modal-form input[type="date"],
-        .modal-form textarea {
+        .modal-form textarea,
+        .modal-form select { /* Added select */
             width: 100%;
             padding: 0.75rem;
             margin-bottom: 1rem;
@@ -539,12 +635,22 @@ html
             color: #374151;
             background-color: #f9fafb; /* Very light background */
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            -webkit-appearance: none; /* Remove default appearance for select */
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23a8a8a8%22%20d%3D%22M287%2C114.5L154.2%2C21.2c-5.2-3.5-12.1-3.5-17.3%2C0L5.4%2C114.5c-5.2%2C3.5-5.2%2C13.6%2C0%2C17.1l132.8%2C93.3c5.2%2C3.5%2C12.1%2C3.5%2C17.3%2C0l132.8-93.3C292.2%2C128.1%2C292.2%2C118%2C287%2C114.5z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
+            background-repeat: no-repeat;
+            background-position: right 0.7em top 50%, 0 0;
+            background-size: 0.65em auto, 100%;
+            padding-right: 2.5rem; /* Make space for arrow */
         }
+
 
         .modal-form input[type="text"]:focus,
         .modal-form input[type="number"]:focus,
         .modal-form input[type="date"]:focus,
-        .modal-form textarea:focus {
+        .modal-form textarea:focus,
+        .modal-form select:focus { /* Added select */
             outline: none;
             border-color: #f472b6; /* Pink focus */
             box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2); /* Soft pink shadow */
@@ -597,34 +703,51 @@ html
         }
 
         /* --- Calendar Styles --- */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr); /* 7 days a week */
-            gap: 0.5rem;
-            padding: 1rem;
-            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(248,250,252,0.6) 100%);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
+        #calendarContainer {
+             padding: 1rem;
+             background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(248,250,252,0.6) 100%);
+             border-radius: 24px;
+             border: 1px solid rgba(255, 255, 255, 0.5);
+             backdrop-filter: blur(10px);
         }
 
         .calendar-header {
-            grid-column: span 7; /* Span across all 7 columns */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             text-align: center;
             font-size: 1.5rem;
             font-weight: 700;
             color: #374151;
             margin-bottom: 1rem;
+            padding: 0 1rem;
         }
 
+         .calendar-header .back-btn { /* Style for calendar navigation buttons */
+             padding: 0.5rem 1rem;
+             font-size: 1rem;
+             margin: 0; /* Override header margin */
+         }
+
+
         .calendar-weekdays {
-            grid-column: span 7;
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             text-align: center;
             font-weight: 600;
             color: #f472b6; /* Pink theme color */
             margin-bottom: 0.5rem;
+        }
+         .calendar-weekdays span {
+             padding: 0.5rem 0.2rem;
+         }
+
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr); /* 7 days a week */
+            gap: 0.5rem;
+
         }
 
         .calendar-day {
@@ -642,6 +765,7 @@ html
             justify-content: flex-start; /* Align content to the top */
             overflow: hidden; /* Hide overflow text */
             transition: background-color 0.2s ease;
+            cursor: pointer; /* Make days clickable */
         }
 
         .calendar-day:hover {
@@ -672,6 +796,7 @@ html
             text-overflow: ellipsis; /* Add ellipsis if text is too long */
             width: 100%; /* Ensure ellipsis works */
              padding: 0 0.25rem; /* Add a little padding */
+             text-align: left; /* Align event text left within the day */
         }
 
         /* Empty day cells (before 1st, after last) */
@@ -717,6 +842,13 @@ html
             .calendar-day {
                 min-height: 50px; /* Adjust calendar day height */
             }
+            .calendar-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+             .calendar-header .back-btn {
+                 width: auto; /* Let buttons size naturally */
+             }
         }
     </style>
 </head>
@@ -750,7 +882,7 @@ html
 
             <main class="grid">
                 <div class="card card-books" onclick="showSection('books')">
-                    <div class="card-decoration">📚</div>
+                    <span class="card-decoration">📚</span>
                     <div class="card-content">
                         <span class="card-icon">📚</span>
                         <h3 class="card-title">Mis Libros por Leer</h3>
@@ -758,7 +890,7 @@ html
                 </div>
 
                 <div class="card card-clubs" onclick="showSection('clubs')">
-                     <div class="card-decoration">👥</div>
+                     <span class="card-decoration">👥</span>
                     <div class="card-content">
                         <span class="card-icon">👥</span>
                         <h3 class="card-title">Mis Clubes de Lectura</h3>
@@ -766,7 +898,7 @@ html
                 </div>
 
                 <div class="card card-calendar" onclick="showSection('calendar')">
-                     <div class="card-decoration">📅</div>
+                     <span class="card-decoration">📅</span>
                     <div class="card-content">
                         <span class="card-icon">📅</span>
                         <h3 class="card-title">Calendario de Lecturas</h3>
@@ -774,7 +906,7 @@ html
                 </div>
 
                 <div class="card card-quotes" onclick="showSection('quotes')">
-                     <div class="card-decoration">📝</div>
+                     <span class="card-decoration">📝</span>
                     <div class="card-content">
                         <span class="card-icon">📝</span>
                         <h3 class="card-title">Frases de Lecturas</h3>
@@ -782,7 +914,7 @@ html
                 </div>
 
                 <div class="card card-wishlist" onclick="showSection('wishlist')">
-                     <div class="card-decoration">💖</div>
+                     <span class="card-decoration">💖</span>
                     <div class="card-content">
                         <span class="card-icon">💖</span>
                         <h3 class="card-title">Wishlist de libros</h3>
@@ -790,7 +922,7 @@ html
                 </div>
 
                 <div class="card card-reviews" onclick="showSection('reviews')">
-                     <div class="card-decoration">✍️</div>
+                     <span class="card-decoration">✍️</span>
                     <div class="card-content">
                         <span class="card-icon">✍️</span>
                         <h3 class="card-title">Reseñas Personales</h3>
@@ -798,7 +930,7 @@ html
                 </div>
 
                 <div class="card card-playlists" onclick="showSection('playlists')">
-                     <div class="card-decoration">🎧</div>
+                     <span class="card-decoration">🎧</span>
                     <div class="card-content">
                         <span class="card-icon">🎧</span>
                         <h3 class="card-title">Playlist de Spotify</h3>
@@ -806,7 +938,7 @@ html
                 </div>
 
                 <div class="card card-scrapbook" onclick="showSection('scrapbook')">
-                     <div class="card-decoration">📔</div>
+                     <span class="card-decoration">📔</span>
                     <div class="card-content">
                         <span class="card-icon">📔</span>
                         <h3 class="card-title">Scrapbook Literario</h3>
@@ -814,7 +946,7 @@ html
                 </div>
 
                 <div class="card card-diary" onclick="showSection('diary')">
-                     <div class="card-decoration">📓</div>
+                     <span class="card-decoration">📓</span>
                     <div class="card-content">
                         <span class="card-icon">📓</span>
                         <h3 class="card-title">Diario de Lectura</h3>
@@ -822,7 +954,7 @@ html
                 </div>
 
                 <div class="card card-progress" onclick="showSection('progress')">
-                     <div class="card-decoration">📈</div>
+                     <span class="card-decoration">📈</span>
                     <div class="card-content">
                         <span class="card-icon">📈</span>
                         <h3 class="card-title">Mi Progreso</h3>
@@ -830,7 +962,7 @@ html
                 </div>
 
                 <div class="card card-challenges" onclick="showSection('challenges')">
-                     <div class="card-decoration">🧩</div>
+                     <span class="card-decoration">🧩</span>
                     <div class="card-content">
                         <span class="card-icon">🧩</span>
                         <h3 class="card-title">Retos Lectores</h3>
@@ -838,7 +970,7 @@ html
                 </div>
 
                 <div class="card card-stats" onclick="showSection('stats')">
-                     <div class="card-decoration">📊</div>
+                     <span class="card-decoration">📊</span>
                     <div class="card-content">
                         <span class="card-icon">📊</span>
                         <h3 class="card-title">Estadísticas</h3>
@@ -846,7 +978,7 @@ html
                 </div>
 
                 <div class="card card-monthly" onclick="showSection('monthly')">
-                     <div class="card-decoration">🎯</div>
+                     <span class="card-decoration">🎯</span>
                     <div class="card-content">
                         <span class="card-icon">🎯</span>
                         <h3 class="card-title">Retos del Mes</h3>
@@ -854,7 +986,7 @@ html
                 </div>
 
                 <div class="card card-finished" onclick="showSection('finished')">
-                     <div class="card-decoration">✅</div>
+                     <span class="card-decoration">✅</span>
                     <div class="card-content">
                         <span class="card-icon">✅</span>
                         <h3 class="card-title">Lecturas Terminadas</h3>
@@ -862,7 +994,7 @@ html
                 </div>
 
                 <div class="card card-favorites" onclick="showSection('favorites')">
-                     <div class="card-decoration">🌟</div>
+                     <span class="card-decoration">🌟</span>
                     <div class="card-content">
                         <span class="card-icon">🌟</span>
                         <h3 class="card-title">Favoritos del Año</h3>
@@ -870,7 +1002,7 @@ html
                 </div>
 
                 <div class="card card-suggestions" onclick="showSection('suggestions')">
-                     <div class="card-decoration">🤖</div>
+                     <span class="card-decoration">🤖</span>
                     <div class="card-content">
                         <span class="card-icon">🤖</span>
                         <h3 class="card-title">Sugerencias Automáticas</h3>
@@ -1051,9 +1183,24 @@ html
                 <label for="bookAuthor">Autor/a:</label>
                 <input type="text" id="bookAuthor" name="author" required>
 
-                <label for="bookClub">Club de Lectura (opcional):</label>
-                <input type="text" id="bookClub" name="club">
+                <label for="bookTotalPages">Total Páginas:</label>
+                <input type="number" id="bookTotalPages" name="totalPages" min="1" value="1" required>
 
+                <label for="bookTotalChapters">Total Capítulos (opcional):</label>
+                <input type="number" id="bookTotalChapters" name="totalChapters" min="0" value="0">
+
+                <label for="bookClub">Club de Lectura (opcional):</label>
+                 <select id="bookClub" name="clubId">
+                     <!-- Options will be populated by JS -->
+                     <option value="">-- Ninguno --</option>
+                 </select>
+
+                <h4>Metas de Lectura (Opcional)</h4>
+                <label for="bookTargetFinishDate">Fecha Límite para Terminar:</label>
+                <input type="date" id="bookTargetFinishDate" name="targetFinishDate">
+
+                <!-- Simplified: Adding specific chapter milestones via this form is complex -->
+                <!-- Maybe add a section or button to add milestones later -->
                 <label for="bookNotes">Notas Adicionales (opcional):</label>
                 <textarea id="bookNotes" name="notes"></textarea>
 
@@ -1074,10 +1221,10 @@ html
                 <label for="clubDescription">Descripción (opcional):</label>
                 <textarea id="clubDescription" name="description"></textarea>
 
-                <label for="clubMeetingDay">Día de Reunión:</label>
+                <label for="clubMeetingDay">Día de Reunión (ej: Lunes):</label>
                 <input type="text" id="clubMeetingDay" name="meetingDay" value="Por definir" required>
 
-                 <label for="clubMeetingTime">Hora de Reunión:</label>
+                 <label for="clubMeetingTime">Hora de Reunión (ej: 19:00):</label>
                 <input type="text" id="clubMeetingTime" name="meetingTime" value="Por definir" required>
 
                 <label for="clubMembers">Número de Miembros:</label>
@@ -1325,6 +1472,7 @@ html
         let currentSection = 'home';
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
+        const today = new Date(); // Keep a reference to today's date
 
 
         // Cargar datos al inicio
@@ -1346,7 +1494,7 @@ html
             console.log('🦄 Merakelysi cargado');
         });
 
-        // Funciones de guardado GARANTIZADO
+        // Funciones de guardado
         function saveData() {
             try {
                 localStorage.setItem('merakelysi_data', JSON.stringify(data));
@@ -1354,7 +1502,6 @@ html
                 return true;
             } catch (error) {
                 console.error('❌ Error guardando:', error);
-                // Consider showing a less intrusive message or icon on persistent error
                 return false;
             }
         }
@@ -1365,8 +1512,35 @@ html
                 if (saved) {
                     const parsed = JSON.parse(saved);
                     // Merge loaded data with default structure to prevent errors if new sections are added later
-                    data = { ...data, ...parsed };
-                    console.log('📂 Datos cargados'); // Log instead of always showing data dump
+                    // Also ensure new properties for books (like goals) are present if loading old data
+                    data.books = parsed.books ? parsed.books.map(book => ({
+                         // Keep existing properties
+                         ...book,
+                         // Add new properties with defaults if they don't exist
+                         totalPages: book.totalPages || 0,
+                         totalChapters: book.totalChapters || 0,
+                         targetFinishDate: book.targetFinishDate || '',
+                         targetClubMeetingDate: book.targetClubMeetingDate || '',
+                         milestones: book.milestones || [], // Array of {chapter, targetDate, completed}
+                         isFinished: book.isFinished || false,
+                         currentChapter: book.currentChapter || 0,
+                         currentPage: book.currentPage || 0, // Added current page tracking
+                    })) : []; // Ensure books is always an array
+                    data.clubs = parsed.clubs || [];
+                    data.events = parsed.events || [];
+                    data.quotes = parsed.quotes || [];
+                    data.wishlist = parsed.wishlist || [];
+                    data.reviews = parsed.reviews || [];
+                    data.playlists = parsed.playlists || [];
+                    data.scrapbook = parsed.scrapbook || [];
+                    data.diary = parsed.diary || [];
+                    data.goals = parsed.goals || [];
+                    data.challenges = parsed.challenges || [];
+                    data.favorites = parsed.favorites || [];
+                    data.suggestions = parsed.suggestions || [];
+
+
+                    console.log('📂 Datos cargados');
                 } else {
                      console.log('🆕 No se encontraron datos guardados, iniciando vacío.');
                 }
@@ -1384,8 +1558,7 @@ html
 
         // Navegación
         function showSection(sectionId) {
-             // Save data before switching sections
-            saveData();
+            saveData(); // Save data before switching sections
 
             document.querySelectorAll('.nav-section').forEach(section => {
                 section.classList.remove('active');
@@ -1396,42 +1569,31 @@ html
                 targetSection.classList.add('active');
                 currentSection = sectionId;
                 renderCurrentSection();
-                 // Scroll to the top of the page or section
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 console.error(`❌ Sección con ID "${sectionId}" no encontrada.`);
-                // Optional: Redirect to home or show an error message
-                 showSection('home'); // Fallback to home
+                showSection('home'); // Fallback to home
             }
         }
 
         function renderCurrentSection() {
              console.log(`🔄 Renderizando sección: ${currentSection}`);
-            // Clear content of previous section containers to avoid duplication issues
-            document.querySelectorAll('.items-grid, #calendarContainer, .empty-state').forEach(container => {
-                 // Only clear if the container is inside the *active* section (before switching class)
-                 // This is tricky, instead, clear only the relevant container for the current section *before* rendering
-                 const section = document.getElementById(currentSection);
-                 if (section && section.contains(container)) {
-                     container.innerHTML = ''; // Clear previous content
-                 }
-            });
 
+             // Note: Explicit clearing of containers within renderX functions is safer
 
             switch(currentSection) {
                 case 'home':
-                     // No specific rendering needed for home as it's static cards
-                    break;
+                    break; // Home is static cards
                 case 'books': renderBooks(); break;
                 case 'clubs': renderClubs(); break;
-                case 'calendar': renderCalendar(currentYear, currentMonth); break; // Pass year and month
+                case 'calendar': renderCalendar(currentYear, currentMonth); break;
                 case 'quotes': renderQuotes(); break;
                 case 'wishlist': renderWishlist(); break;
                 case 'reviews': renderReviews(); break;
                 case 'playlists': renderPlaylists(); break;
                 case 'scrapbook': renderScrapbook(); break;
                 case 'diary': renderDiary(); break;
-                case 'progress': renderProgress(); break; // Assumes goals data is used here
+                case 'progress': renderProgress(); break;
                 case 'challenges': renderChallenges(); break;
                 case 'stats': renderStats(); break;
                 case 'monthly': renderMonthly(); break;
@@ -1444,12 +1606,12 @@ html
             }
         }
 
-        // Renderizado de cada sección
+        // --- Rendering Functions ---
 
         function renderBooks() {
             const container = document.getElementById('booksContainer');
-             if (!container) { console.error("Container #booksContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+            if (!container) { console.error("Container #booksContainer not found"); return; }
+            container.innerHTML = ''; // Clear previous content explicitly
 
             if (data.books.length === 0) {
                 container.innerHTML = `
@@ -1462,20 +1624,57 @@ html
                 return;
             }
 
-            container.innerHTML = data.books.map(book => `
+            container.innerHTML = data.books.map(book => {
+                 const club = book.clubId ? data.clubs.find(c => c.id === book.clubId) : null;
+                 const clubName = club ? club.name : book.club; // Use stored club name if club not found, or clubId not set
+
+                 // Simple progress display
+                 let progressHtml = '';
+                 if (book.totalChapters > 0) {
+                     progressHtml = `<p class="item-meta">Capítulo ${book.currentChapter || 0} / ${book.totalChapters}</p>`;
+                 } else if (book.totalPages > 0) {
+                     progressHtml = `<p class="item-meta">Página ${book.currentPage || 0} / ${book.totalPages}</p>`;
+                 }
+
+                 // Goal display
+                 let goalHtml = '';
+                 if (book.targetFinishDate) {
+                      const targetDate = new Date(book.targetFinishDate + 'T00:00:00');
+                      if (!isNaN(targetDate)) { // Check if date is valid
+                           const dateString = targetDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
+                           goalHtml += `<p style="color: #f43f5e; font-size: 0.9rem; margin-top: 0.5rem;">Meta: Terminar para ${dateString}</p>`;
+                      }
+                 }
+                 // Add rendering for milestones if you implement them later
+
+
+                 // Placeholder actions to trigger progress update and goal check for demo
+                 const actionButtons = `
+                     <div class="item-actions">
+                          ${!book.isFinished ? `<button onclick="simulateProgress(${book.id}, 'chapter', 10)">+10 Cap</button>` : ''}
+                          ${!book.isFinished ? `<button onclick="simulateProgress(${book.id}, 'page', 50)">+50 Pág</button>` : ''}
+                          ${!book.isFinished ? `<button onclick="simulateProgress(${book.id}, 'finish')">✅ Terminado</button>` : ''}
+                     </div>
+                 `;
+
+
+                return `
                 <div class="item-card">
                     <button class="delete-btn" onclick="deleteItem('books', ${book.id})">×</button>
                     <div class="item-content">
-                        <h3 class="item-title">${book.title}</h3>
+                        <h3 class="item-title">${book.isFinished ? '✅ ' : ''}${book.title}</h3>
                         <p class="item-subtitle">por ${book.author}</p>
-                        ${book.club ? `<p class="item-meta">${book.club}</p>` : ''}
+                        ${clubName ? `<p class="item-meta">${clubName}</p>` : ''}
+                        ${progressHtml}
+                        ${goalHtml}
                         ${book.notes ? `<p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">${book.notes}</p>` : ''}
-                         <!-- Add a button to mark as finished? -->
-                         <!-- <button onclick="markFinished(${book.id})">✅ Terminado</button> -->
+                        ${actionButtons}
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
+
 
         function renderClubs() {
             const container = document.getElementById('clubsContainer');
@@ -1515,14 +1714,6 @@ html
              const date = new Date(year, month, 1);
              const today = new Date();
              const options = { year: 'numeric', month: 'long' };
-             const monthYearText = date.toLocaleDateString('es-ES', options);
-
-             // Get number of days in the month
-             const daysInMonth = new Date(year, month + 1, 0).getDate();
-             // Get the day of the week for the 1st of the month (0 = Sunday, 1 = Monday...)
-             // Adjust to make Monday = 0, Sunday = 6
-             const firstDayOfWeek = (date.getDay() + 6) % 7;
-
              const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
              const dayNames = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -1530,9 +1721,9 @@ html
 
              let calendarHtml = `
                  <div class="calendar-header">
-                    <button onclick="changeMonth(-1)" class="back-btn" style="margin-right: 1rem;">←</button>
-                    ${monthNames[month]} ${year}
-                    <button onclick="changeMonth(1)" class="back-btn" style="margin-left: 1rem;">→</button>
+                    <button onclick="changeMonth(-1)" class="back-btn">←</button>
+                    <span>${monthNames[month]} ${year}</span>
+                    <button onclick="changeMonth(1)" class="back-btn">→</button>
                  </div>
                  <div class="calendar-weekdays">
                     ${dayNames.map(day => `<span>${day}</span>`).join('')}
@@ -1540,10 +1731,21 @@ html
                  <div class="calendar-grid">
              `;
 
-             // Add empty days before the 1st
-             for (let i = 0; i < firstDayOfWeek; i++) {
-                 calendarHtml += `<div class="calendar-day empty"></div>`;
+             // Get number of days in the previous month for filling start of grid
+             const daysInPrevMonth = new Date(year, month, 0).getDate();
+             // Get the day of the week for the 1st of the month (0 = Sunday, 1 = Monday...)
+             // Adjust to make Monday = 0, Sunday = 6
+             const firstDayOfWeek = (date.getDay() + 6) % 7;
+
+             // Add days from the previous month to fill the first week
+             for (let i = firstDayOfWeek; i > 0; i--) {
+                  const day = daysInPrevMonth - i + 1;
+                  // Could potentially show prev/next month days and events
+                  calendarHtml += `<div class="calendar-day empty prev-month">${day}</div>`;
              }
+
+             // Get number of days in the current month
+             const daysInMonth = new Date(year, month + 1, 0).getDate();
 
              // Add actual days
              for (let day = 1; day <= daysInMonth; day++) {
@@ -1552,36 +1754,34 @@ html
                                 currentDayDate.getMonth() === today.getMonth() &&
                                 currentDayDate.getFullYear() === today.getFullYear();
 
-                // Find events for this day
-                const eventsToday = data.events.filter(event => {
-                    try {
-                        const eventDate = new Date(event.date + 'T00:00:00'); // Parse date string
-                        return eventDate.getFullYear() === year &&
-                               eventDate.getMonth() === month &&
-                               eventDate.getDate() === day;
-                    } catch (e) {
-                        console.error("Error parsing event date:", event.date, e);
-                        return false; // Skip invalid dates
-                    }
-                });
+                // Find events for this day (filter by date string 'YYYY-MM-DD')
+                 const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const eventsToday = data.events.filter(event => event.date === dateString);
 
 
                  calendarHtml += `
-                     <div class="calendar-day ${isToday ? 'today' : ''} ${eventsToday.length > 0 ? 'has-event' : ''}">
+                     <div class="calendar-day ${isToday ? 'today' : ''} ${eventsToday.length > 0 ? 'has-event' : ''}"
+                          onclick="showDayEvents('${dateString}')">
                          <span class="calendar-day-number">${day}</span>
                          ${eventsToday.map(event => `<div class="calendar-day-events">${event.title}</div>`).join('')}
                      </div>
                  `;
              }
 
-             // Add empty days after the last day (optional, just for grid consistency)
-             // Calculate how many days are left to fill the last row
-             const totalDaysRendered = firstDayOfWeek + daysInMonth;
-             const daysInLastRow = totalDaysRendered % 7;
-             const emptyDaysAfter = daysInLastRow === 0 ? 0 : 7 - daysInLastRow;
+             // Add days from the next month to fill the end of the grid
+             // Calculate how many days are left to fill the grid (up to 6 rows total)
+             const totalCells = firstDayOfWeek + daysInMonth;
+             const cellsInLastRow = totalCells % 7;
+             const emptyDaysAfter = cellsInLastRow === 0 ? 0 : 7 - cellsInLastRow;
+             // Also calculate needed rows if less than 6
+             const neededRows = 6; // Standard calendar view often shows 6 weeks
+             const currentRows = Math.ceil(totalCells / 7);
+             const remainingCellsToFill = (neededRows * 7) - totalCells;
 
-             for (let i = 0; i < emptyDaysAfter; i++) {
-                  calendarHtml += `<div class="calendar-day empty"></div>`;
+
+             for (let i = 1; i <= remainingCellsToFill; i++) {
+                  // Could potentially show prev/next month days
+                  calendarHtml += `<div class="calendar-day empty next-month">${i}</div>`;
              }
 
 
@@ -1601,6 +1801,31 @@ html
                  currentYear--;
              }
              renderCalendar(currentYear, currentMonth);
+         }
+
+         // Function to show details of events on a specific day (optional modal or alert)
+         function showDayEvents(dateString) {
+              const events = data.events.filter(event => event.date === dateString);
+              if (events.length === 0) {
+                  // alert(`No hay eventos para el ${dateString}`);
+                  return; // Do nothing if no events
+              }
+
+              const dateParts = dateString.split('-');
+              const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+              const options = { year: 'numeric', month: 'long', day: 'numeric' };
+              const formattedDate = dateObj.toLocaleDateString('es-ES', options);
+
+              let details = `Eventos para el ${formattedDate}:\n\n`;
+              events.forEach(event => {
+                  details += `- ${event.title}\n`;
+                  if (event.description) {
+                      details += `  ${event.description}\n`;
+                  }
+                  details += '\n';
+              });
+
+              alert(details); // Using alert for simplicity, could be a dedicated modal
          }
 
 
@@ -1799,8 +2024,7 @@ html
                         <h3 class="item-title">${goal.title}</h3>
                         <p class="item-subtitle">${goal.description || 'Sin descripción'}</p>
                         <p class="item-meta">Meta: ${goal.target} (Actual: ${goal.current || 0})</p>
-                         <!-- You might want to add a way to update 'current' here -->
-                         <!-- <button onclick="updateGoalProgress(${goal.id}, 1)">+1</button> -->
+                         <!-- Add a way to update 'current' here later -->
                     </div>
                 </div>
             `).join('');
@@ -1834,7 +2058,6 @@ html
             `).join('');
         }
 
-         // Placeholder render function for Stats
          function renderStats() {
              const container = document.getElementById('statsContainer');
             if (!container) { console.error("Container #statsContainer not found"); return; }
@@ -1847,7 +2070,6 @@ html
             `;
          }
 
-         // Placeholder render function for Monthly
          function renderMonthly() {
              const container = document.getElementById('monthlyContainer');
             if (!container) { console.error("Container #monthlyContainer not found"); return; }
@@ -1866,7 +2088,7 @@ html
              if (!container) { console.error("Container #finishedContainer not found"); return; }
              container.innerHTML = ''; // Clear previous content explicitly
 
-            const finishedBooks = data.books.filter(book => book.completed); // Still relies on 'completed' flag
+            const finishedBooks = data.books.filter(book => book.isFinished); // Use isFinished flag
 
             if (finishedBooks.length === 0) {
                 container.innerHTML = `
@@ -1954,6 +2176,11 @@ html
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
+                // Special handling for addBookModal to populate club dropdown
+                if (modalId === 'addBookModal') {
+                    populateClubDropdown('bookClub');
+                }
+
                 modal.classList.add('active');
                 // Optional: Add a class to body to prevent scrolling
                 document.body.style.overflow = 'hidden';
@@ -1995,7 +2222,23 @@ html
              document.getElementById('addGoalForm').addEventListener('submit', handleAddGoalSubmit);
              document.getElementById('addChallengeForm').addEventListener('submit', handleAddChallengeSubmit);
              document.getElementById('addFavoriteForm').addEventListener('submit', handleAddFavoriteSubmit);
-             // No form for generating suggestions, it's a direct button click
+         }
+
+         // Function to populate the club dropdown
+         function populateClubDropdown(selectElementId) {
+             const selectElement = document.getElementById(selectElementId);
+             if (!selectElement) return;
+
+             // Clear existing options except the default
+             selectElement.innerHTML = '<option value="">-- Ninguno --</option>';
+
+             // Add clubs from data
+             data.clubs.forEach(club => {
+                 const option = document.createElement('option');
+                 option.value = club.id; // Use club ID as value
+                 option.textContent = club.name;
+                 selectElement.appendChild(option);
+             });
          }
 
 
@@ -2003,13 +2246,25 @@ html
             event.preventDefault(); // Prevent default form submission
 
             const form = event.target;
+             const totalPages = parseInt(form.totalPages.value);
+             const totalChapters = parseInt(form.totalChapters.value);
+             const selectedClubId = form.clubId.value; // Get selected club ID
+
             const newBook = {
                 id: Date.now(),
                 title: form.title.value.trim(),
                 author: form.author.value.trim(),
-                club: form.club.value.trim(),
+                // Store clubId, will find name when rendering
+                clubId: selectedClubId ? parseInt(selectedClubId) : null,
                 notes: form.notes.value.trim(),
-                completed: false,
+                totalPages: isNaN(totalPages) || totalPages < 1 ? 0 : totalPages,
+                totalChapters: isNaN(totalChapters) || totalChapters < 0 ? 0 : totalChapters,
+                targetFinishDate: form.targetFinishDate.value, // YYYY-MM-DD string
+                targetClubMeetingDate: '', // Placeholder for club meeting date goal
+                milestones: [], // Array of { chapter: X, targetDate: 'YYYY-MM-DD', completed: false }
+                isFinished: false,
+                currentChapter: 0,
+                currentPage: 0,
                 dateAdded: new Date().toLocaleDateString()
             };
 
@@ -2035,7 +2290,7 @@ html
             const members = parseInt(form.members.value);
 
             const newClub = {
-                id: Date.now(),
+                id: Date.now(), // Use Date.now() as unique ID for clubs too
                 name: form.name.value.trim(),
                 description: form.description.value.trim(),
                 meetingDay: form.meetingDay.value.trim(),
@@ -2332,46 +2587,14 @@ html
             }
         }
 
-
         function generateSuggestions() {
-             showSuccess('Generando sugerencias...'); // Indicate action
-            // Simulate fetching or generating suggestions
+             showSuccess('Generando sugerencias...');
             const suggestions = [
-                {
-                    id: Date.now() + 1,
-                    title: "El nombre del viento",
-                    author: "Patrick Rothfuss",
-                    genre: "Fantasía Épica",
-                    reason: "Basado en tu posible interés por la fantasía"
-                },
-                {
-                    id: Date.now() + 2,
-                    title: "Eleanor Oliphant está perfectamente",
-                    author: "Gail Honeyman",
-                    genre: "Ficción Contemporánea",
-                    reason: "Para lectores de historias emotivas y de desarrollo personal"
-                },
-                {
-                    id: Date.now() + 3,
-                    title: "Los siete maridos de Evelyn Hugo",
-                    author: "Taylor Jenkins Reid",
-                    genre: "Drama Histórico/Romance",
-                    reason: "Una lectura popular con personajes memorables"
-                },
-                {
-                    id: Date.now() + 4,
-                    title: "Circe",
-                    author: "Madeline Miller",
-                    genre: "Mitología/Fantasía",
-                    reason: "Si te gustan las reinterpretaciones de mitos griegos"
-                },
-                 {
-                    id: Date.now() + 5,
-                    title: "Cien años de soledad",
-                    author: "Gabriel García Márquez",
-                    genre: "Realismo Mágico",
-                    reason: "Un clásico esencial de la literatura latinoamericana"
-                 }
+                { id: Date.now() + 1, title: "El nombre del viento", author: "Patrick Rothfuss", genre: "Fantasía Épica", reason: "Basado en tu posible interés por la fantasía" },
+                { id: Date.now() + 2, title: "Eleanor Oliphant está perfectamente", author: "Gail Honeyman", genre: "Ficción Contemporánea", reason: "Para lectores de historias emotivas y de desarrollo personal" },
+                { id: Date.now() + 3, title: "Los siete maridos de Evelyn Hugo", author: "Taylor Jenkins Reid", genre: "Drama Histórico/Romance", reason: "Una lectura popular con personajes memorables" },
+                { id: Date.now() + 4, title: "Circe", author: "Madeline Miller", genre: "Mitología/Fantasía", reason: "Si te gustan las reinterpretaciones de mitos griegos" },
+                 { id: Date.now() + 5, title: "Cien años de soledad", author: "Gabriel García Márquez", genre: "Realismo Mágico", reason: "Un clásico esencial de la literatura latinoamericana" }
             ];
 
             data.suggestions = suggestions; // Replace previous suggestions
@@ -2379,7 +2602,7 @@ html
                 renderSuggestions();
                 showCelebration(); // Celebrate successful generation
             } else {
-                 alert('Error al guardar las sugerencias.'); // Alert on save failure
+                 alert('Error al guardar las sugerencias.');
             }
         }
 
@@ -2394,7 +2617,8 @@ html
 
             if (confirm('¿Estás segura de que quieres eliminar este elemento? Esta acción no se puede deshacer.')) {
                 const initialLength = data[type].length;
-                data[type] = data[type].filter(item => item.id !== id);
+                 // Filter items by ID, ensuring ID is treated as number for comparison
+                data[type] = data[type].filter(item => item.id !== Number(id));
 
                 if (data[type].length < initialLength) {
                     if (saveData()) {
@@ -2411,7 +2635,142 @@ html
         }
 
 
-        // Funciones de interfaz (Mensajes y celebración)
+        // --- Goal Tracking and Celebration ---
+
+         // Placeholder function to simulate updating book progress
+         // In a real app, this would come from a form or interaction on the book card
+         function simulateProgress(bookId, type, value) {
+              const book = data.books.find(b => b.id === bookId);
+              if (!book) {
+                  console.error("Book not found for progress update:", bookId);
+                  return;
+              }
+
+              let message = '';
+
+              if (type === 'chapter' && book.totalChapters > 0) {
+                  book.currentChapter = Math.min(book.totalChapters, book.currentChapter + value);
+                  message = `Avanzaste a Capítulo ${book.currentChapter}!`;
+                  // Check for milestone completion (if milestones were implemented)
+                  // For demo, let's trigger celebration every few chapters
+                   if (book.currentChapter > 0 && book.currentChapter % 10 === 0) { // Example: celebrate every 10 chapters
+                       showGoalCelebration(`🎉 Llegaste al Capítulo ${book.currentChapter}! 🎉`);
+                   }
+
+              } else if (type === 'page' && book.totalPages > 0) {
+                  book.currentPage = Math.min(book.totalPages, book.currentPage + value);
+                  message = `Avanzaste a Página ${book.currentPage}!`;
+                   // Example: celebrate every 50 pages
+                   if (book.currentPage > 0 && book.currentPage % 50 === 0) {
+                        showGoalCelebration(`📖 Llegaste a la Página ${book.currentPage}! 📖`);
+                   }
+
+              } else if (type === 'finish' && !book.isFinished) {
+                  book.isFinished = true;
+                  book.currentChapter = book.totalChapters || book.currentChapter; // Set max progress
+                  book.currentPage = book.totalPages || book.currentPage;
+                  message = `¡Felicidades, terminaste "${book.title}"! 🎉`;
+
+                   // Check monthly goal completion on finish
+                  const goalAchieved = checkMonthlyGoal(book);
+                  if (goalAchieved) {
+                      showGoalCelebration(`🥳 ¡Meta Mensual Cumplida! 🥳\nTerminaste "${book.title}" a tiempo!`);
+                  } else {
+                      showGoalCelebration(message); // Still celebrate finishing even if date goal missed
+                  }
+              } else {
+                  console.warn(`No applicable progress type or book already finished: ${type}`);
+                   if (book.isFinished) showSuccess(`"${book.title}" ya está terminado.`); // Friendly message if already finished
+                   return; // Don't save/render if no change
+              }
+
+
+              if (saveData()) {
+                   showSuccess(message); // Show standard success for update
+                  renderBooks(); // Re-render the books list to show updated progress/status
+              } else {
+                   alert('Error al guardar el progreso.');
+              }
+         }
+
+         // Check if the monthly goal for a specific book was met
+         function checkMonthlyGoal(book) {
+             if (!book.isFinished) return false; // Goal not met if not finished
+
+             // Check against target finish date
+             if (book.targetFinishDate) {
+                 try {
+                      const targetDate = new Date(book.targetFinishDate + 'T23:59:59'); // End of the target day
+                      const finishDate = new Date(); // Today's date (when marked finished)
+
+                      // Compare dates (ignoring time for targetDate)
+                      if (finishDate <= targetDate) {
+                           return true; // Met the date goal
+                      }
+                 } catch (e) {
+                     console.error("Error checking targetFinishDate:", book.targetFinishDate, e);
+                 }
+             }
+
+             // Add logic here later to check against club meeting date if needed
+
+             return false; // No specific monthly goal met or target date missed
+         }
+
+         // Check weekly chapter milestones (simplified for now)
+         function checkWeeklyMilestones(book) {
+             // This would ideally iterate through book.milestones
+             // For this simple implementation, we are just triggering celebrations based on hitting certain chapter counts in simulateProgress
+         }
+
+
+         // Show a special celebratory message
+         function showGoalMessage(message) {
+             const goalMessageDiv = document.createElement('div');
+             goalMessageDiv.className = 'goal-message';
+             // Replace \n with <br> for HTML display
+             goalMessageDiv.innerHTML = message.replace(/\n/g, '<br>');
+
+             document.body.appendChild(goalMessageDiv);
+
+             // The CSS animation handles fading out and removing
+             // Optional: Add a manual remove if animationend isn't reliable
+             setTimeout(() => {
+                  if (document.body.contains(goalMessageDiv)) {
+                       goalMessageDiv.remove();
+                  }
+             }, 3500); // Matches CSS animation duration + delay
+         }
+
+         // Show celebration effect (confetti + balloons)
+         function showGoalCelebration(message) {
+             showGoalMessage(message); // Show the message
+
+             // Show confetti
+             showCelebration();
+
+             // Show balloons (optional, can adjust count)
+             const balloonColors = ['#f472b6', '#a78bfa', '#60a5fa', '#fde68a', '#fca5a5', '#98FB98'];
+             for (let i = 0; i < 10; i++) { // Add a few balloons
+                 const balloon = document.createElement('div');
+                 balloon.className = 'balloon';
+                 balloon.style.left = Math.random() * 80 + 10 + '%'; // Random horizontal position
+                 balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                  // Apply color to the knot
+                  balloon.style.setProperty('--balloon-color', balloon.style.backgroundColor); // Using custom property if needed, or update ::before
+                 balloon.style.animationDelay = Math.random() * 1 + 's'; // Stagger animation start
+                 balloon.style.animationDuration = (Math.random() * 3 + 5) + 's'; // Random flight duration
+                 document.body.appendChild(balloon);
+
+                 // Remove balloon after animation ends
+                 balloon.addEventListener('animationend', () => {
+                     balloon.remove();
+                 });
+             }
+         }
+
+
+        // Funciones de interfaz (Mensajes estándar)
          function showSuccess(message) {
             const successDiv = document.createElement('div');
             successDiv.className = 'success-message';
@@ -2432,25 +2791,26 @@ html
             }, 3000); // Show for 3 seconds before fading
         }
 
+         // Show confetti effect
         function showCelebration() {
-             // Prevent multiple celebrations from overlapping too much
-             if (document.querySelector('.celebration')) {
+             // Prevent multiple confetti bursts too close
+             if (document.querySelector('.celebration.active')) { // Check for active celebration
                  return;
              }
 
             const celebration = document.createElement('div');
-            celebration.className = 'celebration';
+            celebration.className = 'celebration active'; // Mark as active
 
-            const colors = ['#FFB6C1', '#87CEEB', '#98FB98', '#DDA0DD', '#F0E68C', '#FFA07A', '#a855f7', '#3b82f6', '#f472b6', '#fde68a']; // Added more colors
+            const colors = ['#FFB6C1', '#87CEEB', '#98FB98', '#DDA0DD', '#F0E68C', '#FFA07A', '#a855f7', '#3b82f6', '#f472b6', '#fde68a'];
 
-            for (let i = 0; i < 50; i++) { // Increased confetti count
+            for (let i = 0; i < 50; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + '%';
                 confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.width = confetti.style.height = (Math.random() * 8 + 4) + 'px'; // Random size
+                confetti.style.width = confetti.style.height = (Math.random() * 8 + 4) + 'px';
                 confetti.style.animationDelay = Math.random() * 2 + 's';
-                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Random duration
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
                 celebration.appendChild(confetti);
             }
 
@@ -2459,9 +2819,9 @@ html
             // Remove after animation
             setTimeout(() => {
                 if (document.body.contains(celebration)) {
-                    celebration.remove(); // Use remove() which is cleaner
+                    celebration.remove();
                 }
-            }, 4000); // Ensure it stays slightly longer than confetti animation
+            }, 4000);
         }
 
 
@@ -2469,21 +2829,20 @@ html
         window.merakelysiDebug = {
             getData: function() {
                  console.log('Debug: Accediendo a los datos.', data);
-                 return data; // Return the actual data object
+                 return data;
             },
             clearAll: function() {
                 if (confirm('🚨 ADVERTENCIA: ¿Estás completamente segura de que quieres borrar TODOS los datos? Esta acción es irreversible.')) {
                     try {
                          localStorage.removeItem('merakelysi_data');
-                         // Reset the in-memory data structure
-                        data = {
+                         data = {
                             books: [], clubs: [], events: [], quotes: [], wishlist: [],
                             reviews: [], playlists: [], scrapbook: [], diary: [], goals: [],
                             challenges: [], favorites: [], suggestions: []
                         };
                         console.log('🗑️ Todos los datos borrados.');
                         showSuccess('¡Todos los datos han sido borrados!');
-                        renderCurrentSection(); // Re-render the current section (likely home)
+                        renderCurrentSection();
                     } catch (error) {
                          console.error('❌ Error borrando datos del localStorage:', error);
                          alert('Error al borrar datos del navegador.');
@@ -2499,8 +2858,10 @@ html
             manualLoad: function() {
                  console.log('📂 Cargando datos manualmente...');
                  loadData();
-                 renderCurrentSection(); // Ensure UI is updated after load
-            }
+                 renderCurrentSection();
+            },
+             // Expose simulateProgress for debugging/testing goals
+             simulateProgress: simulateProgress
         };
          console.log('✅ Objeto de depuración merakelysiDebug disponible.');
 
