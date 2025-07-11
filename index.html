@@ -1,19 +1,13 @@
-html
+``html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merakelysi - Mi Universo Literario</title>
-    <meta charset="UTF-8">
-     <title>🦋 Merakelysi 🦋</title>
-     <link rel="icon" type="image/png" href="favicon.png">
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-    ...
-</head>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Aquí iría todo tu código CSS */
+        /* Estilos Generales */
         * {
             margin: 0;
             padding: 0;
@@ -26,7 +20,12 @@ html
             min-height: 100vh;
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>🦄</text></svg>"), auto; /* Cursor unicornio */
             position: relative;
+             overflow-y: auto; /* Ensure scrolling is possible */
         }
+
+         body.modal-open {
+             overflow: hidden; /* Prevent scrolling when modal is open */
+         }
 
         /* Elementos decorativos de fondo */
         .bg-decoration {
@@ -66,10 +65,47 @@ html
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem; /* Ajustado */
             position: relative;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
+
+         /* Author Attribution */
+         .author-attribution {
+             font-size: 0.9rem;
+             color: #a855f7; /* Purple */
+             margin-bottom: 0.5rem;
+             font-weight: 600;
+         }
+
+         /* User Name Input */
+         .user-name-input {
+             text-align: center;
+             margin-bottom: 1.5rem;
+         }
+          .user-name-input label {
+              font-size: 1.1rem;
+              color: #6b7280;
+              margin-right: 0.5rem;
+              font-weight: 600;
+          }
+          .user-name-input input {
+               border: none;
+               border-bottom: 2px dashed #f472b6; /* Pink dashed underline */
+               background: none;
+               font-size: 1.1rem;
+               color: #374151;
+               font-weight: 600;
+               text-align: center;
+               width: 200px; /* Fixed width or adjust as needed */
+               padding: 0.2rem 0.5rem;
+               transition: border-color 0.3s ease;
+          }
+           .user-name-input input:focus {
+               outline: none;
+               border-bottom-color: #a855f7; /* Purple on focus */
+           }
+
 
         .title::before {
             content: '🌸';
@@ -180,7 +216,7 @@ html
             backdrop-filter: blur(10px);
         }
 
-         /* Decorative elements for cards - moved inside for better control */
+         /* Decorative elements for cards */
         .card .card-decoration {
              position: absolute;
              font-size: 1.5rem;
@@ -205,6 +241,9 @@ html
          .card-finished .card-decoration { top: 15%; left: 15%; content: '✅'; }
          .card-favorites .card-decoration { bottom: 10%; left: 10%; content: '🌟'; }
          .card-suggestions .card-decoration { top: 10%; right: 10%; content: '🤖'; }
+         /* New Sections */
+         .card-tributes .card-decoration { top: 15%; left: 10%; content: '✨'; }
+         .card-book-reviews .card-decoration { bottom: 10%; right: 15%; content: '🖋️'; }
 
 
         .card:hover {
@@ -241,21 +280,24 @@ html
 
         /* Colores específicos para cada tarjeta */
         .card-books { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); }
-        .card-calendar { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
-        .card-progress { background: linear-gradient(135deg, #ecfdf5 0%, #dcfce7 100%); }
+        .card-clubs { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
+        .card-calendar { background: linear-gradient(135deg, #ecfdf5 0%, #dcfce7 100%); } /* Changed to green theme */
         .card-quotes { background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); }
-        .card-challenges { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
-        .card-wishlist { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); }
-        .card-stats { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); }
+        .card-wishlist { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); } /* Changed to yellow theme */
         .card-reviews { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); }
-        .card-playlists { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); }
+        .card-playlists { background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); } /* Changed to red theme */
         .card-scrapbook { background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); }
         .card-diary { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); }
-        .card-clubs { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
-        .card-monthly { background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); }
-        .card-finished { background: linear-gradient(135deg, #ecfdf5 0%, #bbf7d0 100%); }
-        .card-favorites { background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%); }
-        .card-suggestions { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); }
+        .card-progress { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); } /* Changed to blue theme */
+        .card-challenges { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); } /* Changed to pink theme */
+        .card-stats { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); } /* Blue theme */
+        .card-monthly { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); } /* Green theme */
+        .card-finished { background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%); } /* Yellow theme */
+        .card-favorites { background: linear-gradient(135deg, #fce7f3 0%, #f9a8d4 100%); } /* Pink theme */
+        .card-suggestions { background: linear-gradient(135deg, #f3e8ff 0%, #d8b4fe 100%); } /* Purple theme */
+         /* New Sections */
+         .card-tributes { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); } /* Blue theme */
+         .card-book-reviews { background: linear-gradient(135deg, #fffbeb 0%, #fcd34d 100%); } /* Darker yellow */
 
 
         /* Section Headers */
@@ -364,6 +406,7 @@ html
              display: flex;
              gap: 0.5rem;
              flex-wrap: wrap;
+             justify-content: flex-end; /* Align actions to the right */
          }
 
          .item-actions button {
@@ -374,11 +417,25 @@ html
              border-radius: 8px;
              font-size: 0.8rem;
              cursor: pointer;
-             transition: background-color 0.3s ease;
+             transition: background-color 0.3s ease, transform 0.1s ease;
          }
           .item-actions button:hover {
               background: #8b5cf6;
+              transform: translateY(-1px);
           }
+
+          .item-actions button:active {
+              transform: translateY(0);
+          }
+
+         .item-actions button.action-edit { background-color: #60a5fa; } /* Blue */
+         .item-actions button.action-edit:hover { background-color: #3b82f6; }
+
+         .item-actions button.action-finish { background-color: #10b981; } /* Green */
+         .item-actions button.action-finish:hover { background-color: #059669; }
+
+         .item-actions button.action-review { background-color: #f59e0b; } /* Amber */
+         .item-actions button.action-review:hover { background-color: #d97706; }
 
 
         .delete-btn {
@@ -451,7 +508,7 @@ html
             font-weight: 700;
             text-align: center;
             opacity: 0; /* Start hidden */
-            animation: popIn 0.5s ease-out forwards, fadeOut 0.5s ease 2.5s forwards; /* Pop in then fade out */
+            animation: popIn 0.5s ease-out forwards, fadeOut 0.5s ease 3s forwards; /* Pop in then fade out */
          }
 
          @keyframes popIn {
@@ -496,20 +553,7 @@ html
              opacity: 0.8;
              box-shadow: inset -10px -10px 0 rgba(0,0,0,0.1); /* Simple highlight */
          }
-
-         .balloon::before {
-             content: '';
-             position: absolute;
-             bottom: -10px;
-             left: 50%;
-             transform: translateX(-50%);
-             width: 0;
-             height: 0;
-             border-left: 5px solid transparent;
-             border-right: 5px solid transparent;
-             border-top: 10px solid #f472b6; /* Match balloon color */
-         }
-
+         /* String */
          .balloon::after {
              content: '';
              position: absolute;
@@ -603,6 +647,15 @@ html
             margin-bottom: 1.5rem;
             text-align: center;
         }
+         .modal-content h4 { /* Style for sub-headings in forms */
+             font-size: 1.1rem;
+             color: #5a6573;
+             margin-top: 1.5rem;
+             margin-bottom: 1rem;
+             border-bottom: 1px dashed #e5e7eb;
+             padding-bottom: 0.5rem;
+         }
+
 
         .modal-close-btn {
             position: absolute;
@@ -614,6 +667,7 @@ html
             cursor: pointer;
             color: #9ca3af;
             transition: color 0.3s ease;
+            z-index: 10; /* Ensure it's above modal decorations */
         }
 
         .modal-close-btn:hover {
@@ -631,7 +685,8 @@ html
         .modal-form input[type="number"],
         .modal-form input[type="date"],
         .modal-form textarea,
-        .modal-form select { /* Added select */
+        .modal-form select,
+        .modal-form input[type="url"] { /* Added url type */
             width: 100%;
             padding: 0.75rem;
             margin-bottom: 1rem;
@@ -641,22 +696,25 @@ html
             color: #374151;
             background-color: #f9fafb; /* Very light background */
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            -webkit-appearance: none; /* Remove default appearance for select */
+        }
+         .modal-form select { /* Specific styles for select dropdown */
+            -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
             background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23a8a8a8%22%20d%3D%22M287%2C114.5L154.2%2C21.2c-5.2-3.5-12.1-3.5-17.3%2C0L5.4%2C114.5c-5.2%2C3.5-5.2%2C13.6%2C0%2C17.1l132.8%2C93.3c5.2%2C3.5%2C12.1%2C3.5%2C17.3%2C0l132.8-93.3C292.2%2C128.1%2C292.2%2C118%2C287%2C114.5z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
             background-repeat: no-repeat;
             background-position: right 0.7em top 50%, 0 0;
             background-size: 0.65em auto, 100%;
-            padding-right: 2.5rem; /* Make space for arrow */
-        }
+            padding-right: 2.5rem;
+         }
 
 
         .modal-form input[type="text"]:focus,
         .modal-form input[type="number"]:focus,
         .modal-form input[type="date"]:focus,
         .modal-form textarea:focus,
-        .modal-form select:focus { /* Added select */
+        .modal-form select:focus,
+        .modal-form input[type="url"]:focus { /* Added url type */
             outline: none;
             border-color: #f472b6; /* Pink focus */
             box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2); /* Soft pink shadow */
@@ -813,6 +871,117 @@ html
             pointer-events: none; /* Cannot click empty days */
         }
 
+         /* --- Tribute Section Styles --- */
+         .tribute-item {
+             background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); /* Blue theme */
+             border-radius: 24px;
+             padding: 2rem;
+             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+             border: 1px solid rgba(255, 255, 255, 0.5);
+             position: relative;
+         }
+         .tribute-item::before { /* Decoration */
+             content: '✨';
+             position: absolute;
+             top: 1rem;
+             left: 1rem;
+             font-size: 1.2rem;
+             opacity: 0.5;
+         }
+
+         .tribute-item .item-content { margin-left: 2.5rem; } /* Match other items */
+         .tribute-item .item-title { color: #374151; margin-bottom: 0.5rem;}
+         .tribute-item .item-subtitle { color: #6b7280; font-weight: 500;} /* Book title */
+         .tribute-item .item-meta { color: #a855f7; font-weight: 600; font-size: 0.9rem; margin-bottom: 1rem;} /* Type */
+
+         .tribute-content {
+             margin-top: 1rem;
+             padding-top: 1rem;
+             border-top: 1px dashed #e5e7eb;
+         }
+         .tribute-content img {
+             max-width: 100%;
+             height: auto;
+             display: block;
+             margin: 0.5rem auto;
+             border-radius: 12px;
+             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+         }
+         .tribute-content iframe { /* For video embeds */
+             width: 100%;
+             aspect-ratio: 16 / 9; /* Standard video aspect ratio */
+             border: none;
+             border-radius: 12px;
+             margin: 0.5rem 0;
+         }
+         .tribute-content a {
+             color: #60a5fa; /* Blue link */
+             text-decoration: none;
+             word-break: break-all; /* Break long URLs */
+         }
+         .tribute-content a:hover {
+             text-decoration: underline;
+         }
+         .tribute-content p { /* For text content */
+             color: #4b5563;
+             white-space: pre-wrap; /* Preserve formatting if needed */
+         }
+
+         /* --- Book Review Section Styles --- */
+          .book-review-card {
+              background: linear-gradient(135deg, #fffbeb 0%, #fcd34d 100%); /* Yellow theme */
+              border-radius: 24px;
+              padding: 2rem;
+              box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+              border: 1px solid rgba(255, 255, 255, 0.5);
+              position: relative;
+              word-wrap: break-word;
+          }
+           .book-review-card::before { /* Decoration */
+              content: '🖋️';
+              position: absolute;
+              top: 1rem;
+              left: 1rem;
+              font-size: 1.2rem;
+              opacity: 0.5;
+          }
+          .book-review-card .item-content { margin-left: 2.5rem; }
+
+          .book-review-card h3 {
+              font-size: 1.5rem;
+              font-weight: 700;
+              color: #374151;
+              margin-bottom: 0.5rem;
+          }
+          .book-review-card .item-subtitle {
+              color: #6b7280;
+              font-weight: 500;
+              margin-bottom: 1rem;
+          }
+          .book-review-card .review-section {
+              margin-top: 1.5rem;
+              padding-top: 1rem;
+              border-top: 1px dashed #fcd34d; /* Yellow dashed line */
+          }
+          .book-review-card .review-section h4 {
+               font-size: 1.1rem;
+               color: #78350f; /* Brownish color */
+               margin-bottom: 0.8rem;
+               border-bottom: none; /* Remove border from h4 */
+               padding-bottom: 0;
+          }
+          .book-review-card .review-section p,
+           .book-review-card .review-section div { /* Style for review answers */
+              color: #4b5563;
+              font-size: 0.9rem;
+              line-height: 1.5;
+              white-space: pre-wrap; /* Preserve formatting */
+          }
+          .book-review-card .rating-hearts {
+              color: #f43f5e; /* Pink hearts */
+              font-size: 1.5rem;
+          }
+
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -872,7 +1041,13 @@ html
         <section id="home" class="nav-section active">
             <header class="header">
                 <h1 class="title">Merakelysi</h1>
+                 <p class="author-attribution">By Maribel Alba</p> <!-- Author Attribution -->
                 <p class="subtitle">Mi espacio literario</p>
+
+                <div class="user-name-input"> <!-- User Name Input -->
+                    <label for="userName">Hola,</label>
+                    <input type="text" id="userName" placeholder="tu nombre aquí" onchange="saveUserName()">
+                </div>
 
                 <div class="status">
                     <div class="status-dot"></div>
@@ -927,13 +1102,23 @@ html
                     </div>
                 </div>
 
-                <div class="card card-reviews" onclick="showSection('reviews')">
+                 <!-- Changed section name and card type -->
+                <div class="card card-book-reviews" onclick="showSection('bookReviews')">
+                     <span class="card-decoration">🖋️</span>
+                    <div class="card-content">
+                        <span class="card-icon">🖋️</span>
+                        <h3 class="card-title">Reseñas Detalladas</h3>
+                    </div>
+                </div>
+
+                <div class="card card-general-reviews" onclick="showSection('generalReviews')"> <!-- Kept original reviews for other media -->
                      <span class="card-decoration">✍️</span>
                     <div class="card-content">
                         <span class="card-icon">✍️</span>
-                        <h3 class="card-title">Reseñas Personales</h3>
+                        <h3 class="card-title">Reseñas Generales</h3>
                     </div>
                 </div>
+
 
                 <div class="card card-playlists" onclick="showSection('playlists')">
                      <span class="card-decoration">🎧</span>
@@ -974,6 +1159,15 @@ html
                         <h3 class="card-title">Retos Lectores</h3>
                     </div>
                 </div>
+
+                <div class="card card-tributes" onclick="showSection('tributes')"> <!-- New Section Card -->
+                     <span class="card-decoration">✨</span>
+                    <div class="card-content">
+                        <span class="card-icon">✨</span>
+                        <h3 class="card-title">Homenajes Literarios</h3>
+                    </div>
+                </div>
+
 
                 <div class="card card-stats" onclick="showSection('stats')">
                      <span class="card-decoration">📊</span>
@@ -1069,14 +1263,26 @@ html
             <div id="wishlistContainer" class="items-grid"></div>
         </section>
 
-        <section id="reviews" class="nav-section">
+         <!-- New Section: Detailed Book Reviews -->
+         <section id="bookReviews" class="nav-section">
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">✍️ Reseñas Personales</h2>
-                <button class="add-btn" onclick="openModal('addReviewModal')">+ Nueva Reseña</button>
+                <h2 class="section-title">🖋️ Reseñas Detalladas</h2>
+                 <!-- No Add button here, reviews are added from Finished Books section -->
             </div>
-            <div id="reviewsContainer" class="items-grid"></div>
+            <div id="bookReviewsContainer" class="items-grid"></div>
         </section>
+
+        <!-- Original Reviews Section (Renamed) -->
+        <section id="generalReviews" class="nav-section">
+            <div class="section-header">
+                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
+                <h2 class="section-title">✍️ Reseñas Generales</h2>
+                <button class="add-btn" onclick="openModal('addGeneralReviewModal')">+ Nueva Reseña General</button>
+            </div>
+            <div id="generalReviewsContainer" class="items-grid"></div>
+        </section>
+
 
         <section id="playlists" class="nav-section">
             <div class="section-header">
@@ -1122,6 +1328,17 @@ html
             </div>
             <div id="challengesContainer" class="items-grid"></div>
         </section>
+
+         <!-- New Section: Literary Tributes -->
+         <section id="tributes" class="nav-section">
+            <div class="section-header">
+                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
+                <h2 class="section-title">✨ Homenajes Literarios</h2>
+                <button class="add-btn" onclick="openModal('addTributeModal')">+ Nuevo Homenaje</button>
+            </div>
+            <div id="tributesContainer" class="items-grid"></div>
+        </section>
+
 
          <section id="stats" class="nav-section">
             <div class="section-header">
@@ -1177,12 +1394,14 @@ html
 
     <!-- --- Modals --- -->
 
-    <!-- Add Book Modal -->
+    <!-- Add/Edit Book Modal -->
     <div id="addBookModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addBookModal')">×</button>
-            <h3>Agregar Libro</h3>
+            <h3 id="addBookModalTitle">Agregar Libro</h3>
             <form id="addBookForm" class="modal-form">
+                 <input type="hidden" id="bookItemId" name="itemId"> <!-- Hidden field for item ID -->
+
                 <label for="bookTitle">Título:</label>
                 <input type="text" id="bookTitle" name="title" required>
 
@@ -1205,8 +1424,6 @@ html
                 <label for="bookTargetFinishDate">Fecha Límite para Terminar:</label>
                 <input type="date" id="bookTargetFinishDate" name="targetFinishDate">
 
-                <!-- Simplified: Adding specific chapter milestones via this form is complex -->
-                <!-- Maybe add a section or button to add milestones later -->
                 <label for="bookNotes">Notas Adicionales (opcional):</label>
                 <textarea id="bookNotes" name="notes"></textarea>
 
@@ -1215,12 +1432,14 @@ html
         </div>
     </div>
 
-    <!-- Add Club Modal -->
+    <!-- Add/Edit Club Modal -->
      <div id="addClubModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addClubModal')">×</button>
-            <h3>Crear Club</h3>
+            <h3 id="addClubModalTitle">Crear Club</h3>
             <form id="addClubForm" class="modal-form">
+                 <input type="hidden" id="clubItemId" name="itemId">
+
                 <label for="clubName">Nombre del Club:</label>
                 <input type="text" id="clubName" name="name" required>
 
@@ -1241,12 +1460,14 @@ html
         </div>
     </div>
 
-     <!-- Add Event Modal -->
+     <!-- Add/Edit Event Modal -->
      <div id="addEventModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addEventModal')">×</button>
-            <h3>Nuevo Evento</h3>
+            <h3 id="addEventModalTitle">Nuevo Evento</h3>
             <form id="addEventForm" class="modal-form">
+                 <input type="hidden" id="eventItemId" name="itemId">
+
                 <label for="eventTitle">Título del Evento:</label>
                 <input type="text" id="eventTitle" name="title" required>
 
@@ -1261,12 +1482,14 @@ html
         </div>
     </div>
 
-     <!-- Add Quote Modal -->
+     <!-- Add/Edit Quote Modal -->
      <div id="addQuoteModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addQuoteModal')">×</button>
-            <h3>Nueva Frase</h3>
+             <h3 id="addQuoteModalTitle">Nueva Frase</h3>
             <form id="addQuoteForm" class="modal-form">
+                 <input type="hidden" id="quoteItemId" name="itemId">
+
                 <label for="quoteText">Frase:</label>
                 <textarea id="quoteText" name="text" required></textarea>
 
@@ -1281,12 +1504,14 @@ html
         </div>
     </div>
 
-    <!-- Add Wish Modal -->
+    <!-- Add/Edit Wish Modal -->
      <div id="addWishModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addWishModal')">×</button>
-            <h3>Agregar Deseo (Wishlist)</h3>
+            <h3 id="addWishModalTitle">Agregar Deseo (Wishlist)</h3>
             <form id="addWishForm" class="modal-form">
+                 <input type="hidden" id="wishItemId" name="itemId">
+
                 <label for="wishTitle">Título del Libro:</label>
                 <input type="text" id="wishTitle" name="title" required>
 
@@ -1304,37 +1529,44 @@ html
         </div>
     </div>
 
-    <!-- Add Review Modal -->
-     <div id="addReviewModal" class="modal-backdrop">
+    <!-- Add/Edit General Review Modal -->
+     <div id="addGeneralReviewModal" class="modal-backdrop"> <!-- Renamed from addReviewModal -->
         <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addReviewModal')">×</button>
-            <h3>Nueva Reseña</h3>
-            <form id="addReviewForm" class="modal-form">
-                 <label for="reviewBook">Libro Reseñado:</label>
-                <input type="text" id="reviewBook" name="book" required>
+            <button class="modal-close-btn" onclick="closeModal('addGeneralReviewModal')">×</button>
+            <h3 id="addGeneralReviewModalTitle">Nueva Reseña General</h3>
+            <form id="addGeneralReviewForm" class="modal-form">
+                 <input type="hidden" id="generalReviewItemId" name="itemId">
 
-                <label for="reviewAuthor">Autor/a (opcional):</label>
-                <input type="text" id="reviewAuthor" name="author">
+                 <label for="generalReviewBook">Libro/Media Reseñado:</label> <!-- More general field -->
+                <input type="text" id="generalReviewBook" name="book" required>
 
-                <label for="reviewRating">Calificación (1-5):</label>
-                <input type="number" id="reviewRating" name="rating" value="5" min="1" max="5" required>
+                <label for="generalReviewAuthor">Autor/a/Artista (opcional):</label> <!-- More general field -->
+                <input type="text" id="generalReviewAuthor" name="author">
 
-                <label for="reviewContent">Tu Reseña:</label>
-                <textarea id="reviewContent" name="content" required></textarea>
+                <label for="generalReviewRating">Calificación (1-5):</label>
+                <input type="number" id="generalReviewRating" name="rating" value="5" min="1" max="5" required>
 
-                <button type="submit">Guardar Reseña</button>
+                <label for="generalReviewContent">Tu Reseña:</label>
+                <textarea id="generalReviewContent" name="content" required></textarea>
+
+                <button type="submit">Guardar Reseña General</button>
             </form>
         </div>
     </div>
 
-    <!-- Add Playlist Modal -->
+    <!-- Add/Edit Playlist Modal -->
      <div id="addPlaylistModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addPlaylistModal')">×</button>
-            <h3>Nueva Playlist</h3>
+            <h3 id="addPlaylistModalTitle">Nueva Playlist</h3>
             <form id="addPlaylistForm" class="modal-form">
+                 <input type="hidden" id="playlistItemId" name="itemId">
+
                 <label for="playlistName">Nombre de la Playlist:</label>
                 <input type="text" id="playlistName" name="name" required>
+
+                <label for="playlistEmbedCode">Código o URL de Spotify Embed:</label>
+                <textarea id="playlistEmbedCode" name="embedCode" rows="4" placeholder="Pega aquí el código embed o la URL compartible de Spotify"></textarea>
 
                 <label for="playlistBook">Libro Asociado (opcional):</label>
                 <input type="text" id="playlistBook" name="book">
@@ -1350,12 +1582,14 @@ html
         </div>
     </div>
 
-     <!-- Add Scrapbook Page Modal -->
+     <!-- Add/Edit Scrapbook Page Modal -->
      <div id="addScrapModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addScrapModal')">×</button>
-            <h3>Nueva Página de Scrapbook</h3>
+            <h3 id="addScrapModalTitle">Nueva Página de Scrapbook</h3>
             <form id="addScrapForm" class="modal-form">
+                 <input type="hidden" id="scrapItemId" name="itemId">
+
                 <label for="scrapTitle">Título de la Página:</label>
                 <input type="text" id="scrapTitle" name="title" required>
 
@@ -1373,12 +1607,17 @@ html
         </div>
     </div>
 
-     <!-- Add Diary Entry Modal -->
+     <!-- Add/Edit Diary Entry Modal -->
      <div id="addDiaryModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addDiaryModal')">×</button>
-            <h3>Nueva Entrada de Diario</h3>
+            <h3 id="addDiaryModalTitle">Nueva Entrada de Diario</h3>
             <form id="addDiaryForm" class="modal-form">
+                 <input type="hidden" id="diaryItemId" name="itemId">
+
+                <label for="diaryDate">Fecha (opcional):</label> <!-- Allow changing date if editing -->
+                <input type="date" id="diaryDate" name="date" value=""> <!-- Set default date in JS -->
+
                 <label for="diaryBook">Libro (opcional):</label>
                 <input type="text" id="diaryBook" name="book">
 
@@ -1393,12 +1632,14 @@ html
         </div>
     </div>
 
-     <!-- Add Goal Modal -->
+     <!-- Add/Edit Goal Modal -->
      <div id="addGoalModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addGoalModal')">×</button>
-            <h3>Nuevo Reto (Progreso)</h3>
+            <h3 id="addGoalModalTitle">Nuevo Reto (Progreso)</h3>
             <form id="addGoalForm" class="modal-form">
+                 <input type="hidden" id="goalItemId" name="itemId">
+
                 <label for="goalTitle">Título del Reto:</label>
                 <input type="text" id="goalTitle" name="title" required>
 
@@ -1408,17 +1649,24 @@ html
                 <label for="goalTarget">Meta (número, ej: 5):</label>
                 <input type="number" id="goalTarget" name="target" value="1" min="1" required>
 
+                <h4>Progreso Actual</h4> <!-- Added progress tracking fields -->
+                 <label for="goalCurrent">Progreso:</label>
+                <input type="number" id="goalCurrent" name="current" value="0" min="0" required>
+
+
                 <button type="submit">Establecer Reto</button>
             </form>
         </div>
     </div>
 
-    <!-- Add Challenge Modal -->
+    <!-- Add/Edit Challenge Modal -->
      <div id="addChallengeModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addChallengeModal')">×</button>
-            <h3>Nuevo Reto Lector</h3>
+            <h3 id="addChallengeModalTitle">Nuevo Reto Lector</h3>
             <form id="addChallengeForm" class="modal-form">
+                 <input type="hidden" id="challengeItemId" name="itemId">
+
                 <label for="challengeTitle">Título del Reto:</label>
                 <input type="text" id="challengeTitle" name="title" required>
 
@@ -1433,12 +1681,14 @@ html
         </div>
     </div>
 
-     <!-- Add Favorite Modal -->
+     <!-- Add/Edit Favorite Modal -->
      <div id="addFavoriteModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addFavoriteModal')">×</button>
-            <h3>Agregar Favorito</h3>
+            <h3 id="addFavoriteModalTitle">Agregar Favorito</h3>
             <form id="addFavoriteForm" class="modal-form">
+                 <input type="hidden" id="favoriteItemId" name="itemId">
+
                 <label for="favoriteTitle">Título del Libro:</label>
                 <input type="text" id="favoriteTitle" name="title" required>
 
@@ -1456,21 +1706,106 @@ html
         </div>
     </div>
 
+     <!-- Add/Edit Tribute Modal -->
+      <div id="addTributeModal" class="modal-backdrop">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal('addTributeModal')">×</button>
+            <h3 id="addTributeModalTitle">Nuevo Homenaje Literario</h3>
+            <form id="addTributeForm" class="modal-form">
+                 <input type="hidden" id="tributeItemId" name="itemId">
+
+                 <label for="tributeBook">Libro Asociado (opcional):</label>
+                 <select id="tributeBook" name="bookId">
+                     <!-- Options will be populated by JS -->
+                     <option value="">-- Ninguno --</option>
+                 </select>
+
+                <label for="tributeTitle">Título del Homenaje:</label>
+                <input type="text" id="tributeTitle" name="title" required>
+
+                <label for="tributeType">Tipo de Contenido:</label>
+                <select id="tributeType" name="type" required onchange="toggleTributeContentField()">
+                    <option value="">-- Seleccionar --</option>
+                    <option value="text">Texto/Notas</option>
+                    <option value="image">Imagen (URL)</option>
+                    <option value="video">Video Embed (URL)</option>
+                    <option value="link">Enlace (URL)</option>
+                     <option value="audio">Audio Embed (URL)</option> <!-- Added audio -->
+                </select>
+
+                <div id="tributeContentFields">
+                    <!-- Content field will change based on type -->
+                    <label for="tributeContentText" class="tribute-content-label">Contenido (Texto/URL/Embed):</label>
+                    <textarea id="tributeContentText" name="content" required rows="6"></textarea>
+                </div>
+
+
+                <button type="submit">Guardar Homenaje</button>
+            </form>
+        </div>
+    </div>
+
+     <!-- Add/Edit Detailed Book Review Modal -->
+      <div id="addDetailedBookReviewModal" class="modal-backdrop">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal('addDetailedBookReviewModal')">×</button>
+            <h3 id="addDetailedBookReviewModalTitle">Reseña Detallada del Libro</h3>
+            <form id="addDetailedBookReviewForm" class="modal-form">
+                 <!-- This modal is specifically for a book, use bookId directly -->
+                 <input type="hidden" id="bookReviewBookId" name="bookId">
+
+                <!-- Display Book Info (read-only) -->
+                <h4 id="bookReviewBookTitle">Libro: [Título]</h4>
+                 <p id="bookReviewBookAuthor" style="margin-bottom: 1.5rem; color: #6b7280;">por [Autor/a]</p>
+
+
+                <label for="bookReviewRating">Calificación (1-5):</label>
+                <input type="number" id="bookReviewRating" name="rating" value="5" min="1" max="5" required>
+
+                <label for="bookReviewFavoriteCharacters">Personajes Favoritos:</label>
+                <textarea id="bookReviewFavoriteCharacters" name="favoriteCharacters"></textarea>
+
+                <label for="bookReviewChangeEnding">¿Cambiarías el final?</label>
+                <textarea id="bookReviewChangeEnding" name="changeEnding"></textarea>
+
+                 <label for="bookReviewRecommend">¿Lo recomendarías?</label>
+                <textarea id="bookReviewRecommend" name="recommend"></textarea>
+
+                <label for="bookReviewLearnings">Aprendizajes:</label>
+                <textarea id="bookReviewLearnings" name="learnings"></textarea>
+
+                <label for="bookReviewQuotes">Frases Favoritas:</label>
+                <textarea id="bookReviewQuotes" name="quotes"></textarea>
+
+                <label for="bookReviewLikedMost">Lo que más me gustó:</label>
+                <textarea id="bookReviewLikedMost" name="likedMost"></textarea>
+
+                 <label for="bookReviewSuggestions">Sugerencias para el autor:</label>
+                <textarea id="bookReviewSuggestions" name="suggestions"></textarea>
+
+
+                <button type="submit">Guardar Reseña Detallada</button>
+            </form>
+        </div>
+    </div>
+
 
     <script>
-        // Sistema de almacenamiento súper simple
+        // Sistema de almacenamiento
         let data = {
-            books: [],
+            userName: '', // Added user name
+            books: [], // Each book can now have a 'review' property for detailed review
             clubs: [],
-            events: [], // Data for Calendar
+            events: [],
             quotes: [],
             wishlist: [],
-            reviews: [],
+            generalReviews: [], // Renamed from reviews
             playlists: [],
             scrapbook: [],
             diary: [],
-            goals: [], // Used by 'progress'
-            challenges: [], // Used by 'challenges'
+            goals: [],
+            challenges: [],
+            tributes: [], // New array for tributes
             favorites: [],
             suggestions: []
         };
@@ -1478,33 +1813,70 @@ html
         let currentSection = 'home';
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
-        const today = new Date(); // Keep a reference to today's date
+        const today = new Date();
 
 
         // Cargar datos al inicio
         document.addEventListener('DOMContentLoaded', function() {
             loadData();
             renderCurrentSection();
-             // Add event listener for beforeunload to save data
             window.addEventListener('beforeunload', saveData);
-            // Add event listener for Escape key to close modals
             document.addEventListener('keydown', function(event) {
                 if (event.key === 'Escape') {
                     closeAllModals();
                 }
             });
 
-             // Add event listeners to modal forms *after* they are in the DOM
-             setupModalForms();
+             setupModalForms(); // Set up event listeners for forms
+
+            // Load and display user name
+            loadUserName();
 
             console.log('🦄 Merakelysi cargado');
         });
 
+         // User Name Functions
+         function loadUserName() {
+             const savedName = localStorage.getItem('merakelysi_userName');
+             if (savedName) {
+                 data.userName = savedName;
+                 document.getElementById('userName').value = savedName;
+             }
+         }
+
+         function saveUserName() {
+             data.userName = document.getElementById('userName').value.trim();
+             localStorage.setItem('merakelysi_userName', data.userName);
+             console.log('👤 Nombre de usuario guardado:', data.userName);
+             showSuccess('¡Nombre guardado!');
+         }
+
+
         // Funciones de guardado
         function saveData() {
             try {
-                localStorage.setItem('merakelysi_data', JSON.stringify(data));
-                console.log('✅ Datos guardados'); // Log instead of always showing UI message
+                 // Only save the core data object, not userName separately in data
+                localStorage.setItem('merakelysi_data', JSON.stringify({
+                    books: data.books,
+                    clubs: data.clubs,
+                    events: data.events,
+                    quotes: data.quotes,
+                    wishlist: data.wishlist,
+                    generalReviews: data.generalReviews, // Ensure this is saved
+                    playlists: data.playlists,
+                    scrapbook: data.scrapbook,
+                    diary: data.diary,
+                    goals: data.goals,
+                    challenges: data.challenges,
+                    tributes: data.tributes, // Ensure this is saved
+                    favorites: data.favorites,
+                    suggestions: data.suggestions
+                }));
+                // UserName is saved separately
+                // localStorage.setItem('merakelysi_userName', data.userName); // Assuming this is handled by saveUserName() on change
+
+
+                console.log('✅ Datos guardados');
                 return true;
             } catch (error) {
                 console.error('❌ Error guardando:', error);
@@ -1517,31 +1889,35 @@ html
                 const saved = localStorage.getItem('merakelysi_data');
                 if (saved) {
                     const parsed = JSON.parse(saved);
-                    // Merge loaded data with default structure to prevent errors if new sections are added later
-                    // Also ensure new properties for books (like goals) are present if loading old data
+
+                    // Explicitly load and structure data, adding default values for new fields
                     data.books = parsed.books ? parsed.books.map(book => ({
-                         // Keep existing properties
-                         ...book,
-                         // Add new properties with defaults if they don't exist
+                         ...book, // Keep existing properties
                          totalPages: book.totalPages || 0,
                          totalChapters: book.totalChapters || 0,
                          targetFinishDate: book.targetFinishDate || '',
-                         targetClubMeetingDate: book.targetClubMeetingDate || '',
-                         milestones: book.milestones || [], // Array of {chapter, targetDate, completed}
+                         targetClubMeetingDate: book.targetClubMeetingDate || '', // Not fully implemented yet
+                         milestones: book.milestones || [], // Not fully implemented yet
                          isFinished: book.isFinished || false,
                          currentChapter: book.currentChapter || 0,
-                         currentPage: book.currentPage || 0, // Added current page tracking
-                    })) : []; // Ensure books is always an array
+                         currentPage: book.currentPage || 0,
+                         review: book.review || null, // Load detailed book review
+                         clubId: book.clubId || null // Load club ID
+                    })) : [];
                     data.clubs = parsed.clubs || [];
                     data.events = parsed.events || [];
                     data.quotes = parsed.quotes || [];
                     data.wishlist = parsed.wishlist || [];
-                    data.reviews = parsed.reviews || [];
-                    data.playlists = parsed.playlists || [];
+                    data.generalReviews = parsed.generalReviews || parsed.reviews || []; // Load from old 'reviews' if 'generalReviews' doesn't exist
+                    data.playlists = parsed.playlists ? parsed.playlists.map(playlist => ({
+                         ...playlist,
+                         embedCode: playlist.embedCode || '' // Load new embed code field
+                    })) : [];
                     data.scrapbook = parsed.scrapbook || [];
                     data.diary = parsed.diary || [];
                     data.goals = parsed.goals || [];
                     data.challenges = parsed.challenges || [];
+                    data.tributes = parsed.tributes || []; // Load new tributes
                     data.favorites = parsed.favorites || [];
                     data.suggestions = parsed.suggestions || [];
 
@@ -1549,14 +1925,17 @@ html
                     console.log('📂 Datos cargados');
                 } else {
                      console.log('🆕 No se encontraron datos guardados, iniciando vacío.');
+                     // Initialize userName here if needed, though saveUserName handles it on change
                 }
+                 loadUserName(); // Always load userName separately
             } catch (error) {
                 console.error('❌ Error cargando datos:', error);
-                // Reset data to empty structure on load error
+                // Reset data to empty structure on load error (except username)
                 data = {
+                    userName: data.userName || '', // Keep loaded username
                     books: [], clubs: [], events: [], quotes: [], wishlist: [],
-                    reviews: [], playlists: [], scrapbook: [], diary: [], goals: [],
-                    challenges: [], favorites: [], suggestions: []
+                    generalReviews: [], playlists: [], scrapbook: [], diary: [], goals: [],
+                    challenges: [], tributes: [], favorites: [], suggestions: []
                 };
                  alert('Error al cargar datos. Se ha creado una nueva sesión vacía.'); // Alert on critical load failure
             }
@@ -1564,7 +1943,7 @@ html
 
         // Navegación
         function showSection(sectionId) {
-            saveData(); // Save data before switching sections
+            saveData();
 
             document.querySelectorAll('.nav-section').forEach(section => {
                 section.classList.remove('active');
@@ -1578,29 +1957,60 @@ html
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 console.error(`❌ Sección con ID "${sectionId}" no encontrada.`);
-                showSection('home'); // Fallback to home
+                showSection('home');
             }
         }
 
         function renderCurrentSection() {
              console.log(`🔄 Renderizando sección: ${currentSection}`);
 
-             // Note: Explicit clearing of containers within renderX functions is safer
+             // Find the container for the current section and clear it
+             let container;
+             switch(currentSection) {
+                case 'books': container = document.getElementById('booksContainer'); break;
+                case 'clubs': container = document.getElementById('clubsContainer'); break;
+                case 'calendar': container = document.getElementById('calendarContainer'); break;
+                case 'quotes': container = document.getElementById('quotesContainer'); break;
+                case 'wishlist': container = document.getElementById('wishlistContainer'); break;
+                case 'generalReviews': container = document.getElementById('generalReviewsContainer'); break;
+                case 'bookReviews': container = document.getElementById('bookReviewsContainer'); break; // New container
+                case 'playlists': container = document.getElementById('playlistsContainer'); break;
+                case 'scrapbook': container = document.getElementById('scrapbookContainer'); break;
+                case 'diary': container = document.getElementById('diaryContainer'); break;
+                case 'progress': container = document.getElementById('progressContainer'); break;
+                case 'challenges': container = document.getElementById('challengesContainer'); break;
+                case 'tributes': container = document.getElementById('tributesContainer'); break; // New container
+                case 'stats': container = document.getElementById('statsContainer'); break;
+                case 'monthly': container = document.getElementById('monthlyContainer'); break;
+                case 'finished': container = document.getElementById('finishedContainer'); break;
+                case 'favorites': container = document.getElementById('favoritesContainer'); break;
+                case 'suggestions': container = document.getElementById('suggestionsContainer'); break;
+                 case 'home': // Home has no single container to clear in this way
+                 default:
+                    // No specific container to clear for home or unknown sections
+                    break;
+            }
+
+             if (container) {
+                  container.innerHTML = ''; // Clear previous content explicitly before rendering
+             }
+
 
             switch(currentSection) {
-                case 'home':
-                    break; // Home is static cards
+                case 'home': break;
                 case 'books': renderBooks(); break;
                 case 'clubs': renderClubs(); break;
                 case 'calendar': renderCalendar(currentYear, currentMonth); break;
                 case 'quotes': renderQuotes(); break;
                 case 'wishlist': renderWishlist(); break;
-                case 'reviews': renderReviews(); break;
+                case 'generalReviews': renderGeneralReviews(); break; // Renamed
+                case 'bookReviews': renderBookReviews(); break; // New render function
                 case 'playlists': renderPlaylists(); break;
                 case 'scrapbook': renderScrapbook(); break;
                 case 'diary': renderDiary(); break;
                 case 'progress': renderProgress(); break;
                 case 'challenges': renderChallenges(); break;
+                case 'tributes': renderTributes(); break; // New render function
                 case 'stats': renderStats(); break;
                 case 'monthly': renderMonthly(); break;
                 case 'finished': renderFinished(); break;
@@ -1608,7 +2018,7 @@ html
                 case 'suggestions': renderSuggestions(); break;
                 default:
                     console.warn(`Sección "${currentSection}" no tiene función de renderizado o no existe.`);
-                    showSection('home'); // Fallback to home
+                    showSection('home');
             }
         }
 
@@ -1617,9 +2027,11 @@ html
         function renderBooks() {
             const container = document.getElementById('booksContainer');
             if (!container) { console.error("Container #booksContainer not found"); return; }
-            container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = ''; // Redundant if cleared in renderCurrentSection, but safe.
 
-            if (data.books.length === 0) {
+            const booksInProgress = data.books.filter(book => !book.isFinished);
+
+            if (booksInProgress.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📚</div>
@@ -1630,13 +2042,13 @@ html
                 return;
             }
 
-            container.innerHTML = data.books.map(book => {
+            container.innerHTML = booksInProgress.map(book => {
                  const club = book.clubId ? data.clubs.find(c => c.id === book.clubId) : null;
-                 const clubName = club ? club.name : book.club; // Use stored club name if club not found, or clubId not set
+                 const clubName = club ? club.name : null; // Only show club name if club exists
 
                  // Simple progress display
                  let progressHtml = '';
-                 if (book.totalChapters > 0) {
+                 if (book.totalChapters > 0 && book.currentPage === 0) { // Prioritize chapters if available and no page progress yet
                      progressHtml = `<p class="item-meta">Capítulo ${book.currentChapter || 0} / ${book.totalChapters}</p>`;
                  } else if (book.totalPages > 0) {
                      progressHtml = `<p class="item-meta">Página ${book.currentPage || 0} / ${book.totalPages}</p>`;
@@ -1645,21 +2057,26 @@ html
                  // Goal display
                  let goalHtml = '';
                  if (book.targetFinishDate) {
-                      const targetDate = new Date(book.targetFinishDate + 'T00:00:00');
-                      if (!isNaN(targetDate)) { // Check if date is valid
+                      try {
+                           const targetDate = new Date(book.targetFinishDate + 'T00:00:00');
                            const dateString = targetDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
-                           goalHtml += `<p style="color: #f43f5e; font-size: 0.9rem; margin-top: 0.5rem;">Meta: Terminar para ${dateString}</p>`;
+                           // Add color coding for date approaching/passed (simplified)
+                            const diffDays = Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24));
+                            let dateColor = '#f43f5e'; // Red for overdue or near
+                            if (diffDays > 7) dateColor = '#10b981'; // Green for far
+                            else if (diffDays > 0) dateColor = '#f59e0b'; // Amber for approaching
+
+                           goalHtml += `<p style="color: ${dateColor}; font-size: 0.9rem; margin-top: 0.5rem; font-weight: 600;">Meta: Terminar para ${dateString}</p>`;
+                      } catch (e) {
+                          console.error("Error rendering targetFinishDate:", book.targetFinishDate, e);
                       }
                  }
-                 // Add rendering for milestones if you implement them later
 
-
-                 // Placeholder actions to trigger progress update and goal check for demo
+                 // Action buttons - simplified for demo
                  const actionButtons = `
                      <div class="item-actions">
-                          ${!book.isFinished ? `<button onclick="simulateProgress(${book.id}, 'chapter', 10)">+10 Cap</button>` : ''}
-                          ${!book.isFinished ? `<button onclick="simulateProgress(${book.id}, 'page', 50)">+50 Pág</button>` : ''}
-                          ${!book.isFinished ? `<button onclick="simulateProgress(${book.id}, 'finish')">✅ Terminado</button>` : ''}
+                          <button class="action-edit" onclick="openModal('addBookModal', ${book.id})">Editar</button>
+                          ${!book.isFinished ? `<button class="action-finish" onclick="markFinished(${book.id})">✅ Terminado</button>` : ''}
                      </div>
                  `;
 
@@ -1668,9 +2085,10 @@ html
                 <div class="item-card">
                     <button class="delete-btn" onclick="deleteItem('books', ${book.id})">×</button>
                     <div class="item-content">
-                        <h3 class="item-title">${book.isFinished ? '✅ ' : ''}${book.title}</h3>
+                        <h3 class="item-title">${book.title}</h3>
                         <p class="item-subtitle">por ${book.author}</p>
-                        ${clubName ? `<p class="item-meta">${clubName}</p>` : ''}
+                        ${clubName ? `<p class="item-meta">👥 ${clubName}</p>` : ''}
+                         <p class="item-meta">📖 ${book.totalPages} páginas ${book.totalChapters > 0 ? `(${book.totalChapters} capítulos)` : ''}</p>
                         ${progressHtml}
                         ${goalHtml}
                         ${book.notes ? `<p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">${book.notes}</p>` : ''}
@@ -1685,7 +2103,7 @@ html
         function renderClubs() {
             const container = document.getElementById('clubsContainer');
              if (!container) { console.error("Container #clubsContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
             if (data.clubs.length === 0) {
                 container.innerHTML = `
@@ -1706,20 +2124,22 @@ html
                         <p class="item-subtitle">${club.description || 'Sin descripción'}</p>
                         <p class="item-meta">📅 ${club.meetingDay}s a las ${club.meetingTime}</p>
                         <p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">👥 ${club.members || 0} miembros</p>
+                         <div class="item-actions">
+                            <button class="action-edit" onclick="openModal('addClubModal', ${club.id})">Editar</button>
+                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
-         // Render function for Calendar
+
          function renderCalendar(year, month) {
              const container = document.getElementById('calendarContainer');
              if (!container) { console.error("Container #calendarContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
              const date = new Date(year, month, 1);
              const today = new Date();
-             const options = { year: 'numeric', month: 'long' };
              const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
              const dayNames = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -1737,20 +2157,15 @@ html
                  <div class="calendar-grid">
              `;
 
-             // Get number of days in the previous month for filling start of grid
              const daysInPrevMonth = new Date(year, month, 0).getDate();
-             // Get the day of the week for the 1st of the month (0 = Sunday, 1 = Monday...)
-             // Adjust to make Monday = 0, Sunday = 6
-             const firstDayOfWeek = (date.getDay() + 6) % 7;
+             const firstDayOfWeek = (date.getDay() + 6) % 7; // 0 = Mon, 6 = Sun
 
-             // Add days from the previous month to fill the first week
+             // Add days from the previous month
              for (let i = firstDayOfWeek; i > 0; i--) {
                   const day = daysInPrevMonth - i + 1;
-                  // Could potentially show prev/next month days and events
                   calendarHtml += `<div class="calendar-day empty prev-month">${day}</div>`;
              }
 
-             // Get number of days in the current month
              const daysInMonth = new Date(year, month + 1, 0).getDate();
 
              // Add actual days
@@ -1774,27 +2189,17 @@ html
                  `;
              }
 
-             // Add days from the next month to fill the end of the grid
-             // Calculate how many days are left to fill the grid (up to 6 rows total)
+             // Add days from the next month to fill the grid (up to 6 rows)
              const totalCells = firstDayOfWeek + daysInMonth;
-             const cellsInLastRow = totalCells % 7;
-             const emptyDaysAfter = cellsInLastRow === 0 ? 0 : 7 - cellsInLastRow;
-             // Also calculate needed rows if less than 6
-             const neededRows = 6; // Standard calendar view often shows 6 weeks
-             const currentRows = Math.ceil(totalCells / 7);
-             const remainingCellsToFill = (neededRows * 7) - totalCells;
-
+             const remainingCellsToFill = (6 * 7) - totalCells;
 
              for (let i = 1; i <= remainingCellsToFill; i++) {
-                  // Could potentially show prev/next month days
                   calendarHtml += `<div class="calendar-day empty next-month">${i}</div>`;
              }
-
 
              calendarHtml += `</div>`; // Close calendar-grid
 
              container.innerHTML = calendarHtml;
-
          }
 
          function changeMonth(delta) {
@@ -1809,12 +2214,10 @@ html
              renderCalendar(currentYear, currentMonth);
          }
 
-         // Function to show details of events on a specific day (optional modal or alert)
          function showDayEvents(dateString) {
               const events = data.events.filter(event => event.date === dateString);
               if (events.length === 0) {
-                  // alert(`No hay eventos para el ${dateString}`);
-                  return; // Do nothing if no events
+                  return;
               }
 
               const dateParts = dateString.split('-');
@@ -1831,14 +2234,14 @@ html
                   details += '\n';
               });
 
-              alert(details); // Using alert for simplicity, could be a dedicated modal
+              alert(details);
          }
 
 
         function renderQuotes() {
             const container = document.getElementById('quotesContainer');
              if (!container) { console.error("Container #quotesContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
             if (data.quotes.length === 0) {
                 container.innerHTML = `
@@ -1858,6 +2261,9 @@ html
                         <h3 class="item-title">"${quote.text}"</h3>
                         <p class="item-subtitle">— ${quote.author}</p>
                         ${quote.book ? `<p class="item-meta">${quote.book}</p>` : ''}
+                         <div class="item-actions">
+                            <button class="action-edit" onclick="openModal('addQuoteModal', ${quote.id})">Editar</button>
+                         </div>
                     </div>
                 </div>
             `).join('');
@@ -1866,7 +2272,7 @@ html
         function renderWishlist() {
             const container = document.getElementById('wishlistContainer');
              if (!container) { console.error("Container #wishlistContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
             if (data.wishlist.length === 0) {
                 container.innerHTML = `
@@ -1887,51 +2293,144 @@ html
                         <p class="item-subtitle">por ${item.author || 'Autor desconocido'}</p>
                         <p class="item-meta">Prioridad: ${item.priority || 'Media'}</p>
                         ${item.reason ? `<p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">${item.reason}</p>` : ''}
+                         <div class="item-actions">
+                            <button class="action-edit" onclick="openModal('addWishModal', ${item.id})">Editar</button>
+                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        function renderReviews() {
-            const container = document.getElementById('reviewsContainer');
-             if (!container) { console.error("Container #reviewsContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+        // --- New: Render Detailed Book Reviews ---
+        function renderBookReviews() {
+             const container = document.getElementById('bookReviewsContainer');
+             if (!container) { console.error("Container #bookReviewsContainer not found"); return; }
+             container.innerHTML = '';
 
-            if (data.reviews.length === 0) {
+             const booksWithReviews = data.books.filter(book => book.review && book.isFinished);
+
+             if (booksWithReviews.length === 0) {
+                 container.innerHTML = `
+                     <div class="empty-state">
+                         <div class="empty-state-icon">🖋️</div>
+                         <h3>¡Aún no hay reseñas detalladas!</h3>
+                         <p>Termina un libro y agrega una reseña para verla aquí.</p>
+                     </div>
+                 `;
+                 return;
+             }
+
+             container.innerHTML = booksWithReviews.map(book => `
+                 <div class="book-review-card">
+                     <!-- No delete button here, delete the book itself to remove the review -->
+                      <button class="delete-btn" onclick="deleteItem('books', ${book.id})">×</button> <!-- Or maybe a dedicated review delete? Keeping simple: delete book deletes review -->
+
+                     <div class="item-content">
+                         <h3>${book.title}</h3>
+                         <p class="item-subtitle">por ${book.author}</p>
+
+                         <div class="review-section">
+                              <h4>Calificación:</h4>
+                              <div class="rating-hearts">${'💖'.repeat(book.review.rating)}</div> <!-- Visual rating -->
+                              <p>(${book.review.rating}/5)</p>
+                         </div>
+
+                         ${book.review.favoriteCharacters ? `
+                         <div class="review-section">
+                              <h4>Personajes Favoritos:</h4>
+                              <p>${book.review.favoriteCharacters}</p>
+                         </div>` : ''}
+
+                         ${book.review.changeEnding ? `
+                         <div class="review-section">
+                             <h4>¿Cambiarías el final?</h4>
+                             <p>${book.review.changeEnding}</p>
+                         </div>` : ''}
+
+                         ${book.review.recommend ? `
+                         <div class="review-section">
+                              <h4>¿Lo recomendarías?</h4>
+                              <p>${book.review.recommend}</p>
+                         </div>` : ''}
+
+                         ${book.review.learnings ? `
+                         <div class="review-section">
+                             <h4>Aprendizajes:</h4>
+                             <p>${book.review.learnings}</p>
+                         </div>` : ''}
+
+                          ${book.review.quotes ? `
+                          <div class="review-section">
+                              <h4>Frases Favoritas:</h4>
+                              <p>${book.review.quotes}</p>
+                          </div>` : ''}
+
+                          ${book.review.likedMost ? `
+                          <div class="review-section">
+                              <h4>Lo que más me gustó:</h4>
+                              <p>${book.review.likedMost}</p>
+                          </div>` : ''}
+
+                          ${book.review.suggestions ? `
+                          <div class="review-section">
+                             <h4>Sugerencias para el autor:</h4>
+                             <p>${book.review.suggestions}</p>
+                          </div>` : ''}
+
+                          <div class="item-actions">
+                             <button class="action-edit" onclick="openModal('addDetailedBookReviewModal', ${book.id})">Editar Reseña</button>
+                          </div>
+
+                     </div>
+                 </div>
+             `).join('');
+        }
+
+
+        function renderGeneralReviews() { // Renamed from renderReviews
+            const container = document.getElementById('generalReviewsContainer'); // Renamed
+             if (!container) { console.error("Container #generalReviewsContainer not found"); return; }
+             container.innerHTML = '';
+
+            if (data.generalReviews.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">✍️</div>
-                        <h3>¡Escribe tu primera reseña!</h3>
-                        <p>Haz clic en "Nueva Reseña" para comenzar.</p>
+                        <h3>¡Escribe tu primera reseña general!</h3>
+                        <p>Esto puede ser de películas, series, música, etc.</p>
                     </div>
                 `;
                 return;
             }
 
-            container.innerHTML = data.reviews.map(review => `
+            container.innerHTML = data.generalReviews.map(review => `
                 <div class="item-card">
-                    <button class="delete-btn" onclick="deleteItem('reviews', ${review.id})">×</button>
+                    <button class="delete-btn" onclick="deleteItem('generalReviews', ${review.id})">×</button>
                     <div class="item-content">
                         <h3 class="item-title">${review.book}</h3>
                         <p class="item-subtitle">por ${review.author || 'Autor desconocido'}</p>
                         <p class="item-meta">⭐ ${review.rating}/5 estrellas</p>
                         <p style="margin-top: 1rem; color: #374151; font-size: 0.9rem;">${review.content}</p>
+                         <div class="item-actions">
+                            <button class="action-edit" onclick="openModal('addGeneralReviewModal', ${review.id})">Editar</button>
+                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
+
         function renderPlaylists() {
             const container = document.getElementById('playlistsContainer');
              if (!container) { console.error("Container #playlistsContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
             if (data.playlists.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">🎧</div>
                         <h3>¡Crea tu primera playlist!</h3>
-                        <p>Haz clic en "Nueva Playlist" para comenzar.</p>
+                        <p>Agrega el código embed de Spotify.</p>
                     </div>
                 `;
                 return;
@@ -1944,15 +2443,54 @@ html
                         <h3 class="item-title">${playlist.name}</h3>
                         <p class="item-subtitle">${playlist.book || 'General'}</p>
                         <p class="item-meta">${playlist.genre || 'Sin género'} • ${playlist.mood || 'Sin estado de ánimo'}</p>
+                         ${playlist.embedCode ? `
+                            <div style="margin-top: 1rem;">
+                                ${renderSpotifyEmbed(playlist.embedCode)}
+                            </div>
+                         ` : ''}
+                         <div class="item-actions">
+                            <button class="action-edit" onclick="openModal('addPlaylistModal', ${playlist.id})">Editar</button>
+                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
+         // Helper to render Spotify embed code safely
+         function renderSpotifyEmbed(embedCode) {
+             // Basic sanitation to allow only iframes from Spotify
+             if (embedCode.includes('<iframe') && embedCode.includes('spotify.com/embed')) {
+                 // Use DOMParser to safely extract iframe src and attributes if needed
+                 // For simplicity, just check if it looks like an iframe and is from spotify
+                 // A more robust solution might involve parsing the URL from the share link
+                  const tempDiv = document.createElement('div');
+                  tempDiv.innerHTML = embedCode;
+                  const iframe = tempDiv.querySelector('iframe');
+                  if (iframe && iframe.src && iframe.src.includes('spotify.com/embed')) {
+                       // Reconstruct iframe with desired attributes for safety and styling
+                       // For example, force width, height, remove scripting capabilities
+                      return `<iframe src="${iframe.src}" width="100%" height="152" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+                  }
+             }
+             // If not a valid embed, check if it's a shareable URL
+              if (embedCode.startsWith('https://open.spotify.com/')) {
+                   // Construct embed URL from shareable URL
+                   // Example: https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=...
+                   // becomes: https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M
+                   const embedUrl = embedCode.replace('https://open.spotify.com/', 'https://open.spotify.com/embed/');
+                   return `<iframe src="${embedUrl}" width="100%" height="152" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+              }
+
+
+             // Fallback for invalid embed or URL
+             return `<p style="color: red; font-size: 0.8rem;">Error al cargar playlist. Código embed/URL inválido.</p>`;
+         }
+
+
         function renderScrapbook() {
             const container = document.getElementById('scrapbookContainer');
              if (!container) { console.error("Container #scrapbookContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
             if (data.scrapbook.length === 0) {
                 container.innerHTML = `
@@ -1973,6 +2511,9 @@ html
                         ${page.book ? `<p class="item-subtitle">${page.book}</p>` : ''}
                         ${page.theme ? `<p class="item-meta">${page.theme}</p>` : ''}
                         ${page.description ? `<p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">${page.description}</p>` : ''}
+                         <div class="item-actions">
+                            <button class="action-edit" onclick="openModal('addScrapModal', ${page.id})">Editar</button>
+                         </div>
                     </div>
                 </div>
             `).join('');
@@ -1981,7 +2522,7 @@ html
         function renderDiary() {
             const container = document.getElementById('diaryContainer');
              if (!container) { console.error("Container #diaryContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
             if (data.diary.length === 0) {
                 container.innerHTML = `
@@ -2002,6 +2543,9 @@ html
                         ${entry.book ? `<p class="item-subtitle">${entry.book}</p>` : ''}
                         ${entry.chapter ? `<p class="item-meta">Capítulo ${entry.chapter}</p>` : ''}
                         <p style="margin-top: 1rem; color: #374151; font-size: 0.9rem;">${entry.content}</p>
+                         <div class="item-actions">
+                            <button class="action-edit" onclick="openModal('addDiaryModal', ${entry.id})">Editar</button>
+                         </div>
                     </div>
                 </div>
             `).join('');
@@ -2010,7 +2554,7 @@ html
         function renderProgress() {
             const container = document.getElementById('progressContainer');
              if (!container) { console.error("Container #progressContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
             if (data.goals.length === 0) {
                 container.innerHTML = `
@@ -2030,7 +2574,10 @@ html
                         <h3 class="item-title">${goal.title}</h3>
                         <p class="item-subtitle">${goal.description || 'Sin descripción'}</p>
                         <p class="item-meta">Meta: ${goal.target} (Actual: ${goal.current || 0})</p>
-                         <!-- Add a way to update 'current' here later -->
+                         <div class="item-actions">
+                            <button class="action-edit" onclick="openModal('addGoalModal', ${goal.id})">Editar</button>
+                             <!-- Add a way to update 'current' here later -->
+                         </div>
                     </div>
                 </div>
             `).join('');
@@ -2039,7 +2586,7 @@ html
         function renderChallenges() {
             const container = document.getElementById('challengesContainer');
              if (!container) { console.error("Container #challengesContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
             if (data.challenges.length === 0) {
                 container.innerHTML = `
@@ -2059,16 +2606,77 @@ html
                         <h3 class="item-title">${challenge.title}</h3>
                         <p class="item-subtitle">${challenge.description || 'Sin descripción'}</p>
                         <p class="item-meta">${challenge.category || 'General'}</p>
+                         <div class="item-actions">
+                            <button class="action-edit" onclick="openModal('addChallengeModal', ${challenge.id})">Editar</button>
+                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
+        // --- New: Render Literary Tributes ---
+        function renderTributes() {
+            const container = document.getElementById('tributesContainer');
+            if (!container) { console.error("Container #tributesContainer not found"); return; }
+            container.innerHTML = '';
+
+            if (data.tributes.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">✨</div>
+                        <h3>¡Crea tu primer homenaje!</h3>
+                        <p>Guarda imágenes, videos o enlaces relacionados a tus lecturas.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = data.tributes.map(tribute => {
+                const book = tribute.bookId ? data.books.find(b => b.id === tribute.bookId) : null;
+                const bookTitle = book ? book.title : (tribute.bookTitle || 'Sin libro asociado'); // Use stored book title if book not found or bookId not set
+
+                let contentHtml = '';
+                switch (tribute.type) {
+                    case 'image':
+                        contentHtml = `<img src="${tribute.content}" alt="${tribute.title}" loading="lazy">`;
+                        break;
+                    case 'video': // Assumes embed URL like YouTube embed or similar iframe src
+                    case 'audio': // Assumes embed URL for audio player
+                        contentHtml = `<iframe src="${tribute.content}" frameborder="0" allowfullscreen style="display:block; margin: 0.5rem 0; width: 100%; aspect-ratio: 16 / 9;"></iframe>`;
+                        break;
+                    case 'link':
+                        contentHtml = `<p><a href="${tribute.content}" target="_blank" rel="noopener noreferrer">${tribute.content}</a></p>`;
+                        break;
+                    case 'text':
+                    default:
+                        contentHtml = `<p>${tribute.content}</p>`;
+                        break;
+                }
+
+                return `
+                    <div class="tribute-item item-card"> <!-- Use item-card styling -->
+                        <button class="delete-btn" onclick="deleteItem('tributes', ${tribute.id})">×</button>
+                        <div class="item-content">
+                            <h3 class="item-title">${tribute.title}</h3>
+                            <p class="item-subtitle">Relacionado a: ${bookTitle}</p>
+                             <p class="item-meta">Tipo: ${tribute.type || 'Texto'}</p>
+                            <div class="tribute-content">
+                                ${contentHtml}
+                            </div>
+                            <div class="item-actions">
+                                <button class="action-edit" onclick="openModal('addTributeModal', ${tribute.id})">Editar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+
          function renderStats() {
              const container = document.getElementById('statsContainer');
             if (!container) { console.error("Container #statsContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
-            // Re-add the static empty state
+             container.innerHTML = '';
              container.innerHTML = `
                 <div class="empty-state-icon">📊</div>
                 <h3>Estadísticas próximamente</h3>
@@ -2079,8 +2687,7 @@ html
          function renderMonthly() {
              const container = document.getElementById('monthlyContainer');
             if (!container) { console.error("Container #monthlyContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
-             // Re-add the static empty state
+             container.innerHTML = '';
              container.innerHTML = `
                 <div class="empty-state-icon">🎯</div>
                 <h3>Retos mensuales próximamente</h3>
@@ -2092,9 +2699,9 @@ html
         function renderFinished() {
             const container = document.getElementById('finishedContainer');
              if (!container) { console.error("Container #finishedContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
-            const finishedBooks = data.books.filter(book => book.isFinished); // Use isFinished flag
+            const finishedBooks = data.books.filter(book => book.isFinished);
 
             if (finishedBooks.length === 0) {
                 container.innerHTML = `
@@ -2109,12 +2716,17 @@ html
 
             container.innerHTML = finishedBooks.map(book => `
                 <div class="item-card">
+                    <button class="delete-btn" onclick="deleteItem('books', ${book.id})">×</button>
                     <div class="item-content">
                         <h3 class="item-title">✅ ${book.title}</h3>
                         <p class="item-subtitle">por ${book.author}</p>
                         <p style="margin-top: 1rem; color: #10b981; font-weight: 600; font-size: 0.9rem;">¡Completado! 🎉</p>
-                         <!-- Optional: Add delete button if you want to remove finished books -->
-                         <!-- <button class="delete-btn" onclick="deleteItem('books', ${book.id})">×</button> -->
+                         <div class="item-actions">
+                             ${book.review ?
+                                 `<button class="action-review" onclick="openModal('addDetailedBookReviewModal', ${book.id})">Ver/Editar Reseña</button>` :
+                                 `<button class="action-review" onclick="openModal('addDetailedBookReviewModal', ${book.id})">➕ Reseña Detallada</button>`
+                             }
+                         </div>
                     </div>
                 </div>
             `).join('');
@@ -2123,7 +2735,7 @@ html
         function renderFavorites() {
             const container = document.getElementById('favoritesContainer');
              if (!container) { console.error("Container #favoritesContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
             if (data.favorites.length === 0) {
                 container.innerHTML = `
@@ -2144,6 +2756,9 @@ html
                         <p class="item-subtitle">por ${fav.author || 'Autor desconocido'}</p>
                         <p class="item-meta">⭐ ${fav.rating}/5</p>
                         ${fav.reason ? `<p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">${fav.reason}</p>` : ''}
+                         <div class="item-actions">
+                            <button class="action-edit" onclick="openModal('addFavoriteModal', ${fav.id})">Editar</button>
+                         </div>
                     </div>
                 </div>
             `).join('');
@@ -2152,7 +2767,7 @@ html
         function renderSuggestions() {
             const container = document.getElementById('suggestionsContainer');
              if (!container) { console.error("Container #suggestionsContainer not found"); return; }
-             container.innerHTML = ''; // Clear previous content explicitly
+             container.innerHTML = '';
 
             if (data.suggestions.length === 0) {
                 container.innerHTML = `
@@ -2172,38 +2787,184 @@ html
                         <p class="item-subtitle">por ${suggestion.author || 'Autor desconocido'}</p>
                         <p class="item-meta">${suggestion.genre || 'General'}</p>
                         ${suggestion.reason ? `<p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">${suggestion.reason}</p>` : ''}
+                         <!-- Suggestions are not typically edited/deleted by the user -->
                     </div>
                 </div>
             `).join('');
         }
 
+
         // --- Modal Handling ---
 
-        function openModal(modalId) {
+        function openModal(modalId, itemId = null) {
             const modal = document.getElementById(modalId);
-            if (modal) {
-                // Special handling for addBookModal to populate club dropdown
-                if (modalId === 'addBookModal') {
-                    populateClubDropdown('bookClub');
-                }
-
-                modal.classList.add('active');
-                // Optional: Add a class to body to prevent scrolling
-                document.body.style.overflow = 'hidden';
+            if (!modal) {
+                console.error(`Modal con ID "${modalId}" no encontrada.`);
+                return;
             }
+
+            const form = modal.querySelector('form');
+            const titleElement = modal.querySelector('h3');
+            const submitButton = form.querySelector('button[type="submit"]');
+            const itemIdInput = form.querySelector('input[name="itemId"]');
+
+             // Reset form and hidden ID initially for 'add' state
+             form.reset();
+             if (itemIdInput) itemIdInput.value = '';
+
+             // Specific modal setup before opening
+            switch(modalId) {
+                case 'addBookModal':
+                     populateClubDropdown('bookClub'); // Populate clubs for books
+                     if (itemId) {
+                         const book = data.books.find(b => b.id === itemId);
+                         if (book) { populateForm(form, book); titleElement.textContent = 'Editar Libro'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Agregar Libro'; submitButton.textContent = 'Guardar Libro'; }
+                    break;
+                case 'addClubModal':
+                    if (itemId) {
+                         const club = data.clubs.find(c => c.id === itemId);
+                         if (club) { populateForm(form, club); titleElement.textContent = 'Editar Club'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Crear Club'; submitButton.textContent = 'Crear Club'; }
+                    break;
+                 case 'addEventModal':
+                     if (itemId) {
+                         const event = data.events.find(e => e.id === itemId);
+                         if (event) { populateForm(form, event); titleElement.textContent = 'Editar Evento'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Nuevo Evento'; submitButton.textContent = 'Guardar Evento';
+                              // Set default date to today for new events
+                              form.date.value = new Date().toISOString().split('T')[0];
+                     }
+                     break;
+                 case 'addQuoteModal':
+                      if (itemId) {
+                         const quote = data.quotes.find(q => q.id === itemId);
+                         if (quote) { populateForm(form, quote); titleElement.textContent = 'Editar Frase'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Nueva Frase'; submitButton.textContent = 'Guardar Frase'; }
+                     break;
+                 case 'addWishModal':
+                      if (itemId) {
+                         const wish = data.wishlist.find(w => w.id === itemId);
+                         if (wish) { populateForm(form, wish); titleElement.textContent = 'Editar Deseo'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Agregar Deseo (Wishlist)'; submitButton.textContent = 'Agregar Deseo'; }
+                     break;
+                 case 'addGeneralReviewModal': // Renamed
+                      if (itemId) {
+                         const review = data.generalReviews.find(r => r.id === itemId); // Use generalReviews
+                         if (review) { populateForm(form, review); titleElement.textContent = 'Editar Reseña General'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Nueva Reseña General'; submitButton.textContent = 'Guardar Reseña General'; }
+                     break;
+                 case 'addPlaylistModal':
+                      if (itemId) {
+                         const playlist = data.playlists.find(p => p.id === itemId);
+                         if (playlist) { populateForm(form, playlist); titleElement.textContent = 'Editar Playlist'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Nueva Playlist'; submitButton.textContent = 'Crear Playlist'; }
+                     break;
+                  case 'addScrapModal':
+                      if (itemId) {
+                         const scrap = data.scrapbook.find(s => s.id === itemId);
+                         if (scrap) { populateForm(form, scrap); titleElement.textContent = 'Editar Página de Scrapbook'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Nueva Página de Scrapbook'; submitButton.textContent = 'Crear Página'; }
+                     break;
+                  case 'addDiaryModal':
+                      if (itemId) {
+                         const diary = data.diary.find(d => d.id === itemId);
+                         if (diary) { populateForm(form, diary); titleElement.textContent = 'Editar Entrada de Diario'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Nueva Entrada de Diario'; submitButton.textContent = 'Guardar Entrada';
+                              // Set default date to today for new entries
+                             const todayString = new Date().toISOString().split('T')[0];
+                             form.date.value = todayString;
+                     }
+                     break;
+                  case 'addGoalModal':
+                      if (itemId) {
+                         const goal = data.goals.find(g => g.id === itemId);
+                         if (goal) { populateForm(form, goal); titleElement.textContent = 'Editar Reto'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Nuevo Reto (Progreso)'; submitButton.textContent = 'Establecer Reto'; }
+                      break;
+                  case 'addChallengeModal':
+                      if (itemId) {
+                         const challenge = data.challenges.find(c => c.id === itemId);
+                         if (challenge) { populateForm(form, challenge); titleElement.textContent = 'Editar Reto Lector'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Nuevo Reto Lector'; submitButton.textContent = 'Aceptar Reto'; }
+                     break;
+                  case 'addTributeModal': // New Tribute Modal
+                      populateBookDropdown('tributeBook'); // Populate books for tributes
+                       if (itemId) {
+                          const tribute = data.tributes.find(t => t.id === itemId);
+                           if (tribute) {
+                               populateForm(form, tribute);
+                               titleElement.textContent = 'Editar Homenaje';
+                               submitButton.textContent = 'Guardar Cambios';
+                               toggleTributeContentField(); // Update content field type based on loaded data
+                           }
+                       } else { titleElement.textContent = 'Nuevo Homenaje Literario'; submitButton.textContent = 'Guardar Homenaje'; }
+                      break;
+                  case 'addFavoriteModal':
+                      if (itemId) {
+                         const favorite = data.favorites.find(f => f.id === itemId);
+                         if (favorite) { populateForm(form, favorite); titleElement.textContent = 'Editar Favorito'; submitButton.textContent = 'Guardar Cambios'; }
+                     } else { titleElement.textContent = 'Agregar Favorito'; submitButton.textContent = 'Guardar Favorito'; }
+                     break;
+                  case 'addDetailedBookReviewModal': // New Detailed Book Review Modal
+                      // This modal is *always* tied to a specific book ID
+                       if (!itemId) {
+                           console.error("Attempted to open detailed review modal without book ID.");
+                           return; // Cannot open review modal without a book
+                       }
+                       const bookToReview = data.books.find(b => b.id === itemId);
+                        if (!bookToReview) {
+                            console.error("Book not found for detailed review:", itemId);
+                            return;
+                        }
+
+                        // Set hidden book ID
+                        form.bookReviewBookId.value = itemId;
+
+                        // Display book info
+                        document.getElementById('bookReviewBookTitle').textContent = `Libro: ${bookToReview.title}`;
+                        document.getElementById('bookReviewBookAuthor').textContent = `por ${bookToReview.author}`;
+
+                        // Populate form if review already exists
+                        if (bookToReview.review) {
+                            populateForm(form, bookToReview.review); // Populate from the nested 'review' object
+                            titleElement.textContent = 'Editar Reseña Detallada';
+                            submitButton.textContent = 'Guardar Cambios';
+                        } else {
+                            form.reset(); // Ensure empty for new review
+                            titleElement.textContent = 'Agregar Reseña Detallada';
+                            submitButton.textContent = 'Guardar Reseña Detallada';
+                        }
+
+                      break;
+
+                default:
+                    console.warn(`Modal type "${modalId}" not handled in openModal.`);
+                    break;
+            }
+
+             modal.classList.add('active');
+             document.body.classList.add('modal-open'); // Add class to body
         }
 
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.remove('active');
-                 // Reset form when closing
                  const form = modal.querySelector('form');
                  if(form) {
-                     form.reset();
+                     form.reset(); // Reset form fields
+                      // Reset specific fields if needed (like hidden IDs)
+                      if(form.querySelector('input[name="itemId"]')) form.querySelector('input[name="itemId"]').value = '';
+                       if(form.querySelector('input[name="bookId"]')) form.querySelector('input[name="bookId"]').value = ''; // For book review modal
                  }
-                // Optional: Remove body overflow style
-                 document.body.style.overflow = '';
+                 // Reset modal title and button text to default 'Add' state
+                 const titleElement = modal.querySelector('h3');
+                 const submitButton = form ? form.querySelector('button[type="submit"]') : null;
+                  if (titleElement) titleElement.textContent = titleElement.id.replace('ModalTitle', '').replace('add', 'Agregar ').trim(); // Crude reset
+                  if (submitButton) submitButton.textContent = submitButton.textContent.replace('Guardar Cambios', submitButton.dataset.originalText || 'Guardar'); // Use a data attribute for original text
+
+                document.body.classList.remove('modal-open'); // Remove class from body
             }
         }
 
@@ -2213,404 +2974,291 @@ html
             });
         }
 
-        // --- Modal Form Submission Handlers ---
-         // Central function to set up form event listeners
-         function setupModalForms() {
-             document.getElementById('addBookForm').addEventListener('submit', handleAddBookSubmit);
-             document.getElementById('addClubForm').addEventListener('submit', handleAddClubSubmit);
-             document.getElementById('addEventForm').addEventListener('submit', handleAddEventSubmit);
-             document.getElementById('addQuoteForm').addEventListener('submit', handleAddQuoteSubmit);
-             document.getElementById('addWishForm').addEventListener('submit', handleAddWishSubmit);
-             document.getElementById('addReviewForm').addEventListener('submit', handleAddReviewSubmit);
-             document.getElementById('addPlaylistForm').addEventListener('submit', handleAddPlaylistSubmit);
-             document.getElementById('addScrapForm').addEventListener('submit', handleAddScrapSubmit);
-             document.getElementById('addDiaryForm').addEventListener('submit', handleAddDiarySubmit);
-             document.getElementById('addGoalForm').addEventListener('submit', handleAddGoalSubmit);
-             document.getElementById('addChallengeForm').addEventListener('submit', handleAddChallengeSubmit);
-             document.getElementById('addFavoriteForm').addEventListener('submit', handleAddFavoriteSubmit);
+         // Helper function to populate form fields from an object
+         function populateForm(form, dataObject) {
+             for (const key in dataObject) {
+                 if (dataObject.hasOwnProperty(key)) {
+                     const field = form.querySelector(`[name="${key}"]`);
+                     if (field) {
+                         if (field.type === 'checkbox') {
+                             field.checked = dataObject[key];
+                         } else {
+                              field.value = dataObject[key];
+                         }
+                     }
+                 }
+             }
+              // Store original button text before changing it to "Guardar Cambios"
+              const submitButton = form.querySelector('button[type="submit"]');
+              if (submitButton && !submitButton.dataset.originalText) {
+                   submitButton.dataset.originalText = submitButton.textContent;
+              }
          }
 
-         // Function to populate the club dropdown
-         function populateClubDropdown(selectElementId) {
+         // Helper function to get form data as an object
+         function getFormData(form) {
+             const formData = {};
+             new FormData(form).forEach((value, key) => {
+                 // Handle number types
+                 if (form.elements[key].type === 'number') {
+                      formData[key] = parseFloat(value) || 0; // Use parseFloat for potential decimals
+                 }
+                  // Handle checkbox types
+                 else if (form.elements[key].type === 'checkbox') {
+                      formData[key] = form.elements[key].checked;
+                 }
+                  // Handle null/empty strings for optional fields consistently
+                 else if (value === '' || value === 'Por definir' || value === '-- Ninguno --') { // Add checks for placeholder texts
+                      formData[key] = null; // Or undefined, or '', depending on preferred empty value
+                 }
+                  // Handle date input empty string
+                 else if (form.elements[key].type === 'date' && value === '') {
+                       formData[key] = null;
+                 }
+                 else {
+                      formData[key] = value.trim();
+                 }
+             });
+             // Ensure itemId is handled correctly (should be a number or null/undefined)
+             if (formData.hasOwnProperty('itemId') && formData.itemId !== null) {
+                 formData.itemId = parseInt(formData.itemId);
+             }
+              if (formData.hasOwnProperty('bookId') && formData.bookId !== null) { // For book review modal
+                 formData.bookId = parseInt(formData.bookId);
+              }
+
+             return formData;
+         }
+
+
+        // --- Modal Form Submission Handlers ---
+         function setupModalForms() {
+             document.getElementById('addBookForm').addEventListener('submit', (e) => handleFormSubmit(e, 'books', 'addBookModal', renderBooks));
+             document.getElementById('addClubForm').addEventListener('submit', (e) => handleFormSubmit(e, 'clubs', 'addClubModal', renderClubs));
+             document.getElementById('addEventForm').addEventListener('submit', (e) => handleFormSubmit(e, 'events', 'addEventModal', () => renderCalendar(currentYear, currentMonth))); // Re-render calendar after event
+             document.getElementById('addQuoteForm').addEventListener('submit', (e) => handleFormSubmit(e, 'quotes', 'addQuoteModal', renderQuotes));
+             document.getElementById('addWishForm').addEventListener('submit', (e) => handleFormSubmit(e, 'wishlist', 'addWishModal', renderWishlist));
+             document.getElementById('addGeneralReviewForm').addEventListener('submit', (e) => handleFormSubmit(e, 'generalReviews', 'addGeneralReviewModal', renderGeneralReviews)); // Renamed
+             document.getElementById('addPlaylistForm').addEventListener('submit', (e) => handleFormSubmit(e, 'playlists', 'addPlaylistModal', renderPlaylists));
+             document.getElementById('addScrapForm').addEventListener('submit', (e) => handleFormSubmit(e, 'scrapbook', 'addScrapModal', renderScrapbook));
+             document.getElementById('addDiaryForm').addEventListener('submit', (e) => handleFormSubmit(e, 'diary', 'addDiaryModal', renderDiary));
+             document.getElementById('addGoalForm').addEventListener('submit', (e) => handleFormSubmit(e, 'goals', 'addGoalModal', renderProgress));
+             document.getElementById('addChallengeForm').addEventListener('submit', (e) => handleFormSubmit(e, 'challenges', 'addChallengeModal', renderChallenges));
+             document.getElementById('addFavoriteForm').addEventListener('submit', (e) => handleFormSubmit(e, 'favorites', 'addFavoriteModal', renderFavorites));
+             document.getElementById('addTributeForm').addEventListener('submit', (e) => handleFormSubmit(e, 'tributes', 'addTributeModal', renderTributes)); // New tribute handler
+             document.getElementById('addDetailedBookReviewForm').addEventListener('submit', handleDetailedBookReviewSubmit); // Specific handler for book review
+         }
+
+         // Generic form submission handler for Add/Edit
+         function handleFormSubmit(event, dataType, modalId, renderFunction) {
+             event.preventDefault();
+
+             const form = event.target;
+             const formData = getFormData(form);
+             const itemId = formData.itemId; // Get the item ID from the hidden field
+             delete formData.itemId; // Remove from the data object itself
+
+             let successMessage = '';
+
+             if (itemId) {
+                 // Edit existing item
+                 const index = data[dataType].findIndex(item => item.id === itemId);
+                 if (index !== -1) {
+                     // Merge existing item with new data, keeping original ID
+                     data[dataType][index] = { ...data[dataType][index], ...formData, id: itemId };
+                     successMessage = `¡${dataType.slice(0, -1).charAt(0).toUpperCase() + dataType.slice(0, -1).slice(1)} actualizado!`; // Capitalize first letter
+                     console.log(`✅ Editado ${dataType}:`, data[dataType][index]);
+                 } else {
+                      console.error(`❌ No se encontró ${dataType.slice(0, -1)} con ID ${itemId} para editar.`);
+                      alert('Error al editar el elemento.');
+                      return;
+                 }
+             } else {
+                 // Add new item
+                 const newItem = {
+                     id: Date.now(), // Generate new ID
+                     dateAdded: new Date().toLocaleDateString(), // Add creation date
+                     ...formData // Add form data
+                 };
+                  // Special handling for specific data types if needed on add
+                 if (dataType === 'books') {
+                      newItem.isFinished = false; // Ensure new books are not finished
+                      newItem.currentChapter = 0;
+                      newItem.currentPage = 0;
+                      newItem.milestones = [];
+                      newItem.review = null; // Ensure no detailed review initially
+                 }
+                  if (dataType === 'goals') {
+                      newItem.current = 0; // Ensure new goals start at 0 progress
+                  }
+                  if (dataType === 'diary' && !newItem.date) {
+                      newItem.date = new Date().toLocaleDateString(); // Add date if not provided for new entries
+                  }
+
+
+                 data[dataType].push(newItem);
+                 successMessage = `¡${dataType.slice(0, -1).charAt(0).toUpperCase() + dataType.slice(0, -1).slice(1)} agregado!`;
+                 console.log(`✅ Agregado nuevo ${dataType}:`, newItem);
+             }
+
+             if (saveData()) {
+                 closeModal(modalId);
+                 renderFunction(); // Re-render the specific section
+                 showSuccess(successMessage);
+                 showCelebration(); // Celebrate add/edit
+             } else {
+                  alert('Error al guardar los cambios.');
+             }
+         }
+
+         // Helper for Tribute Modal - toggles input type based on selection
+         function toggleTributeContentField() {
+             const typeSelect = document.getElementById('tributeType');
+             const contentFieldsDiv = document.getElementById('tributeContentFields');
+             const currentContent = contentFieldsDiv.querySelector('[name="content"]');
+             const currentLabel = contentFieldsDiv.querySelector('.tribute-content-label');
+             const selectedType = typeSelect.value;
+
+             // Save current value temporarily
+             const currentValue = currentContent ? currentContent.value : '';
+
+             // Clear previous content field
+             contentFieldsDiv.innerHTML = '';
+
+             let newField;
+             let newLabelText = 'Contenido:';
+
+             switch (selectedType) {
+                 case 'text':
+                     newField = document.createElement('textarea');
+                     newField.rows = 6;
+                     newLabelText = 'Texto/Notas:';
+                     break;
+                 case 'image':
+                     newField = document.createElement('input');
+                     newField.type = 'url'; // Use URL type for image links
+                     newLabelText = 'URL de la Imagen:';
+                     break;
+                 case 'video':
+                     newField = document.createElement('input');
+                     newField.type = 'url'; // Use URL type for embed links
+                      newField.placeholder = 'Ej: https://www.youtube.com/embed/VIDEO_ID o URL de share';
+                     newLabelText = 'URL de Video Embed (YouTube, Vimeo, etc.):';
+                     break;
+                 case 'audio':
+                     newField = document.createElement('input');
+                     newField.type = 'url'; // Use URL type for embed links
+                      newField.placeholder = 'Ej: https://open.spotify.com/embed/playlist/... o URL de share';
+                     newLabelText = 'URL de Audio Embed (Spotify, SoundCloud, etc.):';
+                     break;
+                 case 'link':
+                     newField = document.createElement('input');
+                     newField.type = 'url';
+                     newLabelText = 'Enlace (URL):';
+                     break;
+                 default:
+                     // If no type selected, maybe a default text area or just clear?
+                     newField = document.createElement('textarea');
+                     newField.rows = 6;
+                      newField.disabled = true; // Disable if no type selected
+                     newLabelText = 'Selecciona un tipo de contenido';
+                     break;
+             }
+
+              newField.id = 'tributeContentField'; // Give a generic ID or name="content"
+              newField.name = 'content';
+              newField.required = selectedType !== ''; // Make required if a type is selected
+              newField.value = currentValue; // Restore previous value if applicable
+
+              const newLabel = document.createElement('label');
+              newLabel.htmlFor = newField.id;
+              newLabel.classList.add('tribute-content-label'); // Add class for styling/selection
+              newLabel.textContent = newLabelText;
+
+              contentFieldsDiv.appendChild(newLabel);
+              contentFieldsDiv.appendChild(newField);
+         }
+
+         // Function to populate book dropdown for Tributes and eventually other places
+         function populateBookDropdown(selectElementId) {
              const selectElement = document.getElementById(selectElementId);
              if (!selectElement) return;
 
              // Clear existing options except the default
              selectElement.innerHTML = '<option value="">-- Ninguno --</option>';
 
-             // Add clubs from data
-             data.clubs.forEach(club => {
+             // Add books from data (only books that are not finished maybe? Or all?)
+             // Let's add all books for now.
+             data.books.forEach(book => {
                  const option = document.createElement('option');
-                 option.value = club.id; // Use club ID as value
-                 option.textContent = club.name;
+                 option.value = book.id; // Use book ID as value
+                 option.textContent = book.title; // Display book title
                  selectElement.appendChild(option);
              });
          }
 
 
-        function handleAddBookSubmit(event) {
-            event.preventDefault(); // Prevent default form submission
-
-            const form = event.target;
-             const totalPages = parseInt(form.totalPages.value);
-             const totalChapters = parseInt(form.totalChapters.value);
-             const selectedClubId = form.clubId.value; // Get selected club ID
-
-            const newBook = {
-                id: Date.now(),
-                title: form.title.value.trim(),
-                author: form.author.value.trim(),
-                // Store clubId, will find name when rendering
-                clubId: selectedClubId ? parseInt(selectedClubId) : null,
-                notes: form.notes.value.trim(),
-                totalPages: isNaN(totalPages) || totalPages < 1 ? 0 : totalPages,
-                totalChapters: isNaN(totalChapters) || totalChapters < 0 ? 0 : totalChapters,
-                targetFinishDate: form.targetFinishDate.value, // YYYY-MM-DD string
-                targetClubMeetingDate: '', // Placeholder for club meeting date goal
-                milestones: [], // Array of { chapter: X, targetDate: 'YYYY-MM-DD', completed: false }
-                isFinished: false,
-                currentChapter: 0,
-                currentPage: 0,
-                dateAdded: new Date().toLocaleDateString()
-            };
-
-            // Basic validation
-            if (!newBook.title || !newBook.author) {
-                alert('Por favor, ingresa el título y autor del libro.');
-                return;
-            }
-
-            data.books.push(newBook);
-            if (saveData()) {
-                closeModal('addBookModal');
-                renderBooks(); // Re-render the section
-                showSuccess('¡Libro agregado!');
-                showCelebration();
-            }
-        }
-
-        function handleAddClubSubmit(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const members = parseInt(form.members.value);
-
-            const newClub = {
-                id: Date.now(), // Use Date.now() as unique ID for clubs too
-                name: form.name.value.trim(),
-                description: form.description.value.trim(),
-                meetingDay: form.meetingDay.value.trim(),
-                meetingTime: form.meetingTime.value.trim(),
-                members: isNaN(members) || members < 0 ? 0 : members, // Handle invalid number input
-                dateCreated: new Date().toLocaleDateString()
-            };
-
-             if (!newClub.name) {
-                alert('Por favor, ingresa el nombre del club.');
-                return;
-             }
-
-            data.clubs.push(newClub);
-            if (saveData()) {
-                closeModal('addClubModal');
-                renderClubs();
-                showSuccess('¡Club creado!');
-                showCelebration();
-            }
-        }
-
-         function handleAddEventSubmit(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const newEvent = {
-                id: Date.now(),
-                title: form.title.value.trim(),
-                date: form.date.value, // Date input provides 'YYYY-MM-DD' string
-                description: form.description.value.trim(),
-                dateCreated: new Date().toLocaleDateString()
-            };
-
-            if (!newEvent.title || !newEvent.date) {
-                alert('Por favor, ingresa el título y la fecha del evento.');
-                return;
-            }
-
-            data.events.push(newEvent);
-            if (saveData()) {
-                closeModal('addEventModal');
-                 // Re-render calendar, ensuring the currently displayed month/year is used
-                renderCalendar(currentYear, currentMonth);
-                showSuccess('¡Evento agregado!');
-                showCelebration();
-            }
-        }
-
-        function handleAddQuoteSubmit(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const newQuote = {
-                id: Date.now(),
-                text: form.text.value.trim(),
-                author: form.author.value.trim(),
-                book: form.book.value.trim(),
-                dateAdded: new Date().toLocaleDateString()
-            };
-
-             if (!newQuote.text || !newQuote.author) {
-                alert('Por favor, ingresa la frase y el autor.');
-                return;
-            }
-
-            data.quotes.push(newQuote);
-            if (saveData()) {
-                closeModal('addQuoteModal');
-                renderQuotes();
-                showSuccess('¡Frase guardada!');
-                showCelebration();
-            }
-        }
-
-         function handleAddWishSubmit(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const newWish = {
-                id: Date.now(),
-                title: form.title.value.trim(),
-                author: form.author.value.trim(),
-                priority: form.priority.value.trim() || 'Media',
-                reason: form.reason.value.trim(),
-                dateAdded: new Date().toLocaleDateString()
-            };
-
-            if (!newWish.title) {
-                alert('Por favor, ingresa el título del libro.');
-                return;
-            }
-
-            data.wishlist.push(newWish);
-            if (saveData()) {
-                closeModal('addWishModal');
-                renderWishlist();
-                showSuccess('¡Deseo agregado!');
-                showCelebration();
-            }
-        }
-
-        function handleAddReviewSubmit(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const rating = parseInt(form.rating.value);
-
-            const newReview = {
-                id: Date.now(),
-                book: form.book.value.trim(),
-                author: form.author.value.trim(),
-                rating: isNaN(rating) || rating < 1 || rating > 5 ? 5 : rating, // Handle invalid number input
-                content: form.content.value.trim(),
-                dateAdded: new Date().toLocaleDateString()
-            };
-
-            if (!newReview.book || !newReview.content) {
-                alert('Por favor, ingresa el libro y tu reseña.');
-                return;
-            }
-
-            data.reviews.push(newReview);
-            if (saveData()) {
-                closeModal('addReviewModal');
-                renderReviews();
-                showSuccess('¡Reseña guardada!');
-                showCelebration();
-            }
-        }
-
-        function handleAddPlaylistSubmit(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const newPlaylist = {
-                id: Date.now(),
-                name: form.name.value.trim(),
-                book: form.book.value.trim() || 'General',
-                genre: form.genre.value.trim(),
-                mood: form.mood.value.trim(),
-                dateAdded: new Date().toLocaleDateString()
-            };
-
-            if (!newPlaylist.name) {
-                alert('Por favor, ingresa el nombre de la playlist.');
-                return;
-            }
-
-            data.playlists.push(newPlaylist);
-            if (saveData()) {
-                closeModal('addPlaylistModal');
-                renderPlaylists();
-                showSuccess('¡Playlist agregada!');
-                showCelebration();
-            }
-        }
-
-        function handleAddScrapSubmit(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const newScrap = {
-                id: Date.now(),
-                title: form.title.value.trim(),
-                book: form.book.value.trim(),
-                theme: form.theme.value.trim(),
-                description: form.description.value.trim(),
-                dateAdded: new Date().toLocaleDateString()
-            };
-
-            if (!newScrap.title) {
-                alert('Por favor, ingresa el título de la página.');
-                return;
-            }
-
-            data.scrapbook.push(newScrap);
-            if (saveData()) {
-                closeModal('addScrapModal');
-                renderScrapbook();
-                showSuccess('¡Página de scrapbook agregada!');
-                showCelebration();
-            }
-        }
-
-        function handleAddDiarySubmit(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const newDiary = {
-                id: Date.now(),
-                book: form.book.value.trim(),
-                chapter: form.chapter.value.trim(),
-                content: form.content.value.trim(),
-                date: new Date().toLocaleDateString(), // Date of entry
-                dateAdded: new Date().toLocaleDateString() // Date it was added to the app
-            };
-
-            if (!newDiary.content) {
-                alert('Por favor, escribe tu reflexión para la entrada de diario.');
-                return;
-            }
-
-            data.diary.push(newDiary);
-            if (saveData()) {
-                closeModal('addDiaryModal');
-                renderDiary();
-                showSuccess('¡Entrada de diario guardada!');
-                showCelebration();
-            }
-        }
-
-        function handleAddGoalSubmit(event) {
+         // --- New: Detailed Book Review Submission Handler ---
+         function handleDetailedBookReviewSubmit(event) {
              event.preventDefault();
 
-            const form = event.target;
-            const target = parseInt(form.target.value);
+             const form = event.target;
+             const formData = getFormData(form);
+             const bookId = formData.bookId; // Get the book ID from the hidden field
+             delete formData.bookId; // Remove from the review data
 
-            const newGoal = {
-                id: Date.now(),
-                title: form.title.value.trim(),
-                description: form.description.value.trim(),
-                target: isNaN(target) || target <= 0 ? 1 : target, // Handle invalid number input
-                current: 0, // Start with 0 progress
-                dateAdded: new Date().toLocaleDateString()
-            };
+             if (!bookId) {
+                 console.error("Book ID missing for detailed review submission.");
+                 alert("Error: No se pudo asociar la reseña a un libro.");
+                 return;
+             }
 
-            if (!newGoal.title) {
-                alert('Por favor, ingresa el título del reto.');
-                return;
-            }
+             const bookIndex = data.books.findIndex(b => b.id === bookId);
 
-            data.goals.push(newGoal);
-            if (saveData()) {
-                closeModal('addGoalModal');
-                renderProgress();
-                showSuccess('¡Reto agregado!');
-                showCelebration();
-            }
-        }
+             if (bookIndex === -1) {
+                 console.error("Book not found for detailed review submission:", bookId);
+                 alert("Error: El libro asociado a la reseña no fue encontrado.");
+                 return;
+             }
 
-        function handleAddChallengeSubmit(event) {
-            event.preventDefault();
+             // Validate required fields for the review itself
+              if (!formData.rating || !formData.content) { // Content is required based on original form setup
+                  alert('Por favor, ingresa la calificación y tu reseña principal.'); // Adjust based on which fields from image are required
+                  return;
+              }
 
-            const form = event.target;
-            const newChallenge = {
-                id: Date.now(),
-                title: form.title.value.trim(),
-                description: form.description.value.trim(),
-                category: form.category.value.trim() || 'General',
-                dateAdded: new Date().toLocaleDateString()
-            };
+             // Create or update the review object
+             data.books[bookIndex].review = {
+                 // Use Date.now() or another ID for the review itself if needed,
+                 // but linking directly to book is simpler here.
+                 // reviewId: Date.now(), // Optional: If you need a separate ID for the review item itself
+                 rating: formData.rating,
+                 favoriteCharacters: formData.favoriteCharacters || null, // Store null for empty optional fields
+                 changeEnding: formData.changeEnding || null,
+                 recommend: formData.recommend || null,
+                 learnings: formData.learnings || null,
+                 quotes: formData.quotes || null,
+                 likedMost: formData.likedMost || null,
+                 suggestions: formData.suggestions || null,
+                 dateSubmitted: new Date().toLocaleDateString()
+             };
 
-            if (!newChallenge.title) {
-                alert('Por favor, ingresa el título del reto lector.');
-                return;
-            }
+             // Ensure the book is marked as finished if a detailed review is added
+             // This might conflict if the user adds a review before marking finished.
+             // Let's rely on the workflow: Add review button appears ONLY on Finished Books.
+             // So the book *should* already be finished. If not, maybe set it here?
+             // data.books[bookIndex].isFinished = true; // Uncomment if you allow reviews on non-finished books
 
-            data.challenges.push(newChallenge);
-            if (saveData()) {
-                closeModal('addChallengeModal');
-                renderChallenges();
-                showSuccess('¡Reto lector agregado!');
-                showCelebration();
-            }
-        }
-
-         function handleAddFavoriteSubmit(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const rating = parseInt(form.rating.value);
-
-            const newFavorite = {
-                id: Date.now(),
-                title: form.title.value.trim(),
-                author: form.author.value.trim(),
-                rating: isNaN(rating) || rating < 1 || rating > 5 ? 5 : rating, // Handle invalid number input
-                reason: form.reason.value.trim(),
-                dateAdded: new Date().toLocaleDateString()
-            };
-
-            if (!newFavorite.title) {
-                alert('Por favor, ingresa el título del libro favorito.');
-                return;
-            }
-
-            data.favorites.push(newFavorite);
-            if (saveData()) {
-                closeModal('addFavoriteModal');
-                renderFavorites();
-                showSuccess('¡Favorito agregado!');
-                showCelebration();
-            }
-        }
-
-        function generateSuggestions() {
-             showSuccess('Generando sugerencias...');
-            const suggestions = [
-                { id: Date.now() + 1, title: "El nombre del viento", author: "Patrick Rothfuss", genre: "Fantasía Épica", reason: "Basado en tu posible interés por la fantasía" },
-                { id: Date.now() + 2, title: "Eleanor Oliphant está perfectamente", author: "Gail Honeyman", genre: "Ficción Contemporánea", reason: "Para lectores de historias emotivas y de desarrollo personal" },
-                { id: Date.now() + 3, title: "Los siete maridos de Evelyn Hugo", author: "Taylor Jenkins Reid", genre: "Drama Histórico/Romance", reason: "Una lectura popular con personajes memorables" },
-                { id: Date.now() + 4, title: "Circe", author: "Madeline Miller", genre: "Mitología/Fantasía", reason: "Si te gustan las reinterpretaciones de mitos griegos" },
-                 { id: Date.now() + 5, title: "Cien años de soledad", author: "Gabriel García Márquez", genre: "Realismo Mágico", reason: "Un clásico esencial de la literatura latinoamericana" }
-            ];
-
-            data.suggestions = suggestions; // Replace previous suggestions
-            if (saveData()) {
-                renderSuggestions();
-                showCelebration(); // Celebrate successful generation
-            } else {
-                 alert('Error al guardar las sugerencias.');
-            }
-        }
+             if (saveData()) {
+                 closeModal('addDetailedBookReviewModal');
+                 renderFinished(); // Re-render Finished section as the button is there
+                 renderBookReviews(); // Re-render the Book Reviews section
+                 showSuccess('¡Reseña detallada guardada!');
+                  // No celebration here, celebration is on finishing the book or hitting milestones
+             } else {
+                 alert('Error al guardar la reseña detallada.');
+             }
+         }
 
 
         // Eliminar elementos
@@ -2643,104 +3291,73 @@ html
 
         // --- Goal Tracking and Celebration ---
 
-         // Placeholder function to simulate updating book progress
-         // In a real app, this would come from a form or interaction on the book card
-         function simulateProgress(bookId, type, value) {
+         // Function to mark a book as finished and trigger celebration
+         function markFinished(bookId) {
               const book = data.books.find(b => b.id === bookId);
-              if (!book) {
-                  console.error("Book not found for progress update:", bookId);
+              if (!book || book.isFinished) {
+                   if (book && book.isFinished) showSuccess(`"${book.title}" ya está terminado.`);
                   return;
               }
 
-              let message = '';
-
-              if (type === 'chapter' && book.totalChapters > 0) {
-                  book.currentChapter = Math.min(book.totalChapters, book.currentChapter + value);
-                  message = `Avanzaste a Capítulo ${book.currentChapter}!`;
-                  // Check for milestone completion (if milestones were implemented)
-                  // For demo, let's trigger celebration every few chapters
-                   if (book.currentChapter > 0 && book.currentChapter % 10 === 0) { // Example: celebrate every 10 chapters
-                       showGoalCelebration(`🎉 Llegaste al Capítulo ${book.currentChapter}! 🎉`);
-                   }
-
-              } else if (type === 'page' && book.totalPages > 0) {
-                  book.currentPage = Math.min(book.totalPages, book.currentPage + value);
-                  message = `Avanzaste a Página ${book.currentPage}!`;
-                   // Example: celebrate every 50 pages
-                   if (book.currentPage > 0 && book.currentPage % 50 === 0) {
-                        showGoalCelebration(`📖 Llegaste a la Página ${book.currentPage}! 📖`);
-                   }
-
-              } else if (type === 'finish' && !book.isFinished) {
+              if (confirm(`¿Marcar "${book.title}" como terminado?`)) {
                   book.isFinished = true;
-                  book.currentChapter = book.totalChapters || book.currentChapter; // Set max progress
+                   // Optional: Set current progress to max when finished
+                  book.currentChapter = book.totalChapters || book.currentChapter;
                   book.currentPage = book.totalPages || book.currentPage;
-                  message = `¡Felicidades, terminaste "${book.title}"! 🎉`;
 
-                   // Check monthly goal completion on finish
-                  const goalAchieved = checkMonthlyGoal(book);
-                  if (goalAchieved) {
-                      showGoalCelebration(`🥳 ¡Meta Mensual Cumplida! 🥳\nTerminaste "${book.title}" a tiempo!`);
+                   const goalAchieved = checkMonthlyGoal(book); // Check if date goal was met
+
+                  if (saveData()) {
+                      renderBooks(); // Re-render books (it will disappear)
+                      renderFinished(); // Re-render finished (it will appear)
+
+                      let message = `¡Felicidades! Terminaste "${book.title}" 🎉`;
+                       if (goalAchieved) {
+                           message = `🥳 ¡Meta Mensual Cumplida! 🥳\nTerminaste "${book.title}" a tiempo!\n\n${message}`;
+                       }
+
+                       showGoalCelebration(message); // Celebrate finishing
+
                   } else {
-                      showGoalCelebration(message); // Still celebrate finishing even if date goal missed
+                       alert('Error al guardar el estado del libro.');
                   }
-              } else {
-                  console.warn(`No applicable progress type or book already finished: ${type}`);
-                   if (book.isFinished) showSuccess(`"${book.title}" ya está terminado.`); // Friendly message if already finished
-                   return; // Don't save/render if no change
-              }
-
-
-              if (saveData()) {
-                   showSuccess(message); // Show standard success for update
-                  renderBooks(); // Re-render the books list to show updated progress/status
-              } else {
-                   alert('Error al guardar el progreso.');
               }
          }
 
-         // Check if the monthly goal for a specific book was met
+
+         // Check if the monthly goal for a specific book was met (finished by target date)
          function checkMonthlyGoal(book) {
-             if (!book.isFinished) return false; // Goal not met if not finished
+             if (!book.isFinished || !book.targetFinishDate) return false;
 
-             // Check against target finish date
-             if (book.targetFinishDate) {
-                 try {
-                      const targetDate = new Date(book.targetFinishDate + 'T23:59:59'); // End of the target day
-                      const finishDate = new Date(); // Today's date (when marked finished)
+             try {
+                  const targetDate = new Date(book.targetFinishDate + 'T23:59:59'); // End of the target day
+                  const finishDate = new Date(); // Today's date (when marked finished)
 
-                      // Compare dates (ignoring time for targetDate)
-                      if (finishDate <= targetDate) {
-                           return true; // Met the date goal
-                      }
-                 } catch (e) {
-                     console.error("Error checking targetFinishDate:", book.targetFinishDate, e);
-                 }
+                   // Compare dates
+                  if (finishDate <= targetDate) {
+                       return true; // Met the date goal
+                  }
+             } catch (e) {
+                 console.error("Error checking targetFinishDate:", book.targetFinishDate, e);
              }
 
-             // Add logic here later to check against club meeting date if needed
-
-             return false; // No specific monthly goal met or target date missed
+             return false;
          }
 
-         // Check weekly chapter milestones (simplified for now)
-         function checkWeeklyMilestones(book) {
-             // This would ideally iterate through book.milestones
-             // For this simple implementation, we are just triggering celebrations based on hitting certain chapter counts in simulateProgress
-         }
+         // --- Celebration Functions ---
 
-
-         // Show a special celebratory message
+         // Show a special celebratory message (used by showGoalCelebration)
          function showGoalMessage(message) {
+             // Remove any existing goal messages first
+              document.querySelectorAll('.goal-message').forEach(msg => msg.remove());
+
              const goalMessageDiv = document.createElement('div');
              goalMessageDiv.className = 'goal-message';
-             // Replace \n with <br> for HTML display
-             goalMessageDiv.innerHTML = message.replace(/\n/g, '<br>');
+             goalMessageDiv.innerHTML = message.replace(/\n/g, '<br>'); // Use <br> for new lines in HTML
 
              document.body.appendChild(goalMessageDiv);
 
              // The CSS animation handles fading out and removing
-             // Optional: Add a manual remove if animationend isn't reliable
              setTimeout(() => {
                   if (document.body.contains(goalMessageDiv)) {
                        goalMessageDiv.remove();
@@ -2748,64 +3365,15 @@ html
              }, 3500); // Matches CSS animation duration + delay
          }
 
-         // Show celebration effect (confetti + balloons)
-         function showGoalCelebration(message) {
-             showGoalMessage(message); // Show the message
-
-             // Show confetti
-             showCelebration();
-
-             // Show balloons (optional, can adjust count)
-             const balloonColors = ['#f472b6', '#a78bfa', '#60a5fa', '#fde68a', '#fca5a5', '#98FB98'];
-             for (let i = 0; i < 10; i++) { // Add a few balloons
-                 const balloon = document.createElement('div');
-                 balloon.className = 'balloon';
-                 balloon.style.left = Math.random() * 80 + 10 + '%'; // Random horizontal position
-                 balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
-                  // Apply color to the knot
-                  balloon.style.setProperty('--balloon-color', balloon.style.backgroundColor); // Using custom property if needed, or update ::before
-                 balloon.style.animationDelay = Math.random() * 1 + 's'; // Stagger animation start
-                 balloon.style.animationDuration = (Math.random() * 3 + 5) + 's'; // Random flight duration
-                 document.body.appendChild(balloon);
-
-                 // Remove balloon after animation ends
-                 balloon.addEventListener('animationend', () => {
-                     balloon.remove();
-                 });
-             }
-         }
-
-
-        // Funciones de interfaz (Mensajes estándar)
-         function showSuccess(message) {
-            const successDiv = document.createElement('div');
-            successDiv.className = 'success-message';
-            successDiv.textContent = `✅ ${message}`;
-            document.body.appendChild(successDiv);
-
-            // Remove after a few seconds
-            setTimeout(() => {
-                if (document.body.contains(successDiv)) {
-                    successDiv.style.opacity = '0'; // Start fade out
-                    successDiv.style.transition = 'opacity 0.5s ease-out';
-                    setTimeout(() => {
-                         if (document.body.contains(successDiv)) {
-                            document.body.removeChild(successDiv);
-                         }
-                    }, 500); // Remove after fade out
-                }
-            }, 3000); // Show for 3 seconds before fading
-        }
-
-         // Show confetti effect
+         // Show confetti effect (used by showCelebration and showGoalCelebration)
         function showCelebration() {
              // Prevent multiple confetti bursts too close
-             if (document.querySelector('.celebration.active')) { // Check for active celebration
+             if (document.querySelector('.celebration.active')) {
                  return;
              }
 
             const celebration = document.createElement('div');
-            celebration.className = 'celebration active'; // Mark as active
+            celebration.className = 'celebration active';
 
             const colors = ['#FFB6C1', '#87CEEB', '#98FB98', '#DDA0DD', '#F0E68C', '#FFA07A', '#a855f7', '#3b82f6', '#f472b6', '#fde68a'];
 
@@ -2822,13 +3390,39 @@ html
 
             document.body.appendChild(celebration);
 
-            // Remove after animation
             setTimeout(() => {
                 if (document.body.contains(celebration)) {
                     celebration.remove();
                 }
             }, 4000);
         }
+
+         // Show confetti + balloons + special message for goals
+         function showGoalCelebration(message) {
+             showGoalMessage(message); // Show the message
+
+             // Show confetti
+             showCelebration();
+
+             // Show balloons
+             const balloonColors = ['#f472b6', '#a78bfa', '#60a5fa', '#fde68a', '#fca5a5', '#98FB98'];
+             for (let i = 0; i < 10; i++) {
+                 const balloon = document.createElement('div');
+                 balloon.className = 'balloon';
+                 balloon.style.left = Math.random() * 80 + 10 + '%';
+                 balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                  // To color the string/knot, you'd need to style ::before/::after dynamically or use background-image trick
+                  // For simplicity, the string is just black for now in CSS
+
+                 balloon.style.animationDelay = Math.random() * 1 + 's';
+                 balloon.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                 document.body.appendChild(balloon);
+
+                 balloon.addEventListener('animationend', () => {
+                     balloon.remove();
+                 });
+             }
+         }
 
 
         // Debug
@@ -2841,11 +3435,14 @@ html
                 if (confirm('🚨 ADVERTENCIA: ¿Estás completamente segura de que quieres borrar TODOS los datos? Esta acción es irreversible.')) {
                     try {
                          localStorage.removeItem('merakelysi_data');
+                         localStorage.removeItem('merakelysi_userName'); // Also clear username
                          data = {
+                            userName: '',
                             books: [], clubs: [], events: [], quotes: [], wishlist: [],
-                            reviews: [], playlists: [], scrapbook: [], diary: [], goals: [],
-                            challenges: [], favorites: [], suggestions: []
+                            generalReviews: [], playlists: [], scrapbook: [], diary: [], goals: [],
+                            challenges: [], tributes: [], favorites: [], suggestions: []
                         };
+                         document.getElementById('userName').value = ''; // Clear input field
                         console.log('🗑️ Todos los datos borrados.');
                         showSuccess('¡Todos los datos han sido borrados!');
                         renderCurrentSection();
@@ -2860,14 +3457,15 @@ html
             manualSave: function() {
                  console.log('💾 Guardando datos manualmente...');
                  saveData();
+                 saveUserName();
             },
             manualLoad: function() {
                  console.log('📂 Cargando datos manualmente...');
                  loadData();
                  renderCurrentSection();
             },
-             // Expose simulateProgress for debugging/testing goals
-             simulateProgress: simulateProgress
+             // Expose markFinished for testing
+             markFinished: markFinished
         };
          console.log('✅ Objeto de depuración merakelysiDebug disponible.');
 
