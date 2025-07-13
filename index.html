@@ -18,7 +18,8 @@ html
         body {
             background: linear-gradient(135deg, #fef7f0 0%, #faf2f2 25%, #f0f4f8 50%, #f8f0f5 75%, #f5f3ff 100%);
             min-height: 100vh;
-            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>🦄</text></svg>"), auto; /* Cursor unicornio */
+            /* Cursor unicornio */
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>🦄</text></svg>"), auto;
             position: relative;
              overflow-y: auto; /* Ensure scrolling is possible */
         }
@@ -37,7 +38,8 @@ html
 
         .bg-book-1 { top: 10%; left: 5%; font-size: 4rem; animation: float 6s ease-in-out infinite; }
         .bg-book-2 { top: 20%; right: 10%; font-size: 3rem; animation: float 4s ease-in-out infinite reverse; }
-        .bg-butterfly { bottom: 20%; left: 10%; font-size: 5rem; animation: pulse 3s infinite; }
+        /* Mariposa de fondo más grande y sin color fijo, JS le pondrá color */
+        .bg-butterfly { bottom: 20%; left: 10%; font-size: 7rem; animation: pulse 3s infinite; transition: color 0.5s ease; }
         .bg-star { bottom: 10%; right: 5%; font-size: 3rem; animation: float 5s ease-in-out infinite; }
         .bg-flower { top: 50%; left: 2%; font-size: 3rem; animation: pulse 4s infinite; }
         .bg-moon { top: 30%; right: 3%; font-size: 4rem; animation: float 7s ease-in-out infinite; }
@@ -55,20 +57,57 @@ html
             text-align: center;
             margin-bottom: 3rem;
             position: relative;
+             padding: 2rem 0; /* Add padding around header content */
+             background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(248,250,252,0.5) 100%); /* Semi-transparent background for header */
+             border-radius: 24px;
+             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+             backdrop-filter: blur(5px);
         }
 
         .title {
             font-family: 'Playfair Display', serif;
-            font-size: 4rem;
+            font-size: 5rem; /* Más grande */
             font-weight: bold;
-            background: linear-gradient(to right, #f43f5e, #a855f7, #3b82f6);
+            background: linear-gradient(to right, #f472b6, #a855f7); /* Rosa a Morado */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 0.5rem; /* Ajustado */
+            margin-bottom: 0.5rem;
             position: relative;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+             /* Añadir sombra para simular borde/profundidad */
+             text-shadow:
+                 -1px -1px 0 rgba(168, 85, 247, 0.3), /* Morado claro */
+                 1px -1px 0 rgba(168, 85, 247, 0.3),
+                 -1px 1px 0 rgba(244, 114, 182, 0.3), /* Rosa claro */
+                 1px 1px 0 rgba(244, 114, 182, 0.3),
+                 0 0 10px rgba(244, 114, 182, 0.2), /* Resplandor suave */
+                 0 5px 15px rgba(0,0,0,0.1); /* Sombra principal */
+             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); /* Mantener algo de filtro */
         }
+
+         /* Decoraciones en el título - Las haremos más protagonistas */
+         .title::before {
+             content: '🌸';
+             position: absolute;
+             top: -20px; /* Subir un poco */
+             right: -50px; /* Mover a la derecha */
+             font-size: 3rem; /* Más grande */
+             animation: pulse 2s infinite;
+             opacity: 0.8; /* Más visibles */
+             filter: drop-shadow(0 2px 4px rgba(244, 114, 182, 0.4));
+         }
+
+         .title::after {
+             content: '🦋';
+             position: absolute;
+             bottom: -20px; /* Bajar un poco */
+             left: -40px; /* Mover a la izquierda */
+             font-size: 2.5rem; /* Más grande */
+             animation: float 3s ease-in-out infinite;
+             opacity: 0.8; /* Más visibles */
+             filter: drop-shadow(0 2px 4px rgba(168, 85, 247, 0.4));
+         }
+
 
          /* Author Attribution */
          .author-attribution {
@@ -104,26 +143,8 @@ html
            .user-name-input input:focus {
                outline: none;
                border-bottom-color: #a855f7; /* Purple on focus */
-           }
+          }
 
-
-        .title::before {
-            content: '🌸';
-            position: absolute;
-            top: -10px;
-            right: -30px;
-            font-size: 2rem;
-            animation: pulse 2s infinite;
-        }
-
-        .title::after {
-            content: '🦋';
-            position: absolute;
-            bottom: -10px;
-            left: -30px;
-            font-size: 1.5rem;
-            animation: float 3s ease-in-out infinite;
-        }
 
         .subtitle {
             font-size: 1.2rem;
@@ -207,7 +228,8 @@ html
             background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.8) 100%);
             border-radius: 24px;
             padding: 2rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            /* Sombras más grandes para efecto 3D */
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15), 0 18px 36px -18px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.6);
             cursor: pointer;
             transition: all 0.3s ease;
@@ -249,7 +271,8 @@ html
 
         .card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            /* Sombras más grandes al pasar el mouse */
+            box-shadow: 0 40px 80px -18px rgba(0, 0, 0, 0.2), 0 25px 50px -25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
 
         .card:hover .card-decoration {
@@ -310,6 +333,7 @@ html
             margin-bottom: 2rem;
             flex-wrap: wrap; /* Allows items to wrap on smaller screens */
             gap: 1rem; /* Space between items */
+            position: relative; /* Needed for flower positioning */
         }
 
         .section-title {
@@ -326,6 +350,27 @@ html
         .section-header .btn-primary {
             margin-bottom: 0; /* Remove margin-bottom from buttons in header */
         }
+
+         /* Flower decoration in section headers */
+         .section-header .header-flower-decoration {
+             position: absolute;
+             top: 50%;
+             right: 0; /* Posicionar a la derecha */
+             transform: translateY(-50%);
+             font-size: 2.5rem; /* Tamaño de la flor */
+             opacity: 0.6;
+             pointer-events: none;
+             z-index: -1; /* Detrás de los botones */
+             transition: color 0.5s ease; /* Animación de color */
+         }
+          .section-header .back-btn + .section-title + .header-flower-decoration { /* Si está el back-btn a la izq, poner la flor a la derecha del título */
+               left: auto;
+               right: 0;
+          }
+           .section-header .header-flower-decoration.left { /* Clase para ponerla a la izquierda si no hay back button */
+                left: 0;
+                right: auto;
+           }
 
 
         .add-btn, .btn-primary {
@@ -357,7 +402,8 @@ html
             background: linear-gradient(135deg, #fefefe 0%, #fdf2f8 50%, #fef7ed 100%);
             border-radius: 24px;
             padding: 2rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            /* Sombras más grandes para efecto 3D */
+            box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.1), 0 12px 24px -12px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.5);
             position: relative;
             transition: all 0.3s ease;
@@ -491,7 +537,7 @@ html
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
             z-index: 10000;
-            animation: slideIn 0.3s ease forwards; /* Added forwards */
+            animation: slideIn 0.3s ease forwards;
         }
 
          /* Goal Celebration Message */
@@ -499,8 +545,8 @@ html
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.8); /* Start smaller */
-            background: linear-gradient(135deg, #f472b6, #a855f7); /* Pink-Purple */
+            transform: translate(-50%, -50%) scale(0.8);
+            background: linear-gradient(135deg, #f472b6, #a855f7);
             color: white;
             padding: 2rem 3rem;
             border-radius: 20px;
@@ -509,8 +555,8 @@ html
             font-size: 1.8rem;
             font-weight: 700;
             text-align: center;
-            opacity: 0; /* Start hidden */
-            animation: popIn 0.5s ease-out forwards, fadeOut 0.5s ease 3s forwards; /* Pop in then fade out */
+            opacity: 0;
+            animation: popIn 0.5s ease-out forwards, fadeOut 0.5s ease 3s forwards;
          }
 
          @keyframes popIn {
@@ -531,7 +577,7 @@ html
             height: 100%;
             pointer-events: none;
             z-index: 9999;
-            overflow: hidden; /* Prevent confetti from causing scrollbars */
+            overflow: hidden;
         }
 
         .confetti {
@@ -544,16 +590,16 @@ html
 
          /* Balloons for goal celebration */
          .balloon {
-             position: fixed; /* Use fixed for consistent positioning */
-             bottom: -150px; /* Start below viewport */
+             position: fixed;
+             bottom: -150px;
              width: 60px;
              height: 80px;
-             background-color: #f472b6; /* Example color */
+             background-color: #f472b6;
              border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
              z-index: 9999;
              animation: riseUp 6s ease-in forwards;
              opacity: 0.8;
-             box-shadow: inset -10px -10px 0 rgba(0,0,0,0.1); /* Simple highlight */
+             box-shadow: inset -10px -10px 0 rgba(0,0,0,0.1);
          }
          /* String */
          .balloon::after {
@@ -563,14 +609,14 @@ html
              left: 50%;
              transform: translateX(-50%);
              width: 2px;
-             height: 100px; /* String length */
+             height: 100px;
              background-color: rgba(0,0,0,0.3);
          }
 
 
          @keyframes riseUp {
              0% { bottom: -150px; opacity: 0.8; }
-             100% { bottom: 100%; opacity: 0.5; } /* Go above viewport */
+             100% { bottom: 100%; opacity: 0.5; }
          }
 
 
@@ -608,7 +654,7 @@ html
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(248, 240, 245, 0.7); /* Soft pastel overlay */
+            background-color: rgba(248, 240, 245, 0.7);
             backdrop-filter: blur(8px);
             z-index: 1000;
             display: flex;
@@ -625,7 +671,7 @@ html
         }
 
         .modal-content {
-            background: linear-gradient(135deg, #fefefe 0%, #fff7ed 50%, #f5f3ff 100%); /* Pastel gradient */
+            background: linear-gradient(135deg, #fefefe 0%, #fff7ed 50%, #f5f3ff 100%);
             padding: 2rem;
             border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
@@ -633,13 +679,13 @@ html
             max-width: 500px;
             width: 90%;
             max-height: 90vh;
-            overflow-y: auto; /* Enable scrolling for long forms */
+            overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.8);
-            transform: translateY(20px); /* Start slightly down */
+            transform: translateY(20px);
             transition: transform 0.3s ease;
         }
          .modal-backdrop.active .modal-content {
-             transform: translateY(0); /* Slide up on active */
+             transform: translateY(0);
          }
 
 
@@ -649,7 +695,7 @@ html
             margin-bottom: 1.5rem;
             text-align: center;
         }
-         .modal-content h4 { /* Style for sub-headings in forms */
+         .modal-content h4 {
              font-size: 1.1rem;
              color: #5a6573;
              margin-top: 1.5rem;
@@ -669,7 +715,7 @@ html
             cursor: pointer;
             color: #9ca3af;
             transition: color 0.3s ease;
-            z-index: 10; /* Ensure it's above modal decorations */
+            z-index: 10;
         }
 
         .modal-close-btn:hover {
@@ -688,22 +734,22 @@ html
         .modal-form input[type="date"],
         .modal-form textarea,
         .modal-form select,
-        .modal-form input[type="url"] { /* Added url type */
+        .modal-form input[type="url"] {
             width: 100%;
             padding: 0.75rem;
             margin-bottom: 1rem;
-            border: 1px solid #e5e7eb; /* Light gray border */
+            border: 1px solid #e5e7eb;
             border-radius: 8px;
             font-size: 1rem;
             color: #374151;
-            background-color: #f9fafb; /* Very light background */
+            background-color: #f9fafb;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-         .modal-form select { /* Specific styles for select dropdown */
+         .modal-form select {
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%2D%22292.4%22%3E%3Cpath%20fill%3D%22%23a8a8a8%22%20d%3D%22M287%2C114.5L154.2%2C21.2c-5.2-3.5-12.1-3.5-17.3%2C0L5.4%2C114.5c-5.2%2C3.5-5.2%2C13.6%2C0%2C17.1l132.8%2C93.3c5.2%2C3.5%2C12.1%2C3.5%2C17.3%2C0l132.8-93.3C292.2%2C128.1%2C292.2%2C118%2C287%2C114.5z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23a8a8a8%22%20d%3D%22M287%2C114.5L154.2%2C21.2c-5.2-3.5-12.1-3.5-17.3%2C0L5.4%2C114.5c-5.2%2C3.5-5.2%2C13.6%2C0%2C17.1l132.8%2C93.3c5.2%2C3.5%2C12.1%2C3.5%2C17.3%2C0l132.8-93.3C292.2%2C128.1%2C292.2%2C118%2C287%2C114.5z%22%2F%3E%3C%2Fsvg%3E');
             background-repeat: no-repeat;
             background-position: right 0.7em top 50%, 0 0;
             background-size: 0.65em auto, 100%;
@@ -716,20 +762,20 @@ html
         .modal-form input[type="date"]:focus,
         .modal-form textarea:focus,
         .modal-form select:focus,
-        .modal-form input[type="url"]:focus { /* Added url type */
+        .modal-form input[type="url"]:focus {
             outline: none;
-            border-color: #f472b6; /* Pink focus */
-            box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2); /* Soft pink shadow */
+            border-color: #f472b6;
+            box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2);
         }
 
          .modal-form textarea {
              min-height: 100px;
-             resize: vertical; /* Allow vertical resizing */
+             resize: vertical;
          }
 
         .modal-form button[type="submit"] {
             width: 100%;
-            background: linear-gradient(135deg, #a855f7, #e879f9); /* Purple/Pink gradient */
+            background: linear-gradient(135deg, #a855f7, #e879f9);
             color: white;
             border: none;
             padding: 1rem;
@@ -789,10 +835,10 @@ html
             padding: 0 1rem;
         }
 
-         .calendar-header .back-btn { /* Style for calendar navigation buttons */
+         .calendar-header .back-btn {
              padding: 0.5rem 1rem;
              font-size: 1rem;
-             margin: 0; /* Override header margin */
+             margin: 0;
          }
 
 
@@ -801,7 +847,7 @@ html
             grid-template-columns: repeat(7, 1fr);
             text-align: center;
             font-weight: 600;
-            color: #f472b6; /* Pink theme color */
+            color: #f472b6;
             margin-bottom: 0.5rem;
         }
          .calendar-weekdays span {
@@ -811,27 +857,27 @@ html
 
         .calendar-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr); /* 7 days a week */
+            grid-template-columns: repeat(7, 1fr);
             gap: 0.5rem;
 
         }
 
         .calendar-day {
             position: relative;
-            background-color: rgba(255, 255, 255, 0.5); /* White background with transparency */
-            padding: 0.75rem 0.25rem; /* Adjust padding */
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 0.75rem 0.25rem;
             border-radius: 8px;
             text-align: center;
             font-size: 0.9rem;
             color: #4b5563;
-            min-height: 60px; /* Give days some height */
-             display: flex; /* Use flexbox for content alignment */
+            min-height: 60px;
+             display: flex;
              flex-direction: column;
              align-items: center;
-            justify-content: flex-start; /* Align content to the top */
-            overflow: hidden; /* Hide overflow text */
+            justify-content: flex-start;
+            overflow: hidden;
             transition: background-color 0.2s ease;
-            cursor: pointer; /* Make days clickable */
+            cursor: pointer;
         }
 
         .calendar-day:hover {
@@ -839,12 +885,12 @@ html
         }
 
         .calendar-day.today {
-             border: 2px solid #f472b6; /* Highlight today */
+             border: 2px solid #f472b6;
              font-weight: bold;
         }
 
         .calendar-day.has-event {
-            background-color: #fce7f3; /* Pastel pink background for event days */
+            background-color: #fce7f3;
             border-color: #f472b6;
         }
 
@@ -856,33 +902,32 @@ html
 
         .calendar-day-events {
             font-size: 0.7rem;
-            color: #a855f7; /* Purple theme color for event text */
-            white-space: nowrap; /* Prevent wrapping */
+            color: #a855f7;
+            white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis; /* Add ellipsis if text is too long */
-            width: 100%; /* Ensure ellipsis works */
-             padding: 0 0.25rem; /* Add a little padding */
-             text-align: left; /* Align event text left within the day */
+            text-overflow: ellipsis;
+            width: 100%;
+             padding: 0 0.25rem;
+             text-align: left;
         }
 
-        /* Empty day cells (before 1st, after last) */
         .calendar-day.empty {
             background-color: transparent;
             border: none;
             box-shadow: none;
-            pointer-events: none; /* Cannot click empty days */
+            pointer-events: none;
         }
 
          /* --- Tribute Section Styles --- */
          .tribute-item {
-             background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); /* Blue theme */
+             background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
              border-radius: 24px;
              padding: 2rem;
              box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.5);
              border: 1px solid rgba(255, 255, 255, 0.5);
              position: relative;
          }
-         .tribute-item::before { /* Decoration */
+         .tribute-item::before {
              content: '✨';
              position: absolute;
              top: 1rem;
@@ -891,10 +936,10 @@ html
              opacity: 0.5;
          }
 
-         .tribute-item .item-content { margin-left: 2.5rem; } /* Match other items */
+         .tribute-item .item-content { margin-left: 2.5rem; }
          .tribute-item .item-title { color: #374151; margin-bottom: 0.5rem;}
-         .tribute-item .item-subtitle { color: #6b7280; font-weight: 500;} /* Book title */
-         .tribute-item .item-meta { color: #a855f7; font-weight: 600; font-size: 0.9rem; margin-bottom: 1rem;} /* Type */
+         .tribute-item .item-subtitle { color: #6b7280; font-weight: 500;}
+         .tribute-item .item-meta { color: #a855f7; font-weight: 600; font-size: 0.9rem; margin-bottom: 1rem;}
 
          .tribute-content {
              margin-top: 1rem;
@@ -909,29 +954,29 @@ html
              border-radius: 12px;
              box-shadow: 0 5px 15px rgba(0,0,0,0.1);
          }
-         .tribute-content iframe { /* For video/audio embeds */
+         .tribute-content iframe {
              width: 100%;
-             aspect-ratio: 16 / 9; /* Standard video aspect ratio */
+             aspect-ratio: 16 / 9;
              border: none;
              border-radius: 12px;
              margin: 0.5rem 0;
          }
          .tribute-content a {
-             color: #60a5fa; /* Blue link */
+             color: #60a5fa;
              text-decoration: none;
-             word-break: break-all; /* Break long URLs */
+             word-break: break-all;
          }
          .tribute-content a:hover {
              text-decoration: underline;
          }
-         .tribute-content p { /* For text content */
+         .tribute-content p {
              color: #4b5563;
-             white-space: pre-wrap; /* Preserve formatting if needed */
+             white-space: pre-wrap;
          }
 
          /* --- Book Review Section Styles --- */
           .book-review-card {
-              background: linear-gradient(135deg, #fffbeb 0%, #fcd34d 100%); /* Yellow theme */
+              background: linear-gradient(135deg, #fffbeb 0%, #fcd34d 100%);
               border-radius: 24px;
               padding: 2rem;
               box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -939,7 +984,7 @@ html
               position: relative;
               word-wrap: break-word;
           }
-           .book-review-card::before { /* Decoration */
+           .book-review-card::before {
               content: '🖋️';
               position: absolute;
               top: 1rem;
@@ -963,24 +1008,24 @@ html
           .book-review-card .review-section {
               margin-top: 1.5rem;
               padding-top: 1rem;
-              border-top: 1px dashed #fcd34d; /* Yellow dashed line */
+              border-top: 1px dashed #fcd34d;
           }
           .book-review-card .review-section h4 {
                font-size: 1.1rem;
-               color: #78350f; /* Brownish color */
+               color: #78350f;
                margin-bottom: 0.8rem;
-               border-bottom: none; /* Remove border from h4 */
+               border-bottom: none;
                padding-bottom: 0;
           }
           .book-review-card .review-section p,
-           .book-review-card .review-section div { /* Style for review answers */
+           .book-review-card .review-section div {
               color: #4b5563;
               font-size: 0.9rem;
               line-height: 1.5;
-              white-space: pre-wrap; /* Preserve formatting */
+              white-space: pre-wrap;
           }
           .book-review-card .rating-hearts {
-              color: #f43f5e; /* Pink hearts */
+              color: #f43f5e;
               font-size: 1.5rem;
           }
 
@@ -996,38 +1041,38 @@ html
             }
              .section-header .back-btn,
              .section-header .add-btn {
-                width: 100%; /* Full width buttons on small screens */
+                width: 100%;
                 text-align: center;
              }
 
             .item-content {
-                margin-left: 0; /* Remove margin on small screens */
-                padding-left: 2.5rem; /* Add padding left instead */
+                margin-left: 0;
+                padding-left: 2.5rem;
             }
              .item-card::before {
-                left: 1rem; /* Ensure decoration stays left */
+                left: 1rem;
             }
 
             .items-grid {
-                grid-template-columns: 1fr; /* Single column layout on small screens */
+                grid-template-columns: 1fr;
             }
 
             .modal-content {
-                 padding: 1.5rem; /* Reduce padding on small screens */
+                 padding: 1.5rem;
             }
 
             .calendar-day {
-                min-height: 50px; /* Adjust calendar day height */
+                min-height: 50px;
             }
             .calendar-header {
                 flex-direction: column;
                 gap: 0.5rem;
             }
              .calendar-header .back-btn {
-                 width: auto; /* Let buttons size naturally */
+                 width: auto;
              }
              .user-name-input input {
-                 width: 150px; /* Adjust width on small screens */
+                 width: 150px;
              }
         }
     </style>
@@ -1134,15 +1179,7 @@ html
                 </div>
 
                 <!-- Removed Scrapbook Section Card -->
-                <!--
-                <div class="card card-scrapbook" onclick="showSection('scrapbook')">
-                     <span class="card-decoration">📔</span>
-                    <div class="card-content">
-                        <span class="card-icon">📔</span>
-                        <h3 class="card-title">Scrapbook Literario</h3>
-                    </div>
-                </div>
-                -->
+
 
                 <div class="card card-diary" onclick="showSection('diary')">
                      <span class="card-decoration">📓</span>
@@ -1224,6 +1261,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">📚 Mis Libros por Leer</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addBookModal')">+ Agregar Libro</button>
             </div>
             <div id="booksContainer" class="items-grid"></div>
@@ -1234,6 +1273,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">👥 Mis Clubes de Lectura</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addClubModal')">+ Crear Club</button>
             </div>
             <div id="clubsContainer" class="items-grid"></div>
@@ -1244,6 +1285,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">📅 Calendario de Lecturas</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addEventModal')">+ Nuevo Evento</button>
             </div>
             <div id="calendarContainer">
@@ -1257,6 +1300,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">📝 Frases de Lecturas</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addQuoteModal')">+ Nueva Frase</button>
             </div>
             <div id="quotesContainer" class="items-grid"></div>
@@ -1266,6 +1311,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">💖 Wishlist de libros</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addWishModal')">+ Agregar Deseo</button>
             </div>
             <div id="wishlistContainer" class="items-grid"></div>
@@ -1276,7 +1323,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">🖋️ Reseñas Detalladas</h2>
-                 <!-- No Add button here, reviews are added from Finished Books section -->
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
             </div>
             <div id="bookReviewsContainer" class="items-grid"></div>
         </section>
@@ -1286,6 +1334,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">✍️ Reseñas Generales</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addGeneralReviewModal')">+ Nueva Reseña General</button>
             </div>
             <div id="generalReviewsContainer" class="items-grid"></div>
@@ -1296,27 +1346,22 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">🎧 Playlist de Spotify</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addPlaylistModal')">+ Nueva Playlist</button>
             </div>
             <div id="playlistsContainer" class="items-grid"></div>
         </section>
 
         <!-- Removed Scrapbook Section -->
-        <!--
-        <section id="scrapbook" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">📔 Scrapbook Literario</h2>
-                <button class="add-btn" onclick="openModal('addScrapModal')">+ Nueva Página</button>
-            </div>
-            <div id="scrapbookContainer" class="items-grid"></div>
-        </section>
-         -->
+
 
         <section id="diary" class="nav-section">
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">📓 Diario de Lectura</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addDiaryModal')">+ Nueva Entrada</button>
             </div>
             <div id="diaryContainer" class="items-grid"></div>
@@ -1326,6 +1371,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">📈 Mi Progreso</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addGoalModal')">+ Nuevo Reto</button>
             </div>
             <div id="progressContainer" class="items-grid"></div>
@@ -1333,8 +1380,10 @@ html
 
         <section id="challenges" class="nav-section">
             <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</sbutton>
+                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">🧩 Retos Lectores</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addChallengeModal')">+ Nuevo Reto</button>
             </div>
             <div id="challengesContainer" class="items-grid"></div>
@@ -1345,6 +1394,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">✨ Homenajes Literarios</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addTributeModal')">+ Nuevo Homenaje</button>
             </div>
             <div id="tributesContainer" class="items-grid"></div>
@@ -1355,6 +1406,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">📊 Estadísticas</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
             </div>
             <div id="statsContainer" class="empty-state">
                 <div class="empty-state-icon">📊</div>
@@ -1367,6 +1420,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">🎯 Retos del Mes</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
             </div>
             <div id="monthlyContainer" class="empty-state">
                 <div class="empty-state-icon">🎯</div>
@@ -1380,6 +1435,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">✅ Lecturas Terminadas</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
             </div>
             <div id="finishedContainer" class="items-grid"></div>
         </section>
@@ -1388,6 +1445,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">🌟 Favoritos del Año</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="openModal('addFavoriteModal')">+ Agregar Favorito</button>
             </div>
             <div id="favoritesContainer" class="items-grid"></div>
@@ -1397,6 +1456,8 @@ html
             <div class="section-header">
                 <button class="back-btn" onclick="showSection('home')">← Inicio</button>
                 <h2 class="section-title">🤖 Sugerencias Automáticas</h2>
+                 <!-- Flower decoration for this section -->
+                 <span class="header-flower-decoration">🌸</span>
                 <button class="add-btn" onclick="generateSuggestions()">🔄 Generar Sugerencias</button>
             </div>
             <div id="suggestionsContainer" class="items-grid"></div>
@@ -1437,6 +1498,14 @@ html
 
                 <label for="bookNotes">Notas Adicionales (opcional):</label>
                 <textarea id="bookNotes" name="notes"></textarea>
+
+                <h4>Progreso Actual</h4>
+                 <label for="bookCurrentPage">Página Actual:</label>
+                <input type="number" id="bookCurrentPage" name="currentPage" value="0" min="0" required>
+
+                 <label for="bookCurrentChapter">Capítulo Actual:</label>
+                <input type="number" id="bookCurrentChapter" name="currentChapter" value="0" min="0" required>
+
 
                 <button type="submit">Guardar Libro</button>
             </form>
@@ -1541,17 +1610,17 @@ html
     </div>
 
     <!-- Add/Edit General Review Modal -->
-     <div id="addGeneralReviewModal" class="modal-backdrop"> <!-- Renamed from addReviewModal -->
+     <div id="addGeneralReviewModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addGeneralReviewModal')">×</button>
             <h3 id="addGeneralReviewModalTitle">Nueva Reseña General</h3>
             <form id="addGeneralReviewForm" class="modal-form">
                  <input type="hidden" id="generalReviewItemId" name="itemId">
 
-                 <label for="generalReviewBook">Libro/Media Reseñado:</label> <!-- More general field -->
+                 <label for="generalReviewBook">Libro/Media Reseñado:</label>
                 <input type="text" id="generalReviewBook" name="book" required>
 
-                <label for="generalReviewAuthor">Autor/a/Artista (opcional):</label> <!-- More general field -->
+                <label for="generalReviewAuthor">Autor/a/Artista (opcional):</label>
                 <input type="text" id="generalReviewAuthor" name="author">
 
                 <label for="generalReviewRating">Calificación (1-5):</label>
@@ -1593,32 +1662,6 @@ html
         </div>
     </div>
 
-    <!-- Removed Scrapbook Modal -->
-    <!--
-     <div id="addScrapModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addScrapModal')">×</button>
-            <h3 id="addScrapModalTitle">Nueva Página de Scrapbook</h3>
-            <form id="addScrapForm" class="modal-form">
-                 <input type="hidden" id="scrapItemId" name="itemId">
-
-                <label for="scrapTitle">Título de la Página:</label>
-                <input type="text" id="scrapTitle" name="title" required>
-
-                <label for="scrapBook">Libro Asociado (opcional):</label>
-                <input type="text" id="scrapBook" name="book">
-
-                <label for="scrapTheme">Tema/Color (opcional):</label>
-                <input type="text" id="scrapTheme" name="theme">
-
-                <label for="scrapDescription">Descripción (opcional):</label>
-                <textarea id="scrapDescription" name="description"></textarea>
-
-                <button type="submit">Crear Página</button>
-            </form>
-        </div>
-    </div>
-     -->
 
      <!-- Add/Edit Diary Entry Modal -->
      <div id="addDiaryModal" class="modal-backdrop">
@@ -1628,8 +1671,8 @@ html
             <form id="addDiaryForm" class="modal-form">
                  <input type="hidden" id="diaryItemId" name="itemId">
 
-                <label for="diaryDate">Fecha (opcional):</label> <!-- Allow changing date if editing -->
-                <input type="date" id="diaryDate" name="date" value=""> <!-- Set default date in JS -->
+                <label for="diaryDate">Fecha (opcional):</label>
+                <input type="date" id="diaryDate" name="date" value="">
 
                 <label for="diaryBook">Libro (opcional):</label>
                 <input type="text" id="diaryBook" name="book">
@@ -1662,7 +1705,7 @@ html
                 <label for="goalTarget">Meta (número, ej: 5):</label>
                 <input type="number" id="goalTarget" name="target" value="1" min="1" required>
 
-                <h4>Progreso Actual</h4> <!-- Added progress tracking fields -->
+                <h4>Progreso Actual</h4>
                  <label for="goalCurrent">Progreso:</label>
                 <input type="number" id="goalCurrent" name="current" value="0" min="0" required>
 
@@ -1763,10 +1806,8 @@ html
             <button class="modal-close-btn" onclick="closeModal('addDetailedBookReviewModal')">×</button>
             <h3 id="addDetailedBookReviewModalTitle">Reseña Detallada del Libro</h3>
             <form id="addDetailedBookReviewForm" class="modal-form">
-                 <!-- This modal is specifically for a book, use bookId directly -->
                  <input type="hidden" id="bookReviewBookId" name="bookId">
 
-                <!-- Display Book Info (read-only) -->
                 <h4 id="bookReviewBookTitle">Libro: [Título]</h4>
                  <p id="bookReviewBookAuthor" style="margin-bottom: 1.5rem; color: #6b7280;">por [Autor/a]</p>
 
@@ -1803,6 +1844,9 @@ html
 
 
     <script>
+        // Definición de colores pastel
+        const pastelColors = ['#FFB6C1', '#87CEEB', '#98FB98', '#DDA0DD', '#F0E68C', '#FFA07A', '#a855f7', '#3b82f6', '#f472b6', '#fde68a', '#ccfbf1', '#bfdbfe']; // Added more variety
+
         // Sistema de almacenamiento
         let data = {
             userName: '',
@@ -1826,6 +1870,7 @@ html
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
         const today = new Date();
+        today.setHours(0,0,0,0); // Normalize today's date
 
 
         // Cargar datos al inicio
@@ -1844,7 +1889,25 @@ html
             loadUserName();
 
             console.log('🦄 Merakelysi cargado');
+             // Check if there are any books on load, if not, generate suggestions
+             if (data.books.length === 0 && data.suggestions.length === 0) {
+                 generateSuggestions(); // Generate initial suggestions if empty
+             }
+
+             // Set initial random color for the background butterfly
+             setRandomButterflyColor();
+             // Optional: Change background butterfly color periodically
+             setInterval(setRandomButterflyColor, 5000); // Change color every 5 seconds
         });
+
+         // Function to set a random color for the background butterfly
+         function setRandomButterflyColor() {
+             const butterflyElement = document.querySelector('.bg-butterfly');
+             if (butterflyElement) {
+                 const randomColor = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+                 butterflyElement.style.color = randomColor;
+             }
+         }
 
          // User Name Functions
          function loadUserName() {
@@ -1862,7 +1925,6 @@ html
                 data.userName = userNameInput.value.trim();
                 localStorage.setItem('merakelysi_userName', data.userName);
                 console.log('👤 Nombre de usuario guardado:', data.userName);
-                // showSuccess('¡Nombre guardado!'); // Avoid celebrating just typing name
              }
          }
 
@@ -1870,7 +1932,6 @@ html
         // Funciones de guardado
         function saveData() {
             try {
-                 // Only save the core data object
                 localStorage.setItem('merakelysi_data', JSON.stringify({
                     books: data.books,
                     clubs: data.clubs,
@@ -1901,51 +1962,69 @@ html
                 if (saved) {
                     const parsed = JSON.parse(saved);
 
-                    // Explicitly load and structure data, adding default values for new fields
                     data.books = parsed.books ? parsed.books.map(book => ({
-                         ...book,
+                         id: book.id, // Ensure ID is kept
+                         title: book.title,
+                         author: book.author,
                          totalPages: book.totalPages || 0,
                          totalChapters: book.totalChapters || 0,
-                         targetFinishDate: book.targetFinishDate || null, // Use null for empty date
+                         targetFinishDate: book.targetFinishDate || null,
                          targetClubMeetingDate: book.targetClubMeetingDate || null,
                          milestones: book.milestones || [],
                          isFinished: book.isFinished || false,
                          currentChapter: book.currentChapter || 0,
                          currentPage: book.currentPage || 0,
                          review: book.review || null,
-                         clubId: book.clubId || null
+                         clubId: book.clubId || null,
+                         notes: book.notes || '' // Ensure notes are loaded
                     })) : [];
 
                     data.clubs = parsed.clubs || [];
                     data.events = parsed.events ? parsed.events.map(event => ({
-                         ...event,
-                         date: event.date || null // Ensure date is loaded, default null
+                         id: event.id,
+                         title: event.title,
+                         date: event.date || null,
+                         description: event.description || '',
+                         dateCreated: event.dateCreated || new Date().toLocaleDateString()
                     })) : [];
                     data.quotes = parsed.quotes || [];
                     data.wishlist = parsed.wishlist || [];
                     data.generalReviews = parsed.generalReviews || parsed.reviews || [];
                     data.playlists = parsed.playlists ? parsed.playlists.map(playlist => ({
-                         ...playlist,
-                         embedCode: playlist.embedCode || null // Use null for empty embed code
+                         id: playlist.id,
+                         name: playlist.name,
+                         embedCode: playlist.embedCode || null,
+                         book: playlist.book || null,
+                         genre: playlist.genre || null,
+                         mood: playlist.mood || null,
+                         dateAdded: playlist.dateAdded || new Date().toLocaleDateString()
                     })) : [];
                     // data.scrapbook = parsed.scrapbook || []; // Removed
                     data.diary = parsed.diary ? parsed.diary.map(entry => ({
-                         ...entry,
-                         date: entry.date || new Date().toLocaleDateString(), // Ensure date, default today if missing
+                         id: entry.id,
+                         book: entry.book || null,
                          chapter: entry.chapter || null,
-                         book: entry.book || null
+                         content: entry.content || '',
+                         date: entry.date || new Date().toLocaleDateString(),
+                         dateAdded: entry.dateAdded || new Date().toLocaleDateString()
                     })) : [];
                     data.goals = parsed.goals ? parsed.goals.map(goal => ({
-                         ...goal,
-                         current: goal.current || 0, // Ensure current is number, default 0
-                         target: goal.target || 1 // Ensure target is number, default 1
+                         id: goal.id,
+                         title: goal.title,
+                         description: goal.description || '',
+                         target: goal.target || 1,
+                         current: goal.current || 0,
+                         dateAdded: goal.dateAdded || new Date().toLocaleDateString()
                     })) : [];
                     data.challenges = parsed.challenges || [];
                     data.tributes = parsed.tributes ? parsed.tributes.map(tribute => ({
-                         ...tribute,
+                         id: tribute.id,
                          bookId: tribute.bookId || null,
+                         title: tribute.title,
                          type: tribute.type || 'text',
-                         content: tribute.content || null
+                         content: tribute.content || null,
+                         bookTitle: tribute.bookTitle || null, // Keep old bookTitle if exists for display
+                         dateAdded: tribute.dateAdded || new Date().toLocaleDateString()
                     })) : [];
                     data.favorites = parsed.favorites || [];
                     data.suggestions = parsed.suggestions || [];
@@ -1961,7 +2040,8 @@ html
                 data = {
                     userName: data.userName || '',
                     books: [], clubs: [], events: [], quotes: [], wishlist: [],
-                    generalReviews: [], playlists: [], scrapbook: [], diary: [], goals: [],
+                    generalReviews: [], playlists: [], // scrapbook: [], // Removed
+                    diary: [], goals: [],
                     challenges: [], tributes: [], favorites: [], suggestions: []
                 };
                  alert('Error al cargar datos. Se ha creado una nueva sesión vacía.');
@@ -1987,6 +2067,27 @@ html
                 showSection('home');
             }
         }
+
+         // Function to set a random flower color for the *active* section header
+         function setRandomSectionFlowerColor() {
+             const activeSection = document.getElementById(currentSection);
+             if (activeSection) {
+                 const flowerElement = activeSection.querySelector('.header-flower-decoration');
+                 if (flowerElement) {
+                     const randomColor = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+                     flowerElement.style.color = randomColor;
+
+                      // Optional: Adjust position if no back button
+                      const backButton = activeSection.querySelector('.back-btn');
+                      if (!backButton) {
+                           flowerElement.classList.add('left'); // Add class to position left
+                      } else {
+                           flowerElement.classList.remove('left'); // Ensure it's on the right
+                      }
+                 }
+             }
+         }
+
 
         function renderCurrentSection() {
              console.log(`🔄 Renderizando sección: ${currentSection}`);
@@ -2025,6 +2126,9 @@ html
                        console.error(`Container #${containerId} not found for clearing.`);
                   }
              }
+
+             // Set the flower color for the newly active section
+             setRandomSectionFlowerColor();
 
 
             switch(currentSection) {
@@ -2078,10 +2182,17 @@ html
 
                  // Simple progress display
                  let progressHtml = '';
-                 if (book.totalChapters > 0 && book.totalPages === 0) { // Prioritize chapters if total chapters are set and no total pages
-                     progressHtml = `<p class="item-meta">Capítulo ${book.currentChapter || 0} / ${book.totalChapters}</p>`;
-                 } else if (book.totalPages > 0) {
-                     progressHtml = `<p class="item-meta">Página ${book.currentPage || 0} / ${book.totalPages}</p>`;
+                 const hasPages = book.totalPages > 0;
+                 const hasChapters = book.totalChapters > 0;
+
+                 if (hasPages || hasChapters) {
+                     if (hasChapters && !hasPages) {
+                         progressHtml = `<p class="item-meta">Capítulo ${book.currentChapter || 0} / ${book.totalChapters}</p>`;
+                     } else if (hasPages) {
+                          progressHtml = `<p class="item-meta">Página ${book.currentPage || 0} / ${book.totalPages}</p>`;
+                     } else {
+                          progressHtml = `<p class="item-meta">Progreso no especificado</p>`; // Should not happen if hasPages || hasChapters
+                     }
                  } else {
                       progressHtml = `<p class="item-meta">Progreso no especificado</p>`;
                  }
@@ -2096,7 +2207,9 @@ html
                             const diffDays = Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24));
                             let dateColor = '#f43f5e';
                             if (diffDays > 7) dateColor = '#10b981';
-                            else if (diffDays > 0) dateColor = '#f59e0b';
+                            else if (diffDays >= 0) dateColor = '#f59e0b';
+                            else dateColor = '#dc2626';
+
 
                            goalHtml += `<p style="color: ${dateColor}; font-size: 0.9rem; margin-top: 0.5rem; font-weight: 600;">Meta: Terminar para ${dateString}</p>`;
                       } catch (e) {
@@ -2175,6 +2288,8 @@ html
 
              const date = new Date(year, month, 1);
              const today = new Date();
+             today.setHours(0,0,0,0);
+
              const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
              const dayNames = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -2204,9 +2319,10 @@ html
 
              for (let day = 1; day <= daysInMonth; day++) {
                  const currentDayDate = new Date(year, month, day);
-                 const isToday = currentDayDate.getDate() === today.getDate() &&
-                                currentDayDate.getMonth() === today.getMonth() &&
-                                currentDayDate.getFullYear() === today.getFullYear();
+                 currentDayDate.setHours(0,0,0,0);
+
+                 const isToday = currentDayDate.getTime() === today.getTime();
+
 
                  const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                  const eventsToday = data.events.filter(event => event.date === dateString);
@@ -2352,7 +2468,7 @@ html
 
              container.innerHTML = booksWithReviews.map(book => `
                  <div class="book-review-card">
-                      <button class="delete-btn" onclick="deleteDetailedReview(${book.id})">×</button> <!-- Dedicated button to delete ONLY review -->
+                      <button class="delete-btn" onclick="deleteDetailedReview(${book.id})">×</button>
 
                      <div class="item-content">
                          <h3>Reseña de: ${book.title}</h3>
@@ -2360,7 +2476,7 @@ html
 
                          <div class="review-section">
                               <h4>Calificación:</h4>
-                              <div class="rating-hearts">${'💖'.repeat(book.review.rating || 0)}</div> <!-- Visual rating -->
+                              <div class="rating-hearts">${'💖'.repeat(book.review.rating || 0)}</div>
                               <p>(${book.review.rating || 0}/5)</p>
                          </div>
 
@@ -2415,7 +2531,6 @@ html
              `).join('');
         }
 
-         // New function to delete *only* the detailed book review
          function deleteDetailedReview(bookId) {
              const book = data.books.find(b => b.id === bookId);
               if (!book) {
@@ -2423,11 +2538,11 @@ html
                   return;
               }
 
-              if (confirm(`¿Estás segura de que quieres eliminar la reseña detallada de "${book.title}"?`)) {
-                   book.review = null; // Set the review to null
+              if (confirm(`¿Estás segura de que quieres eliminar la reseña detallada de "${book.title}"? El libro permanecerá en tu lista de terminados.`)) {
+                   book.review = null;
                   if (saveData()) {
-                      renderBookReviews(); // Re-render the detailed reviews section
-                      renderFinished(); // Also re-render finished to update button text
+                      renderBookReviews();
+                      renderFinished();
                       showSuccess('Reseña detallada eliminada');
                   } else {
                        alert('Error al eliminar la reseña detallada.');
@@ -2493,7 +2608,7 @@ html
                         <p class="item-subtitle">${playlist.book || 'General'}</p>
                         <p class="item-meta">${playlist.genre || 'Sin género'} • ${playlist.mood || 'Sin estado de ánimo'}</p>
                          ${playlist.embedCode ? `
-                            <div style="margin-top: 1rem; overflow: hidden;"> <!-- Added overflow hidden -->
+                            <div style="margin-top: 1rem; overflow: hidden;">
                                 ${renderSpotifyEmbed(playlist.embedCode)}
                             </div>
                          ` : ''}
@@ -2505,51 +2620,10 @@ html
             `).join('');
         }
 
-         function renderSpotifyEmbed(embedCode) {
-              if (!embedCode) return ''; // Return empty if no code
-
-              // Check if it's already an iframe embed code from Spotify
-             if (embedCode.includes('<iframe') && embedCode.includes('spotify.com/embed')) {
-                 // Try to parse iframe src
-                  const tempDiv = document.createElement('div');
-                  tempDiv.innerHTML = embedCode;
-                  const iframe = tempDiv.querySelector('iframe');
-                  if (iframe && iframe.src) {
-                      // Basic validation that it's a Spotify embed source
-                      if (iframe.src.includes('spotify.com/embed')) {
-                          // Reconstruct iframe with safe attributes
-                          return `<iframe src="${iframe.src}" width="100%" height="152" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
-                      }
-                  }
-             }
-
-             // If not a valid embed, check if it's a shareable URL
-              if (embedCode.startsWith('https://open.spotify.com/')) {
-                   // Construct embed URL from shareable URL
-                   const embedUrl = embedCode.replace('https://open.spotify.com/', 'https://open.spotify.com/embed/');
-                   // Validate if the URL type is one we can embed (playlist, album, track, etc.)
-                   // Simple check: does the path include /playlist/, /album/, /track/, etc.?
-                    const validSpotifyPaths = ['/playlist/', '/album/', '/track/', '/episode/', '/artist/', '/show/'];
-                    const isValidSpotifyUrl = validSpotifyPaths.some(path => embedCode.includes(path));
-
-                    if (isValidSpotifyUrl) {
-                        return `<iframe src="${embedUrl}" width="100%" height="152" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
-                    } else {
-                         console.warn("Invalid Spotify share URL format:", embedCode);
-                    }
-              }
-
-
-             // Fallback for invalid embed or URL
-             return `<p style="color: red; font-size: 0.8rem;">Error al cargar playlist. Código embed/URL inválido o no soportado.</p>`;
-         }
-
-
         function renderScrapbook() {
-            // This function is now removed
             console.warn("renderScrapbook was called but is removed.");
              const container = document.getElementById('scrapbookContainer');
-              if(container) container.innerHTML = ''; // Ensure container is cleared if it somehow exists
+              if(container) container.innerHTML = '';
         }
 
         function renderDiary() {
@@ -2609,7 +2683,6 @@ html
                         <p class="item-meta">Meta: ${goal.target || 1} (Actual: ${goal.current || 0})</p>
                          <div class="item-actions">
                             <button class="action-edit" onclick="openModal('addGoalModal', ${goal.id})">Editar</button>
-                             <!-- Add a way to update 'current' here later -->
                          </div>
                     </div>
                 </div>
@@ -2670,27 +2743,25 @@ html
                 let contentHtml = '';
                 switch (tribute.type) {
                     case 'image':
-                        contentHtml = `<img src="${tribute.content}" alt="${tribute.title}" loading="lazy">`;
+                        contentHtml = tribute.content ? `<img src="${tribute.content}" alt="${tribute.title}" loading="lazy">` : '';
                         break;
                     case 'video':
                     case 'audio':
                          if (tribute.content) {
-                             contentHtml = `<iframe src="${tribute.content}" frameborder="0" allowfullscreen style="display:block; margin: 0.5rem auto; width: 100%; aspect-ratio: 16 / 9;"></iframe>`;
+                              const allowedEmbedSources = ['youtube.com/embed', 'vimeo.com/video', 'spotify.com/embed', 'soundcloud.com/player'];
+                              const isAllowedEmbed = allowedEmbedSources.some(src => tribute.content.includes(src));
+                             contentHtml = isAllowedEmbed ? `<iframe src="${tribute.content}" frameborder="0" allowfullscreen style="display:block; margin: 0.5rem auto; width: 100%; aspect-ratio: 16 / 9;"></iframe>` :
+                                                           `<p style="color: #ef4444; font-size: 0.8rem;">URL de embed no soportada o inválida.</p>`;
                          }
                         break;
                     case 'link':
-                        if (tribute.content) {
-                             contentHtml = `<p><a href="${tribute.content}" target="_blank" rel="noopener noreferrer">${tribute.content}</a></p>`;
-                        }
+                        contentHtml = tribute.content ? `<p><a href="${tribute.content}" target="_blank" rel="noopener noreferrer">${tribute.content}</a></p>` : '';
                         break;
                     case 'text':
                     default:
-                         if (tribute.content) {
-                            contentHtml = `<p>${tribute.content}</p>`;
-                         }
+                         contentHtml = tribute.content ? `<p>${tribute.content}</p>` : '';
                         break;
                 }
-                 // Display "No content" if applicable
                  if (!contentHtml) contentHtml = '<p style="color: #ef4444;">Sin contenido adjunto</p>';
 
 
@@ -2767,8 +2838,6 @@ html
                                  `<button class="action-review" onclick="openModal('addDetailedBookReviewModal', ${book.id})">Ver/Editar Reseña</button>` :
                                  `<button class="action-review" onclick="openModal('addDetailedBookReviewModal', ${book.id})">➕ Reseña Detallada</button>`
                              }
-                             <!-- Optional: Button to move back to reading list -->
-                             <!-- <button onclick="markInProgress(${book.id})">← Aún Leyendo</button> -->
                          </div>
                     </div>
                 </div>
@@ -2830,7 +2899,6 @@ html
                         <p class="item-subtitle">por ${suggestion.author || 'Autor desconocido'}</p>
                         <p class="item-meta">${suggestion.genre || 'General'}</p>
                         ${suggestion.reason ? `<p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">${suggestion.reason}</p>` : ''}
-                         <!-- Suggestions are not typically edited/deleted by the user -->
                     </div>
                 </div>
             `).join('');
@@ -2848,35 +2916,41 @@ html
             const form = modal.querySelector('form');
             const titleElement = modal.querySelector('h3');
             const submitButton = form ? form.querySelector('button[type="submit"]') : null;
-            const itemIdInput = form ? form.querySelector('input[name="itemId"]') : null;
 
-             // Reset form and hidden ID initially for 'add' state
              if (form) {
                  form.reset();
-                 // Reset all hidden ID fields just in case
-                 form.querySelectorAll('input[type="hidden"][name^="item"], input[type="hidden"][name="bookId"]').forEach(input => input.value = '');
+                 form.querySelectorAll('input[type="hidden"]').forEach(input => input.value = ''); // Clear all hidden inputs
              }
 
-
-             // Specific modal setup before opening
+             // Specific modal setup based on ID and item presence
             switch(modalId) {
                 case 'addBookModal':
                      populateClubDropdown('bookClub');
-                     if (itemId !== null) { // Check specifically for null, as 0 might be a valid ID in some systems (not here with Date.now, but good practice)
+                     if (itemId !== null && itemId !== undefined) {
                          const book = data.books.find(b => b.id === itemId);
-                         if (book) { populateForm(form, book); titleElement.textContent = 'Editar Libro'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (book) {
+                             populateForm(form, book);
+                             titleElement.textContent = 'Editar Libro';
+                             if(submitButton) submitButton.textContent = 'Guardar Cambios';
+                             if (form) form.querySelector('input[name="itemId"]').value = itemId;
+                         } else {
+                              console.error(`Libro con ID ${itemId} no encontrado para editar.`);
+                              titleElement.textContent = 'Agregar Libro'; if(submitButton) submitButton.textContent = 'Guardar Libro';
+                         }
                      } else { titleElement.textContent = 'Agregar Libro'; if(submitButton) submitButton.textContent = 'Guardar Libro'; }
                     break;
                 case 'addClubModal':
-                    if (itemId !== null) {
+                    if (itemId !== null && itemId !== undefined) {
                          const club = data.clubs.find(c => c.id === itemId);
-                         if (club) { populateForm(form, club); titleElement.textContent = 'Editar Club'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (club) { populateForm(form, club); titleElement.textContent = 'Editar Club'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; if (form) form.querySelector('input[name="itemId"]').value = itemId; }
+                          else { console.error(`Club con ID ${itemId} no encontrado.`); titleElement.textContent = 'Crear Club'; if(submitButton) submitButton.textContent = 'Crear Club'; }
                      } else { titleElement.textContent = 'Crear Club'; if(submitButton) submitButton.textContent = 'Crear Club'; }
                     break;
                  case 'addEventModal':
-                     if (itemId !== null) {
+                     if (itemId !== null && itemId !== undefined) {
                          const event = data.events.find(e => e.id === itemId);
-                         if (event) { populateForm(form, event); titleElement.textContent = 'Editar Evento'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (event) { populateForm(form, event); titleElement.textContent = 'Editar Evento'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; if (form) form.querySelector('input[name="itemId"]').value = itemId; }
+                         else { console.error(`Evento con ID ${itemId} no encontrado.`); titleElement.textContent = 'Nuevo Evento'; if(submitButton) submitButton.textContent = 'Guardar Evento'; }
                      } else { titleElement.textContent = 'Nuevo Evento'; if(submitButton) submitButton.textContent = 'Guardar Evento';
                              const todayString = new Date().toISOString().split('T')[0];
                               const dateInput = form ? form.querySelector('input[name="date"]') : null;
@@ -2884,34 +2958,39 @@ html
                      }
                      break;
                  case 'addQuoteModal':
-                      if (itemId !== null) {
+                      if (itemId !== null && itemId !== undefined) {
                          const quote = data.quotes.find(q => q.id === itemId);
-                         if (quote) { populateForm(form, quote); titleElement.textContent = 'Editar Frase'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (quote) { populateForm(form, quote); titleElement.textContent = 'Editar Frase'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; if (form) form.querySelector('input[name="itemId"]').value = itemId; }
+                         else { console.error(`Frase con ID ${itemId} no encontrada.`); titleElement.textContent = 'Nueva Frase'; if(submitButton) submitButton.textContent = 'Guardar Frase'; }
                      } else { titleElement.textContent = 'Nueva Frase'; if(submitButton) submitButton.textContent = 'Guardar Frase'; }
                      break;
                  case 'addWishModal':
-                      if (itemId !== null) {
+                      if (itemId !== null && itemId !== undefined) {
                          const wish = data.wishlist.find(w => w.id === itemId);
-                         if (wish) { populateForm(form, wish); titleElement.textContent = 'Editar Deseo'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (wish) { populateForm(form, wish); titleElement.textContent = 'Editar Deseo'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; if (form) form.querySelector('input[name="itemId"]').value = itemId; }
+                         else { console.error(`Deseo con ID ${itemId} no encontrado.`); titleElement.textContent = 'Agregar Deseo (Wishlist)'; if(submitButton) submitButton.textContent = 'Agregar Deseo'; }
                      } else { titleElement.textContent = 'Agregar Deseo (Wishlist)'; if(submitButton) submitButton.textContent = 'Agregar Deseo'; }
                      break;
                  case 'addGeneralReviewModal':
-                      if (itemId !== null) {
+                      if (itemId !== null && itemId !== undefined) {
                          const review = data.generalReviews.find(r => r.id === itemId);
-                         if (review) { populateForm(form, review); titleElement.textContent = 'Editar Reseña General'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (review) { populateForm(form, review); titleElement.textContent = 'Editar Reseña General'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; if (form) form.querySelector('input[name="itemId"]').value = itemId; }
+                         else { console.error(`Reseña general con ID ${itemId} no encontrada.`); titleElement.textContent = 'Nueva Reseña General'; if(submitButton) submitButton.textContent = 'Guardar Reseña General'; }
                      } else { titleElement.textContent = 'Nueva Reseña General'; if(submitButton) submitButton.textContent = 'Guardar Reseña General'; }
                      break;
                  case 'addPlaylistModal':
-                      if (itemId !== null) {
+                      if (itemId !== null && itemId !== undefined) {
                          const playlist = data.playlists.find(p => p.id === itemId);
-                         if (playlist) { populateForm(form, playlist); titleElement.textContent = 'Editar Playlist'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (playlist) { populateForm(form, playlist); titleElement.textContent = 'Editar Playlist'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; if (form) form.querySelector('input[name="itemId"]').value = itemId; }
+                         else { console.error(`Playlist con ID ${itemId} no encontrada.`); titleElement.textContent = 'Nueva Playlist'; if(submitButton) submitButton.textContent = 'Crear Playlist'; }
                      } else { titleElement.textContent = 'Nueva Playlist'; if(submitButton) submitButton.textContent = 'Crear Playlist'; }
                      break;
                   // case 'addScrapModal': break; // Removed
                   case 'addDiaryModal':
-                      if (itemId !== null) {
+                      if (itemId !== null && itemId !== undefined) {
                          const diary = data.diary.find(d => d.id === itemId);
-                         if (diary) { populateForm(form, diary); titleElement.textContent = 'Editar Entrada de Diario'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (diary) { populateForm(form, diary); titleElement.textContent = 'Editar Entrada de Diario'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; if (form) form.querySelector('input[name="itemId"]').value = itemId; }
+                         else { console.error(`Entrada de diario con ID ${itemId} no encontrada.`); titleElement.textContent = 'Nueva Entrada de Diario'; if(submitButton) submitButton.textContent = 'Guardar Entrada'; }
                      } else { titleElement.textContent = 'Nueva Entrada de Diario'; if(submitButton) submitButton.textContent = 'Guardar Entrada';
                              const todayString = new Date().toISOString().split('T')[0];
                              const dateInput = form ? form.querySelector('input[name="date"]') : null;
@@ -2919,37 +2998,41 @@ html
                      }
                      break;
                   case 'addGoalModal':
-                      if (itemId !== null) {
+                      if (itemId !== null && itemId !== undefined) {
                          const goal = data.goals.find(g => g.id === itemId);
-                         if (goal) { populateForm(form, goal); titleElement.textContent = 'Editar Reto'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (goal) { populateForm(form, goal); titleElement.textContent = 'Editar Reto'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; if (form) form.querySelector('input[name="itemId"]').value = itemId; }
+                         else { console.error(`Reto con ID ${itemId} no encontrado.`); titleElement.textContent = 'Nuevo Reto (Progreso)'; if(submitButton) submitButton.textContent = 'Establecer Reto'; }
                      } else { titleElement.textContent = 'Nuevo Reto (Progreso)'; if(submitButton) submitButton.textContent = 'Establecer Reto'; }
                       break;
                   case 'addChallengeModal':
-                      if (itemId !== null) {
+                      if (itemId !== null && itemId !== undefined) {
                          const challenge = data.challenges.find(c => c.id === itemId);
-                         if (challenge) { populateForm(form, challenge); titleElement.textContent = 'Editar Reto Lector'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (challenge) { populateForm(form, challenge); titleElement.textContent = 'Editar Reto Lector'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; if (form) form.querySelector('input[name="itemId"]').value = itemId; }
+                         else { console.error(`Reto lector con ID ${itemId} no encontrado.`); titleElement.textContent = 'Nuevo Reto Lector'; if(submitButton) submitButton.textContent = 'Aceptar Reto'; }
                      } else { titleElement.textContent = 'Nuevo Reto Lector'; if(submitButton) submitButton.textContent = 'Aceptar Reto'; }
                      break;
                   case 'addTributeModal':
                       populateBookDropdown('tributeBook');
-                       if (itemId !== null) {
+                       if (itemId !== null && itemId !== undefined) {
                           const tribute = data.tributes.find(t => t.id === itemId);
                            if (tribute) {
                                populateForm(form, tribute);
                                titleElement.textContent = 'Editar Homenaje';
                                if(submitButton) submitButton.textContent = 'Guardar Cambios';
-                               toggleTributeContentField(); // Update content field type based on loaded data
-                           }
+                               if (form) form.querySelector('input[name="itemId"]').value = itemId;
+                               toggleTributeContentField();
+                           } else { console.error(`Homenaje con ID ${itemId} no encontrado.`); titleElement.textContent = 'Nuevo Homenaje Literario'; if(submitButton) submitButton.textContent = 'Guardar Homenaje'; }
                        } else { titleElement.textContent = 'Nuevo Homenaje Literario'; if(submitButton) submitButton.textContent = 'Guardar Homenaje'; }
                       break;
                   case 'addFavoriteModal':
-                      if (itemId !== null) {
+                      if (itemId !== null && itemId !== undefined) {
                          const favorite = data.favorites.find(f => f.id === itemId);
-                         if (favorite) { populateForm(form, favorite); titleElement.textContent = 'Editar Favorito'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; }
+                         if (favorite) { populateForm(form, favorite); titleElement.textContent = 'Editar Favorito'; if(submitButton) submitButton.textContent = 'Guardar Cambios'; if (form) form.querySelector('input[name="itemId"]').value = itemId; }
+                         else { console.error(`Favorito con ID ${itemId} no encontrado.`); titleElement.textContent = 'Agregar Favorito'; if(submitButton) submitButton.textContent = 'Guardar Favorito'; }
                      } else { titleElement.textContent = 'Agregar Favorito'; if(submitButton) submitButton.textContent = 'Guardar Favorito'; }
                      break;
                   case 'addDetailedBookReviewModal':
-                       if (itemId === null) { // Need book ID to open this modal
+                       if (itemId === null || itemId === undefined) {
                            console.error("Attempted to open detailed review modal without book ID.");
                            return;
                        }
@@ -2959,25 +3042,19 @@ html
                             return;
                         }
 
-                        // Set hidden book ID
                         const bookReviewBookIdInput = form ? form.querySelector('input[name="bookId"]') : null;
                         if(bookReviewBookIdInput) bookReviewBookIdInput.value = itemId;
 
-                        // Display book info
                         const bookReviewTitleElement = document.getElementById('bookReviewBookTitle');
                         const bookReviewAuthorElement = document.getElementById('bookReviewBookAuthor');
                         if(bookReviewTitleElement) bookReviewTitleElement.textContent = `Libro: ${bookToReview.title}`;
                         if(bookReviewAuthorElement) bookReviewAuthorElement.textContent = `por ${bookToReview.author}`;
 
-
-                        // Populate form if review already exists
                         if (bookToReview.review) {
                             populateForm(form, bookToReview.review);
                             titleElement.textContent = 'Editar Reseña Detallada';
                             if(submitButton) submitButton.textContent = 'Guardar Cambios';
                         } else {
-                            form.reset();
-                             if(bookReviewBookIdInput) bookReviewBookIdInput.value = itemId; // Re-set the hidden bookId after reset
                             titleElement.textContent = 'Agregar Reseña Detallada';
                             if(submitButton) submitButton.textContent = 'Guardar Reseña Detallada';
                         }
@@ -2986,7 +3063,7 @@ html
 
                 default:
                     console.warn(`Modal type "${modalId}" not handled in openModal.`);
-                    break;
+                    return;
             }
 
              modal.classList.add('active');
@@ -3000,7 +3077,7 @@ html
                  const form = modal.querySelector('form');
                  if(form) {
                      form.reset();
-                      form.querySelectorAll('input[type="hidden"]').forEach(input => input.value = ''); // Clear all hidden inputs
+                      form.querySelectorAll('input[type="hidden"]').forEach(input => input.value = '');
 
                        if(modalId === 'addTributeModal') {
                            const typeSelect = document.getElementById('tributeType');
@@ -3008,35 +3085,42 @@ html
                            toggleTributeContentField();
                        }
                  }
-                 // Reset modal title and button text to default 'Add' state
                  const titleElement = modal.querySelector('h3');
-                 const submitButton = form ? form.querySelector('button[type="submit"]') : null;
-                 // Simplified title reset based on modal ID patterns
-                  if (titleElement) {
-                       let defaultTitle = modalId.replace('add', 'Nueva ');
-                       defaultTitle = defaultTitle.replace('Modal', '').trim();
-                       if (defaultTitle.includes('DetailedBookReview')) defaultTitle = 'Reseña Detallada del Libro';
-                        if (modalId === 'addBookModal') defaultTitle = 'Agregar Libro'; // Special case for Book
+                 // Reset modal title and button text to default 'Add' state more reliably
+                 if (titleElement) {
+                      let defaultTitle = '';
+                       if (modalId === 'addBookModal') defaultTitle = 'Agregar Libro';
+                       else if (modalId === 'addClubModal') defaultTitle = 'Crear Club';
+                       else if (modalId === 'addEventModal') defaultTitle = 'Nuevo Evento';
+                       else if (modalId === 'addQuoteModal') defaultTitle = 'Nueva Frase';
+                       else if (modalId === 'addWishModal') defaultTitle = 'Agregar Deseo (Wishlist)';
+                       else if (modalId === 'addGeneralReviewModal') defaultTitle = 'Nueva Reseña General';
+                       else if (modalId === 'addPlaylistModal') defaultTitle = 'Nueva Playlist';
+                       // else if (modalId === 'addScrapModal') defaultTitle = 'Nueva Página de Scrapbook';
+                       else if (modalId === 'addDiaryModal') defaultTitle = 'Nueva Entrada de Diario';
+                       else if (modalId === 'addGoalModal') defaultTitle = 'Nuevo Reto (Progreso)';
+                       else if (modalId === 'addChallengeModal') defaultTitle = 'Nuevo Reto Lector';
+                       else if (modalId === 'addTributeModal') defaultTitle = 'Nuevo Homenaje Literario';
+                       else if (modalId === 'addFavoriteModal') defaultTitle = 'Agregar Favorito';
+                       else if (modalId === 'addDetailedBookReviewModal') defaultTitle = 'Reseña Detallada del Libro';
 
-                       titleElement.textContent = defaultTitle;
+                      titleElement.textContent = defaultTitle;
                   }
+                   const submitButton = form ? form.querySelector('button[type="submit"]') : null;
                   if (submitButton) {
-                       // Simplified button text reset
-                       submitButton.textContent = modalId.includes('addBook') ? 'Guardar Libro' :
-                                                  modalId.includes('addClub') ? 'Crear Club' :
-                                                  modalId.includes('addEvent') ? 'Guardar Evento' :
-                                                  modalId.includes('addQuote') ? 'Guardar Frase' :
-                                                  modalId.includes('addWish') ? 'Agregar Deseo' :
-                                                  modalId.includes('addGeneralReview') ? 'Guardar Reseña General' :
-                                                  modalId.includes('addPlaylist') ? 'Crear Playlist' :
-                                                  modalId.includes('addScrap') ? 'Crear Página' :
-                                                  modalId.includes('addDiary') ? 'Guardar Entrada' :
-                                                  modalId.includes('addGoal') ? 'Establecer Reto' :
-                                                  modalId.includes('addChallenge') ? 'Aceptar Reto' :
-                                                  modalId.includes('addTribute') ? 'Guardar Homenaje' :
-                                                  modalId.includes('addFavorite') ? 'Guardar Favorito' :
-                                                  modalId.includes('addDetailedBookReview') ? 'Guardar Reseña Detallada' :
-                                                  'Guardar'; // Fallback
+                      // Reset button text to match the default title's action
+                       submitButton.textContent = (modalId.startsWith('add') && modalId !== 'addDetailedBookReviewModal') ?
+                                                     titleElement ? titleElement.textContent.replace('Nuevo ', 'Guardar ').replace('Nueva ', 'Guardar ').replace('Agregar ', 'Guardar ').replace('(Wishlist)', '').trim() : 'Guardar'
+                                                    : titleElement ? 'Guardar Cambios' : 'Guardar'; // Default for edit if no title
+
+                       // Specific overrides if needed
+                        if (modalId === 'addClubModal') submitButton.textContent = 'Crear Club';
+                        if (modalId === 'addPlaylistModal') submitButton.textContent = 'Crear Playlist';
+                        // if (modalId === 'addScrapModal') submitButton.textContent = 'Crear Página';
+                        if (modalId === 'addGoalModal') submitButton.textContent = 'Establecer Reto';
+                        if (modalId === 'addChallengeModal') submitButton.textContent = 'Aceptar Reto';
+                        if (modalId === 'addWishModal') submitButton.textContent = 'Agregar Deseo';
+                         if (modalId === 'addDetailedBookReviewModal') submitButton.textContent = 'Guardar Reseña Detallada'; // This one is always Save Review
                   }
 
 
@@ -3050,7 +3134,6 @@ html
             });
         }
 
-         // Helper function to populate form fields from an object
          function populateForm(form, dataObject) {
              if (!form || !dataObject) return;
 
@@ -3060,18 +3143,18 @@ html
                      if (field.type === 'checkbox') {
                          field.checked = value;
                      } else if (field.type === 'radio') {
-                          if (field.value === String(value)) { // Compare as string for radio values
+                          if (field.value === String(value)) {
                               field.checked = true;
                           }
                      } else if (field.tagName === 'SELECT') {
-                          // Set selected option for select dropdowns
-                          // Ensure the value matches option.value (which is stringified ID)
-                         field.value = value === null ? '' : String(value);
-                     } else {
-                           field.value = value === null ? '' : value;
+                         field.value = value === null || value === undefined ? '' : String(value);
+                     } else if (field.type === 'date') {
+                          field.value = value === null || value === undefined ? '' : value;
+                     }
+                     else {
+                           field.value = value === null || value === undefined ? '' : value;
                      }
                  } else if (field.name) {
-                      // Clear field if corresponding property is not in dataObject or is null/undefined
                        if (field.type === 'checkbox') {
                            field.checked = false;
                        } else if (field.type !== 'radio') {
@@ -3086,101 +3169,82 @@ html
               }
          }
 
-         // Helper function to get form data as an object
          function getFormData(form) {
              const formData = {};
              new FormData(form).forEach((value, key) => {
-                 if (form.elements[key]) { // Check if the element exists in the form
+                 if (form.elements[key]) {
                       const fieldType = form.elements[key].type;
                       const fieldTagName = form.elements[key].tagName;
 
                      if (fieldType === 'number') {
-                          // Treat 0 or empty string as 0 or null depending on min attribute, but default to 0 if required
-                          // Let's stick to parseInt and default to 0 for numbers from input
                           formData[key] = value === '' ? 0 : parseInt(value);
-                          if (isNaN(formData[key])) formData[key] = 0; // Fallback if parsing fails
+                          if (isNaN(formData[key])) formData[key] = 0;
                      } else if (fieldType === 'checkbox') {
                           formData[key] = form.elements[key].checked;
                      } else if (fieldType === 'date') {
-                           formData[key] = value === '' ? null : value; // Store empty date as null
+                           formData[key] = value === '' ? null : value;
                      } else if (fieldTagName === 'SELECT') {
-                          formData[key] = value === '' ? null : parseInt(value); // Parse select value as number/ID, null if empty
-                          if (isNaN(formData[key]) && value !== '') { // Handle non-numeric select values if applicable
-                              formData[key] = value; // Store as string if not a number but not empty
+                          formData[key] = value === '' ? null : parseInt(value);
+                          if (isNaN(formData[key]) && value !== '') {
+                              formData[key] = value;
                           }
                      } else if (fieldTagName === 'TEXTAREA' || fieldType === 'text' || fieldType === 'url') {
                          formData[key] = value.trim();
                      } else {
                           formData[key] = value;
                      }
-                 } else {
-                     // Handle case where element might not be found (shouldn't happen with correct form)
-                     console.warn(`Form element with name "${key}" not found.`);
-                     formData[key] = value; // Add the value anyway
                  }
              });
 
-              // Ensure numerical IDs are parsed correctly from hidden fields
              if (formData.hasOwnProperty('itemId')) {
-                 formData.itemId = formData.itemId === null || formData.itemId === '' ? null : parseInt(formData.itemId);
-                 if (isNaN(formData.itemId)) formData.itemId = null;
+                 formData.itemId = (formData.itemId === null || formData.itemId === '' || isNaN(formData.itemId)) ? null : parseInt(formData.itemId);
              }
               if (formData.hasOwnProperty('bookId')) {
-                 formData.bookId = formData.bookId === null || formData.bookId === '' ? null : parseInt(formData.bookId);
-                 if (isNaN(formData.bookId)) formData.bookId = null;
+                 formData.bookId = (formData.bookId === null || formData.bookId === '' || isNaN(formData.bookId)) ? null : parseInt(formData.bookId);
               }
 
              return formData;
          }
 
 
-        // --- Modal Form Submission Handlers ---
          function setupModalForms() {
-             // Ensure the form exists before adding the listener
-             const addBookForm = document.getElementById('addBookForm');
-             if(addBookForm) addBookForm.addEventListener('submit', (e) => handleFormSubmit(e, 'books', 'addBookModal', renderBooks));
+             const forms = [
+                 { id: 'addBookForm', type: 'books', modalId: 'addBookModal', render: renderBooks },
+                 { id: 'addClubForm', type: 'clubs', modalId: 'addClubModal', render: renderClubs },
+                 { id: 'addEventForm', type: 'events', modalId: 'addEventModal', render: () => renderCalendar(currentYear, currentMonth) },
+                 { id: 'addQuoteForm', type: 'quotes', modalId: 'addQuoteModal', render: renderQuotes },
+                 { id: 'addWishForm', type: 'wishlist', modalId: 'addWishModal', render: renderWishlist },
+                 { id: 'addGeneralReviewForm', type: 'generalReviews', modalId: 'addGeneralReviewModal', render: renderGeneralReviews },
+                 { id: 'addPlaylistForm', type: 'playlists', modalId: 'addPlaylistModal', render: renderPlaylists },
+                 // { id: 'addScrapForm', type: 'scrapbook', modalId: 'addScrapModal', render: renderScrapbook }, // Removed
+                 { id: 'addDiaryForm', type: 'diary', modalId: 'addDiaryModal', render: renderDiary },
+                 { id: 'addGoalForm', type: 'goals', modalId: 'addGoalModal', render: renderProgress },
+                 { id: 'addChallengeForm', type: 'challenges', modalId: 'addChallengeModal', render: renderChallenges },
+                 { id: 'addFavoriteForm', type: 'favorites', modalId: 'addFavoriteModal', render: renderFavorites },
+                 { id: 'addTributeForm', type: 'tributes', modalId: 'addTributeModal', render: renderTributes },
+             ];
 
-             const addClubForm = document.getElementById('addClubForm');
-             if(addClubForm) addClubForm.addEventListener('submit', (e) => handleFormSubmit(e, 'clubs', 'addClubModal', renderClubs));
+             forms.forEach(formInfo => {
+                 const formElement = document.getElementById(formInfo.id);
+                 if (formElement) {
+                     formElement.addEventListener('submit', (e) => {
+                         handleFormSubmit(e, formInfo.type, formInfo.modalId, formInfo.render);
+                     });
+                 } else {
+                     console.warn(`Formulario #${formInfo.id} no encontrado.`);
+                 }
+             });
 
-             const addEventForm = document.getElementById('addEventForm');
-             if(addEventForm) addEventForm.addEventListener('submit', (e) => handleFormSubmit(e, 'events', 'addEventModal', () => renderCalendar(currentYear, currentMonth)));
+             const detailedReviewForm = document.getElementById('addDetailedBookReviewForm');
+             if (detailedReviewForm) {
+                 detailedReviewForm.addEventListener('submit', handleDetailedBookReviewSubmit);
+             } else {
+                 console.warn("Detailed book review form not found.");
+             }
 
-             const addQuoteForm = document.getElementById('addQuoteForm');
-             if(addQuoteForm) addQuoteForm.addEventListener('submit', (e) => handleFormSubmit(e, 'quotes', 'addQuoteModal', renderQuotes));
-
-             const addWishForm = document.getElementById('addWishForm');
-             if(addWishForm) addWishForm.addEventListener('submit', (e) => handleFormSubmit(e, 'wishlist', 'addWishModal', renderWishlist));
-
-             const addGeneralReviewForm = document.getElementById('addGeneralReviewForm');
-             if(addGeneralReviewForm) addGeneralReviewForm.addEventListener('submit', (e) => handleFormSubmit(e, 'generalReviews', 'addGeneralReviewModal', renderGeneralReviews));
-
-             const addPlaylistForm = document.getElementById('addPlaylistForm');
-             if(addPlaylistForm) addPlaylistForm.addEventListener('submit', (e) => handleFormSubmit(e, 'playlists', 'addPlaylistModal', renderPlaylists));
-
-             // const addScrapForm = document.getElementById('addScrapForm'); // Removed listener for scrapbook
-             // if(addScrapForm) addScrapForm.addEventListener('submit', (e) => handleFormSubmit(e, 'scrapbook', 'addScrapModal', renderScrapbook));
-
-             const addDiaryForm = document.getElementById('addDiaryForm');
-             if(addDiaryForm) addDiaryForm.addEventListener('submit', (e) => handleFormSubmit(e, 'diary', 'addDiaryModal', renderDiary));
-
-             const addGoalForm = document.getElementById('addGoalForm');
-             if(addGoalForm) addGoalForm.addEventListener('submit', (e) => handleFormSubmit(e, 'goals', 'addGoalModal', renderProgress));
-
-             const addChallengeForm = document.getElementById('addChallengeForm');
-             if(addChallengeForm) addChallengeForm.addEventListener('submit', (e) => handleFormSubmit(e, 'challenges', 'addChallengeModal', renderChallenges));
-
-             const addFavoriteForm = document.getElementById('addFavoriteForm');
-             if(addFavoriteForm) addFavoriteForm.addEventListener('submit', (e) => handleFormSubmit(e, 'favorites', 'addFavoriteModal', renderFavorites));
-
-             const addTributeForm = document.getElementById('addTributeForm');
-             if(addTributeForm) addTributeForm.addEventListener('submit', (e) => handleFormSubmit(e, 'tributes', 'addTributeModal', renderTributes));
-
-             const addDetailedBookReviewForm = document.getElementById('addDetailedBookReviewForm');
-             if(addDetailedBookReviewForm) addDetailedBookReviewForm.addEventListener('submit', handleDetailedBookReviewSubmit);
          }
 
-         // Generic form submission handler for Add/Edit
+
          function handleFormSubmit(event, dataType, modalId, renderFunction) {
              event.preventDefault();
 
@@ -3192,14 +3256,12 @@ html
              let successMessage = '';
              let itemToSave = { ...formData };
 
-             if (itemId !== null) { // Check for non-null ID for editing
+             if (itemId !== null) {
                  const index = data[dataType].findIndex(item => item.id === itemId);
                  if (index !== -1) {
-                     // Safely update existing item by merging properties from formData
                      const existingItem = data[dataType][index];
-                     // Use Object.assign or spread to merge, ensuring primitives overwrite
                      Object.assign(existingItem, itemToSave);
-                     itemToSave = existingItem; // Reference the updated object
+                     itemToSave = existingItem;
                      successMessage = `¡${dataType.slice(0, -1).charAt(0).toUpperCase() + dataType.slice(0, -1).slice(1)} actualizado!`;
                      console.log(`✅ Editado ${dataType}:`, itemToSave);
                  } else {
@@ -3211,22 +3273,20 @@ html
                  itemToSave.id = Date.now();
                  itemToSave.dateAdded = new Date().toLocaleDateString();
 
-                  // Set default values for properties *not* in the add form if they are part of the data model
                  if (dataType === 'books') {
                       itemToSave.isFinished = false;
-                      itemToSave.currentChapter = 0;
-                      itemToSave.currentPage = 0;
+                      itemToSave.currentChapter = itemToSave.currentChapter || 0;
+                      itemToSave.currentPage = itemToSave.currentPage || 0;
                       itemToSave.milestones = [];
                       itemToSave.review = null;
-                      // Ensure totalPages/totalChapters default to 0 if not set or invalid
                        itemToSave.totalPages = itemToSave.totalPages || 0;
                        itemToSave.totalChapters = itemToSave.totalChapters || 0;
+                       itemToSave.targetFinishDate = itemToSave.targetFinishDate || null;
                  }
                   if (dataType === 'goals') {
-                      itemToSave.current = 0;
-                       itemToSave.target = itemToSave.target || 1; // Ensure target default
+                      itemToSave.current = itemToSave.current || 0;
+                       itemToSave.target = itemToSave.target || 1;
                   }
-                   // Default date for diary handled in openModal and getFormData
 
                  data[dataType].push(itemToSave);
                  successMessage = `¡${dataType.slice(0, -1).charAt(0).toUpperCase() + dataType.slice(0, -1).slice(1)} agregado!`;
@@ -3245,6 +3305,7 @@ html
                   alert('Error al guardar los cambios.');
              }
          }
+
 
          function toggleTributeContentField() {
              const typeSelect = document.getElementById('tributeType');
@@ -3345,19 +3406,15 @@ html
                  return;
              }
 
-              // Required fields validation based on the template image
-              // Assuming Rating and at least one text field (Personajes, Final, Recomendar, Aprendizajes, Frases, Gustó, Sugerencias)
                const requiredRating = formData.rating;
                const anyTextFieldFilled = formData.favoriteCharacters || formData.changeEnding || formData.recommend ||
                                          formData.learnings || formData.quotes || formData.likedMost || formData.suggestions;
 
-               if (requiredRating === null || anyTextFieldFilled === null || anyTextFieldFilled.trim() === '') {
-                    alert('Por favor, ingresa la calificación y al menos un campo de texto (ej: Personajes Favoritos, ¿Qué más te gustó?).');
+               if (requiredRating === null || (anyTextFieldFilled === null || anyTextFieldFilled.trim() === '')) {
+                    alert('Por favor, ingresa la calificación y al menos un campo de texto.');
                    return;
                }
 
-
-             // Create or update the nested review object
              data.books[bookIndex].review = {
                  rating: formData.rating,
                  favoriteCharacters: formData.favoriteCharacters || null,
@@ -3370,11 +3427,7 @@ html
                  dateSubmitted: new Date().toLocaleDateString()
              };
 
-             // Ensure the book is marked as finished if a detailed review is added
-             // This button is only available from the finished list, so the book should be finished.
-             // Let's enforce it here just in case the UI flow changes later.
-             data.books[bookIndex].isFinished = true;
-
+             data.books[bookIndex].isFinished = true; // Ensure book is finished when detailed review is added
 
              if (saveData()) {
                  closeModal('addDetailedBookReviewModal');
@@ -3387,7 +3440,6 @@ html
          }
 
 
-        // Eliminar elementos
         function deleteItem(type, id) {
             if (!data.hasOwnProperty(type) || !Array.isArray(data[type])) {
                  console.error(`❌ Intento de eliminar item de tipo inválido: ${type}`);
@@ -3401,11 +3453,27 @@ html
 
                 if (data[type].length < initialLength) {
                     if (saveData()) {
-                        renderCurrentSection();
+                        // Only re-render specific relevant sections after deleting an item
+                        // This is more efficient than renderCurrentSection() for delete
+                        if (type === 'books') { renderBooks(); renderFinished(); renderBookReviews(); populateBookDropdown('tributeBook'); } // Books affect multiple lists and dropdowns
+                        else if (type === 'clubs') { renderClubs(); populateClubDropdown('bookClub'); } // Clubs affect club list and book dropdown
+                        else if (type === 'events') renderCalendar(currentYear, currentMonth);
+                        else if (type === 'quotes') renderQuotes();
+                        else if (type === 'wishlist') renderWishlist();
+                        else if (type === 'generalReviews') renderGeneralReviews();
+                        else if (type === 'playlists') renderPlaylists();
+                        // else if (type === 'scrapbook') renderScrapbook(); // Removed
+                        else if (type === 'diary') renderDiary();
+                        else if (type === 'goals') renderProgress();
+                        else if (type === 'challenges') renderChallenges();
+                        else if (type === 'tributes') renderTributes(); // Tributes affect tribute list and maybe book dropdown (if adding tribute for deleted book) - dropdown already populated on open
+                        else if (type === 'favorites') renderFavorites();
+                        else if (type === 'suggestions') renderSuggestions(); // Suggestions don't usually have delete buttons, but for consistency...
+
                         showSuccess('Elemento eliminado');
                     } else {
                          alert('Elemento eliminado temporalmente, pero falló el guardado. Recarga la página.');
-                         renderCurrentSection();
+                         renderCurrentSection(); // Fallback to full re-render if save fails
                     }
                 } else {
                      console.warn(`🤔 No se encontró elemento con ID ${id} en tipo ${type} para eliminar.`);
@@ -3413,7 +3481,6 @@ html
             }
         }
 
-         // New function to delete *only* the detailed book review (keeps the book)
          function deleteDetailedReview(bookId) {
              const book = data.books.find(b => b.id === bookId);
               if (!book) {
@@ -3421,11 +3488,11 @@ html
                   return;
               }
 
-              if (confirm(`¿Estás segura de que quieres eliminar la reseña detallada de "${book.title}"? El libro permanecerá en tu lista de terminados.`)) { // Clarify action
-                   book.review = null; // Set the review to null
+              if (confirm(`¿Estás segura de que quieres eliminar la reseña detallada de "${book.title}"? El libro permanecerá en tu lista de terminados.`)) {
+                   book.review = null;
                   if (saveData()) {
-                      renderBookReviews(); // Re-render the detailed reviews section
-                      renderFinished(); // Also re-render finished to update button text
+                      renderBookReviews();
+                      renderFinished();
                       showSuccess('Reseña detallada eliminada');
                   } else {
                        alert('Error al eliminar la reseña detallada.');
@@ -3433,8 +3500,6 @@ html
               }
          }
 
-
-        // --- Goal Tracking and Celebration ---
 
          function markFinished(bookId) {
               const book = data.books.find(b => b.id === bookId);
@@ -3485,8 +3550,6 @@ html
              return false;
          }
 
-         // --- Celebration Functions ---
-
          function showGoalMessage(message) {
               document.querySelectorAll('.goal-message').forEach(msg => msg.remove());
 
@@ -3511,7 +3574,7 @@ html
             const celebration = document.createElement('div');
             celebration.className = 'celebration active';
 
-            const colors = ['#FFB6C1', '#87CEEB', '#98FB98', '#DDA0DD', '#F0E68C', '#FFA07A', '#a855f7', '#3b82f6', '#f472b6', '#fde68a'];
+            const colors = ['#FFB6C1', '#87CEEB', '#98FB98', '#DDA0DD', '#F0E68C', '#FFA07A', '#a855f7', '#3b82f6', '#f472b6', '#fde68a', '#ccfbf1', '#bfdbfe'];
 
             for (let i = 0; i < 50; i++) {
                 const confetti = document.createElement('div');
@@ -3555,11 +3618,9 @@ html
          }
 
 
-        // --- Suggestions (Simulated Goodreads) ---
          function generateSuggestions() {
              showSuccess('Generando sugerencias...');
 
-             // --- SIMULATED GOODREADS TOP BOOKS ---
              const topGoodreadsBooks = [
                  { title: "Matar a un ruiseñor", author: "Harper Lee", genre: "Ficción Clásica", reason: "Un pilar de la literatura estadounidense, a menudo en listas de 'los mejores'." },
                  { title: "1984", author: "George Orwell", genre: "Distopía", reason: "Una obra maestra atemporal sobre la vigilancia y el control, muy relevante hoy." },
@@ -3584,7 +3645,6 @@ html
              data.suggestions = selectedSuggestions;
              if (saveData()) {
                  renderSuggestions();
-                 // showCelebration(); // Maybe don't celebrate generating suggestions? Up to preference.
                  showSuccess('¡Nuevas sugerencias generadas!');
              } else {
                   alert('Error al guardar las sugerencias.');
@@ -3634,7 +3694,7 @@ html
                  renderCurrentSection();
             },
              markFinished: markFinished,
-             deleteDetailedReview: deleteDetailedReview, // Expose new function
+             deleteDetailedReview: deleteDetailedReview,
              openModal: openModal,
              renderBooks: renderBooks,
              renderGeneralReviews: renderGeneralReviews,
