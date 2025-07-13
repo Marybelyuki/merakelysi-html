@@ -1,4 +1,4 @@
-html
+`html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1455,7 +1455,7 @@ html
             <button class="modal-close-btn" onclick="closeModal('addBookModal')">×</button>
             <h3 id="addBookModalTitle">Agregar Libro</h3>
             <form id="addBookForm" class="modal-form">
-                 <input type="hidden" id="bookItemId" name="itemId"> <!-- Hidden field for item ID -->
+                 <input type="hidden" id="bookItemId" name="itemId">
 
                 <label for="bookTitle">Título:</label>
                 <input type="text" id="bookTitle" name="title" required>
@@ -1471,7 +1471,6 @@ html
 
                 <label for="bookClub">Club de Lectura (opcional):</label>
                  <select id="bookClub" name="clubId">
-                     <!-- Options will be populated by JS -->
                      <option value="">-- Ninguno --</option>
                  </select>
 
@@ -1868,14 +1867,13 @@ html
                 }
             });
 
-             setupModalForms(); // Set up event listeners for forms
+             setupModalForms();
 
-            // Load and display user name
             loadUserName();
 
             console.log('🦄 Merakelysi cargado');
              if (data.books.length === 0 && data.suggestions.length === 0) {
-                 generateSuggestions(); // Generate initial suggestions if empty
+                 generateSuggestions();
              }
 
              setRandomButterflyColor();
@@ -1963,7 +1961,7 @@ html
             try {
                 const saved = localStorage.getItem('merakelysi_data');
                 if (saved) {
-                    const parsed = JSON.parse(saved);
+                    const parsed = JSON.JSON.parse(saved);
 
                     // Explicitly load and structure data, adding default values for new fields
                     data.books = parsed.books ? parsed.books.map(book => ({
@@ -2141,7 +2139,7 @@ html
                 case 'generalReviews': renderGeneralReviews(); break;
                 case 'bookReviews': renderBookReviews(); break;
                 case 'playlists': renderPlaylists(); break;
-                case 'scrapbook': renderScrapbook(); break; // This is now removed and commented out
+                case 'scrapbook': renderScrapbook(); break;
                 case 'diary': renderDiary(); break;
                 case 'progress': renderProgress(); break;
                 case 'challenges': renderChallenges(); break;
