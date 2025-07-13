@@ -1,4 +1,5 @@
-html
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -305,19 +306,19 @@ html
         /* Colores específicos para cada tarjeta */
         .card-books { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); }
         .card-clubs { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
-        .card-calendar { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); } /* Changed to green theme */
+        .card-calendar { background: linear-gradient(135deg, #ecfdf5 0%, #dcfce7 100%); }
         .card-quotes { background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); }
-        .card-wishlist { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); } /* Changed to yellow theme */
+        .card-wishlist { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
         .card-reviews { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); }
-        .card-playlists { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); } /* Changed to red theme */
+        .card-playlists { background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); }
         /* .card-scrapbook { background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); } removed */
         .card-diary { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); }
-        .card-progress { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); } /* Changed to blue theme */
-        .card-challenges { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); } /* Changed to pink theme */
-        .card-stats { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); } /* Blue theme */
-        .card-monthly { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); } /* Green theme */
-        .card-finished { background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%); } /* Yellow theme */
-        .card-favorites { background: linear-gradient(135deg, #fce7f3 0%, #f9a8d4 100%); } /* Pink theme */
+        .card-progress { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); }
+        .card-challenges { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); }
+        .card-stats { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); }
+        .card-monthly { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); }
+        .card-finished { background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%); }
+        .card-favorites { background: linear-gradient(135deg, #fce7f3 0%, #f9a8d4 100%); }
         .card-suggestions { background: linear-gradient(135deg, #f3e8ff 0%, #d8b4fe 100%); }
          /* New Sections */
          .card-tributes { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); }
@@ -1644,7 +1645,6 @@ html
         </div>
     </div>
 
-
      <!-- Add/Edit Diary Entry Modal -->
      <div id="addDiaryModal" class="modal-backdrop">
         <div class="modal-content">
@@ -1887,7 +1887,7 @@ html
              }
          }
 
-         // Function to set a random flower color for the section header flower
+         // Function to set a random flower color for the *active* section header
          function setRandomSectionFlowerColor() {
              const activeSection = document.getElementById(currentSection);
              if (activeSection) {
@@ -2159,7 +2159,6 @@ html
         function renderBooks() {
             const container = document.getElementById('booksContainer');
             if (!container) { console.error("Container #booksContainer not found"); return; }
-             // container.innerHTML = ''; // Moved clearing to renderCurrentSection
 
             const booksInProgress = data.books.filter(book => !book.isFinished);
 
@@ -2178,7 +2177,6 @@ html
                  const club = book.clubId ? data.clubs.find(c => c.id === book.clubId) : null;
                  const clubName = club ? club.name : null;
 
-                 // Simple progress display
                  let progressHtml = '';
                  const hasPages = book.totalPages > 0;
                  const hasChapters = book.totalChapters > 0;
@@ -2196,7 +2194,6 @@ html
                  }
 
 
-                 // Goal display
                  let goalHtml = '';
                  if (book.targetFinishDate) {
                       try {
@@ -2215,7 +2212,6 @@ html
                       }
                  }
 
-                 // Action buttons
                  const actionButtons = `
                      <div class="item-actions">
                           <button class="action-edit" onclick="openModal('addBookModal', ${book.id})">Editar</button>
