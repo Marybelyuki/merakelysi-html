@@ -1,13 +1,28 @@
-html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merakelysi - Mi Universo Literario</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Estilos Generales */
+        /* --- General & Base Styles --- */
+        :root {
+            --pink: #f472b6;
+            --purple: #a855f7;
+            --blue: #60a5fa;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+            --text-primary: #374151;
+            --text-secondary: #6b7280;
+            --bg-light: rgba(255, 255, 255, 0.8);
+            --border-light: rgba(229, 231, 235, 0.7);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,208 +31,94 @@ html
         }
 
         body {
-            background: linear-gradient(135deg, #fef7f0 0%, #faf2f2 25%, #f0f4f8 50%, #f8f0f5 75%, #f5f3ff 100%);
+            background: linear-gradient(135deg, #fdf2f8, #f5f3ff, #ecfdf5);
             min-height: 100vh;
-            /* Cursor unicornio */
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>🦄</text></svg>"), auto;
             position: relative;
-             overflow-y: auto; /* Ensure scrolling is possible */
         }
 
-         body.modal-open {
-             overflow: hidden; /* Prevent scrolling when modal is open */
-         }
+        body.modal-open {
+            overflow: hidden;
+        }
 
-        /* Elementos decorativos de fondo */
+        /* --- Decorative Background Elements --- */
         .bg-decoration {
             position: fixed;
-            opacity: 0.08;
+            opacity: 0.07;
             pointer-events: none;
             z-index: 0;
+            animation: float 6s ease-in-out infinite;
         }
-
-        .bg-book-1 { top: 10%; left: 5%; font-size: 4rem; animation: float 6s ease-in-out infinite; }
-        .bg-book-2 { top: 20%; right: 10%; font-size: 3rem; animation: float 4s ease-in-out infinite reverse; }
-        /* Mariposa de fondo más grande y sin color fijo, JS le pondrá color */
-        .bg-butterfly { bottom: 20%; left: 10%; font-size: 7rem; animation: pulse 3s infinite; transition: color 0.5s ease; }
-        .bg-star { bottom: 10%; right: 5%; font-size: 3rem; animation: float 5s ease-in-out infinite; }
-        .bg-flower { top: 50%; left: 2%; font-size: 3rem; animation: pulse 4s infinite; }
-        .bg-moon { top: 30%; right: 3%; font-size: 4rem; animation: float 7s ease-in-out infinite; }
+        .bg-book-1 { top: 10%; left: 5%; font-size: 5rem; animation-duration: 8s; }
+        .bg-book-2 { top: 70%; left: 8%; font-size: 3rem; animation-duration: 10s; }
+        .bg-butterfly { bottom: 20%; right: 10%; font-size: 6rem; animation: float-butterfly 12s ease-in-out infinite; transition: color 0.5s ease; }
+        .bg-star { top: 25%; right: 15%; font-size: 3rem; animation-duration: 12s; }
+        .bg-flower { top: 60%; right: 5%; font-size: 4rem; animation-duration: 9s; }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
             position: relative;
-            z-index: 10;
+            z-index: 1;
         }
 
-        /* Header Styles */
+        /* --- Header Styles --- */
         .header {
             text-align: center;
             margin-bottom: 3rem;
             position: relative;
-             padding: 2rem 0; /* Add padding around header content */
-             background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(248,250,252,0.5) 100%); /* Semi-transparent background for header */
-             border-radius: 24px;
-             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-             backdrop-filter: blur(5px);
+            padding: 2.5rem 2rem;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
         .title {
             font-family: 'Playfair Display', serif;
-            font-size: 5rem; /* Más grande */
-            font-weight: bold;
-            background: linear-gradient(to right, #f472b6, #a855f7); /* Rosa a Morado */
+            font-size: clamp(2.5rem, 10vw, 5rem); /* Responsive font size */
+            font-weight: 700;
+            background: linear-gradient(to right, var(--pink), var(--purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 0.5rem;
             position: relative;
-             /* Añadir sombra para simular borde/profundidad */
-             text-shadow:
-                 -1px -1px 0 rgba(168, 85, 247, 0.3), /* Morado claro */
-                 1px -1px 0 rgba(168, 85, 247, 0.3),
-                 -1px 1px 0 rgba(244, 114, 182, 0.3), /* Rosa claro */
-                 1px 1px 0 rgba(244, 114, 182, 0.3),
-                 0 0 10px rgba(244, 114, 182, 0.2), /* Resplandor suave */
-                 0 5px 15px rgba(0,0,0,0.1); /* Sombra principal */
-             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); /* Mantener algo de filtro */
+            text-shadow: 0 2px 15px rgba(168, 85, 247, 0.1);
         }
-
-         /* Decoraciones en el título - Las haremos más protagonistas */
-         .title::before {
-             content: '🌸';
-             position: absolute;
-             top: -20px; /* Subir un poco */
-             right: -50px; /* Mover a la derecha */
-             font-size: 3rem; /* Más grande */
-             animation: pulse 2s infinite;
-             opacity: 0.8; /* Más visibles */
-             filter: drop-shadow(0 2px 4px rgba(244, 114, 182, 0.4));
-         }
-
-         .title::after {
-             content: '🦋';
-             position: absolute;
-             bottom: -20px; /* Bajar un poco */
-             left: -40px; /* Mover a la izquierda */
-             font-size: 2.5rem; /* Más grande */
-             animation: float 3s ease-in-out infinite;
-             opacity: 0.8; /* Más visibles */
-             filter: drop-shadow(0 2px 4px rgba(168, 85, 247, 0.4));
-         }
-
-
-         /* Author Attribution */
-         .author-attribution {
-             font-size: 0.9rem;
-             color: #a855f7; /* Purple */
-             margin-bottom: 0.5rem;
-             font-weight: 600;
-         }
-
-         /* User Name Input */
-         .user-name-input {
-             text-align: center;
-             margin-bottom: 1.5rem;
-         }
-          .user-name-input label {
-              font-size: 1.1rem;
-              color: #6b7280;
-              margin-right: 0.5rem;
-              font-weight: 600;
-          }
-          .user-name-input input {
-               border: none;
-               border-bottom: 2px dashed #f472b6; /* Pink dashed underline */
-               background: none;
-               font-size: 1.1rem;
-               color: #374151;
-               font-weight: 600;
-               text-align: center;
-               width: 200px; /* Fixed width or adjust as needed */
-               padding: 0.2rem 0.5rem;
-               transition: border-color 0.3s ease;
-          }
-           .user-name-input input:focus {
-               outline: none;
-               border-bottom-color: #a855f7; /* Purple on focus */
-          }
-
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: #6b7280;
-            margin-bottom: 1rem;
-            font-weight: 600;
+        .title::before, .title::after {
+            position: absolute;
+            opacity: 0.8;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
+        .title::before { content: '🌸'; top: -0.5em; right: -0.5em; font-size: 0.5em; animation: pulse 2.5s infinite; }
+        .title::after { content: '🦋'; bottom: -0.2em; left: -0.5em; font-size: 0.4em; animation: float 3.5s ease-in-out infinite; }
 
-        .status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-        }
+        .author-attribution { font-size: 1rem; color: var(--purple); font-weight: 600; margin-bottom: 1.5rem; }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #10b981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .status-text {
-            font-size: 0.9rem;
-            color: #9ca3af;
-            font-weight: 500;
-        }
-
-        .decorative-lines {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .line {
-            height: 4px;
-            border-radius: 2px;
-        }
-
-        .line-1 { width: 64px; background: linear-gradient(to right, #fda4af, #f472b6); }
-        .line-2 { width: 40px; background: linear-gradient(to right, #a78bfa, #8b5cf6); }
-        .line-3 { width: 24px; background: linear-gradient(to right, #60a5fa, #3b82f6); }
-
-        .back-btn {
-            background: linear-gradient(135deg, #fda4af, #f472b6);
-            color: white;
+        .user-name-input { margin-bottom: 1rem; }
+        .user-name-input label { font-size: 1.2rem; color: var(--text-secondary); font-weight: 600; }
+        .user-name-input input {
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            cursor: pointer;
+            border-bottom: 2px dashed var(--pink);
+            background: none;
+            font-size: 1.2rem;
+            color: var(--text-primary);
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3);
+            text-align: center;
+            width: 220px;
+            padding: 0.2rem 0.5rem;
+            transition: border-color 0.3s ease;
         }
-
-        .back-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(244, 114, 182, 0.4);
-        }
-
-        /* Navigation */
-        .nav-section {
-            display: none;
-        }
-
-        .nav-section.active {
-            display: block;
-        }
-
-        /* Grid Styles */
+        .user-name-input input:focus { outline: none; border-bottom-color: var(--purple); }
+        
+        .status { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .status-dot { width: 8px; height: 8px; background-color: var(--green); border-radius: 50%; animation: pulse-status 2s infinite; }
+        .status-text { font-size: 0.8rem; color: #9ca3af; font-weight: 500; }
+        
+        /* --- General UI Components (Buttons, Cards) --- */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -225,2533 +126,725 @@ html
         }
 
         .card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.8) 100%);
+            background: var(--bg-light);
             border-radius: 24px;
             padding: 2rem;
-            /* Sombras más grandes para efecto 3D */
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15), 0 18px 36px -18px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-light);
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(10px);
+            text-align: center;
         }
-
-         /* Decorative elements for cards */
-        .card .card-decoration {
-             position: absolute;
-             font-size: 1.5rem;
-             opacity: 0.3;
-             pointer-events: none;
-             transition: transform 0.3s ease;
-        }
-
-         .card-books .card-decoration { top: 10%; left: 10%; content: '📚'; }
-         .card-clubs .card-decoration { top: 15%; right: 10%; content: '👥'; }
-         .card-calendar .card-decoration { bottom: 10%; left: 15%; content: '📅'; }
-         .card-quotes .card-decoration { top: 10%; right: 10%; content: '📝'; }
-         .card-wishlist .card-decoration { bottom: 15%; right: 10%; content: '💖'; }
-         .card-reviews .card-decoration { top: 10%; left: 10%; content: '✍️'; }
-         .card-playlists .card-decoration { bottom: 10%; left: 10%; content: '🎧'; }
-         /* .card-scrapbook .card-decoration { top: 15%; right: 15%; content: '📔'; } removed */
-         .card-diary .card-decoration { bottom: 10%; right: 10%; content: '📓'; }
-         .card-progress .card-decoration { top: 10%; left: 10%; content: '📈'; }
-         .card-challenges .card-decoration { bottom: 15%; left: 10%; content: '🧩'; }
-         .card-stats .card-decoration { top: 10%; right: 10%; content: '📊'; }
-         .card-monthly .card-decoration { bottom: 10%; right: 15%; content: '🎯'; }
-         .card-finished .card-decoration { top: 15%; left: 15%; content: '✅'; }
-         .card-favorites .card-decoration { bottom: 10%; left: 10%; content: '🌟'; }
-         .card-suggestions .card-decoration { top: 10%; right: 10%; content: '🤖'; }
-         /* New Sections */
-         .card-tributes .card-decoration { top: 15%; left: 10%; content: '✨'; }
-         .card-book-reviews .card-decoration { bottom: 10%; right: 15%; content: '🖋️'; }
-         .card-general-reviews .card-decoration { top: 10%; left: 10%; content: '✍️'; }
-
-
         .card:hover {
             transform: translateY(-8px) scale(1.02);
-            /* Sombras más grandes al pasar el mouse */
-            box-shadow: 0 40px 80px -18px rgba(0, 0, 0, 0.2), 0 25px 50px -25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.15);
         }
+        .card-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
+        .card-title { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
 
-        .card:hover .card-decoration {
-            transform: scale(1.2);
-            opacity: 0.5;
-        }
-
-        .card-content {
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            padding-top: 1rem;
-        }
-
-        .card-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
-        }
-
-        .card-title {
-            font-size: 1rem;
+        .btn {
+            background: linear-gradient(135deg, var(--pink), #e879f9);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.6rem;
+            border-radius: 12px;
+            cursor: pointer;
             font-weight: 600;
-            color: #374151;
-            line-height: 1.4;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 12px rgba(244, 114, 182, 0.2);
         }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(244, 114, 182, 0.3); }
+        .btn:active { transform: translateY(0); }
 
-        /* Colores específicos para cada tarjeta */
-        .card-books { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); }
-        .card-clubs { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
-        .card-calendar { background: linear-gradient(135deg, #ecfdf5 0%, #dcfce7 100%); }
-        .card-quotes { background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); }
-        .card-wishlist { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
-        .card-reviews { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); }
-        .card-playlists { background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); }
-        /* .card-scrapbook { background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); } removed */
-        .card-diary { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); }
-        .card-progress { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); }
-        .card-challenges { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); }
-        .card-stats { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); }
-        .card-monthly { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); }
-        .card-finished { background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%); }
-        .card-favorites { background: linear-gradient(135deg, #fce7f3 0%, #f9a8d4 100%); }
-        .card-suggestions { background: linear-gradient(135deg, #f3e8ff 0%, #d8b4fe 100%); }
-         /* New Sections */
-         .card-tributes { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); }
-         .card-book-reviews { background: linear-gradient(135deg, #fffbeb 0%, #fcd34d 100%); }
-         .card-general-reviews { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); }
+        .back-btn { background: linear-gradient(135deg, #cbd5e1, #94a3b8); }
+        .back-btn:hover { box-shadow: 0 8px 16px rgba(148, 163, 184, 0.3); }
 
-
-        /* Section Headers */
+        /* --- Section Styles --- */
+        .nav-section { display: none; }
+        .nav-section.active { display: block; animation: fadeIn 0.5s ease; }
+        
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
-            flex-wrap: wrap; /* Allows items to wrap on smaller screens */
-            gap: 1rem; /* Space between items */
-            position: relative; /* Needed for flower positioning */
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #374151;
-            margin: 0;
-            flex-grow: 1; /* Allow title to take available space */
-            text-align: center; /* Center title on smaller screens */
-        }
-
-        .section-header .back-btn,
-        .section-header .add-btn,
-        .section-header .btn-primary {
-            margin-bottom: 0; /* Remove margin-bottom from buttons in header */
-        }
-
-         /* Flower decoration in section headers */
-         .section-header .header-flower-decoration {
-             position: absolute;
-             top: 50%;
-             right: 0; /* Posicionar a la derecha */
-             transform: translateY(-50%);
-             font-size: 2.5rem; /* Tamaño de la flor */
-             opacity: 0.6;
-             pointer-events: none;
-             z-index: -1; /* Detrás de los botones */
-             transition: color 0.5s ease; /* Animación de color */
-         }
-          .section-header .back-btn + .section-title + .header-flower-decoration { /* Si está el back-btn a la izq, poner la flor a la derecha del título */
-               left: auto;
-               right: 0;
-          }
-           .section-header .header-flower-decoration.left { /* Clase para ponerla a la izquierda si no hay back button */
-                left: 0;
-                right: auto;
-           }
-
-
-        .add-btn, .btn-primary {
-            background: linear-gradient(135deg, #fda4af, #f472b6);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 16px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(244, 114, 182, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-
-        .add-btn:hover, .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(244, 114, 182, 0.4);
-        }
-
-        /* Items Grid */
+        .section-title { font-size: 2rem; font-weight: 700; color: var(--text-primary); }
+        
         .items-grid {
             display: grid;
             gap: 1.5rem;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ensure items have space */
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         }
 
         .item-card {
-            background: linear-gradient(135deg, #fefefe 0%, #fdf2f8 50%, #fef7ed 100%);
-            border-radius: 24px;
-            padding: 2rem;
-            /* Sombras más grandes para efecto 3D */
-            box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.1), 0 12px 24px -12px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-light);
             position: relative;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            word-wrap: break-word; /* Prevent overflow for long text */
+            word-wrap: break-word;
         }
-
-        .item-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        .item-card:hover { transform: translateY(-4px); box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.12); }
+        .item-title { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .item-subtitle { color: var(--text-secondary); font-weight: 500; margin-bottom: 0.75rem; }
+        .item-meta { color: var(--purple); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .item-notes { font-size: 0.9rem; color: var(--text-secondary); white-space: pre-wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border-light); }
+        
+        .item-actions { margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
+        .item-actions button {
+            background: #a78bfa; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px;
+            font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
         }
-
-        .item-card::before {
-            content: '📖'; /* Changed decoration for item cards */
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            font-size: 1.2rem; /* Slightly smaller */
-            opacity: 0.5; /* More subtle */
-        }
-
-        .item-content {
-            margin-left: 2.5rem; /* Space for the decoration */
-        }
-
-        .item-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #374151;
-            margin-bottom: 0.5rem;
-        }
-
-        .item-subtitle {
-            color: #6b7280;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        .item-meta {
-            color: #f43f5e;
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-         .item-actions {
-             margin-top: 1rem;
-             display: flex;
-             gap: 0.5rem;
-             flex-wrap: wrap;
-             justify-content: flex-end; /* Align actions to the right */
-         }
-
-         .item-actions button {
-             background: #a78bfa;
-             color: white;
-             border: none;
-             padding: 0.5rem 1rem;
-             border-radius: 8px;
-             font-size: 0.8rem;
-             cursor: pointer;
-             transition: background-color 0.3s ease, transform 0.1s ease;
-         }
-          .item-actions button:hover {
-              background: #8b5cf6;
-              transform: translateY(-1px);
-          }
-
-          .item-actions button:active {
-              transform: translateY(0);
-          }
-
-         .item-actions button.action-edit { background-color: #60a5fa; } /* Blue */
-         .item-actions button.action-edit:hover { background-color: #3b82f6; }
-
-         .item-actions button.action-finish { background-color: #10b981; } /* Green */
-         .item-actions button.action-finish:hover { background-color: #059669; }
-
-         .item-actions button.action-review { background-color: #f59e0b; } /* Amber */
-         .item-actions button.action-review:hover { background-color: #d97706; }
-
-
+        .item-actions button:hover { transform: translateY(-1px); }
+        .item-actions button.action-edit { background-color: var(--blue); }
+        .item-actions button.action-finish { background-color: var(--green); }
+        .item-actions button.action-review { background-color: var(--yellow); }
+        
         .delete-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: #fca5a5;
-            color: white;
-            border: none;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            display: flex; /* Center the X */
-            justify-content: center;
-            align-items: center;
+            position: absolute; top: 0.75rem; right: 0.75rem; background: #fca5a5; color: white; border: none;
+            width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; font-weight: bold;
+            display: flex; justify-content: center; align-items: center; line-height: 1; transition: all 0.2s ease;
         }
+        .delete-btn:hover { background: var(--red); transform: scale(1.1) rotate(90deg); }
 
-        .delete-btn:hover {
-            background: #f87171;
-            transform: scale(1.1);
-        }
-
-        /* Empty State */
+        /* --- Empty State --- */
         .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: #6b7280;
-            background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(248,250,252,0.4) 100%);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
+            text-align: center; padding: 4rem 2rem; color: var(--text-secondary); background: var(--bg-light);
+            border-radius: 24px; border: 1px dashed var(--border-light); backdrop-filter: blur(10px);
         }
-
-        .empty-state-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        /* Success message */
-        .success-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-            z-index: 10000;
-            animation: slideIn 0.3s ease forwards;
-        }
-
-         /* Goal Celebration Message */
-         .goal-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: linear-gradient(135deg, #f472b6, #a855f7);
-            color: white;
-            padding: 2rem 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
-            z-index: 10000;
-            font-size: 1.8rem;
-            font-weight: 700;
-            text-align: center;
-            opacity: 0;
-            animation: popIn 0.5s ease-out forwards, fadeOut 0.5s ease 3s forwards;
-         }
-
-         @keyframes popIn {
-             from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
-             to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-         }
-         @keyframes fadeOut {
-             to { opacity: 0; }
-         }
-
-
-        /* Celebration */
-        .celebration {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            overflow: hidden;
-        }
-
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            animation: confetti-fall 3s linear forwards;
-        }
-
-         /* Balloons for goal celebration */
-         .balloon {
-             position: fixed;
-             bottom: -150px;
-             width: 60px;
-             height: 80px;
-             background-color: #f472b6;
-             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-             z-index: 9999;
-             animation: riseUp 6s ease-in forwards;
-             opacity: 0.8;
-             box-shadow: inset -10px -10px 0 rgba(0,0,0,0.1);
-         }
-         /* String */
-         .balloon::after {
-             content: '';
-             position: absolute;
-             top: 100%;
-             left: 50%;
-             transform: translateX(-50%);
-             width: 2px;
-             height: 100px;
-             background-color: rgba(0,0,0,0.3);
-         }
-
-
-         @keyframes riseUp {
-             0% { bottom: -150px; opacity: 0.8; }
-             100% { bottom: 100%; opacity: 0.5; }
-         }
-
-
-        /* Animations */
-        @keyframes confetti-fall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.08; transform: scale(1); }
-            50% { opacity: 0.15; transform: scale(1.05); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
+        .empty-state-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+        
         /* --- Modal Styles --- */
         .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(248, 240, 245, 0.7);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(245, 243, 255, 0.5);
+            backdrop-filter: blur(8px); z-index: 1000; display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-
-        .modal-backdrop.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .modal-backdrop.active { opacity: 1; visibility: visible; }
 
         .modal-content {
-            background: linear-gradient(135deg, #fefefe 0%, #fff7ed 50%, #f5f3ff 100%);
-            padding: 2rem;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            position: relative;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
+            background: linear-gradient(135deg, #ffffff, #f5f3ff); padding: 2.5rem; border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); position: relative; max-width: 550px;
+            width: 90%; max-height: 90vh; overflow-y: auto; border: 1px solid white;
+            transform: scale(0.95); transition: transform 0.3s ease;
         }
-         .modal-backdrop.active .modal-content {
-             transform: translateY(0);
-         }
-
-
-        .modal-content h3 {
-            font-size: 1.5rem;
-            color: #374151;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-         .modal-content h4 {
-             font-size: 1.1rem;
-             color: #5a6573;
-             margin-top: 1.5rem;
-             margin-bottom: 1rem;
-             border-bottom: 1px dashed #e5e7eb;
-             padding-bottom: 0.5rem;
-         }
-
+        .modal-backdrop.active .modal-content { transform: scale(1); }
+        .modal-content h3 { font-size: 1.75rem; font-family: 'Playfair Display', serif; color: var(--text-primary); margin-bottom: 1.5rem; text-align: center; }
+        .modal-content h4 { font-size: 1.1rem; color: var(--purple); margin-top: 1.5rem; margin-bottom: 1rem; border-bottom: 1px dashed #d1d5db; padding-bottom: 0.5rem; }
 
         .modal-close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #9ca3af;
-            transition: color 0.3s ease;
-            z-index: 10;
+            position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.75rem;
+            cursor: pointer; color: #9ca3af; transition: color 0.2s ease, transform 0.2s ease;
         }
+        .modal-close-btn:hover { color: var(--red); transform: rotate(90deg); }
 
-        .modal-close-btn:hover {
-            color: #ef4444;
+        .modal-form label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-secondary); }
+        .modal-form input, .modal-form textarea, .modal-form select {
+            width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #d1d5db; border-radius: 8px;
+            font-size: 1rem; color: var(--text-primary); background-color: #f9fafb;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-
-        .modal-form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #4b5563;
+        .modal-form input:focus, .modal-form textarea:focus, .modal-form select:focus {
+            outline: none; border-color: var(--pink); box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2);
         }
-
-        .modal-form input[type="text"],
-        .modal-form input[type="number"],
-        .modal-form input[type="date"],
-        .modal-form textarea,
-        .modal-form select,
-        .modal-form input[type="url"] {
-            width: 100%;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1rem;
-            color: #374151;
-            background-color: #f9fafb;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        .modal-form textarea { min-height: 100px; resize: vertical; }
+        .modal-form button[type="submit"] { width: 100%; margin-top: 1rem; background: linear-gradient(135deg, var(--purple), #f472b6); }
+        
+        /* --- Specific Section: Book Reviews --- */
+        .book-review-card {
+            background: var(--bg-light); border-radius: 24px; padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); border: 1px solid var(--border-light);
         }
-         .modal-form select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23a8a8a8%22%20d%3D%22M287%2C114.5L154.2%2C21.2c-5.2-3.5-12.1-3.5-17.3%2C0L5.4%2C114.5c-5.2%2C3.5-5.2%2C13.6%2C0%2C17.1l132.8%2C93.3c5.2%2C3.5%2C12.1%2C3.5%2C17.3%2C0l132.8-93.3C292.2%2C128.1%2C292.2%2C118%2C287%2C114.5z%22%2F%3E%3C%2Fsvg%3E');
-            background-repeat: no-repeat;
-            background-position: right 0.7em top 50%, 0 0;
-            background-size: 0.65em auto, 100%;
-            padding-right: 2.5rem;
-         }
+        .book-review-card h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--text-primary); }
+        .book-review-card .review-section { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed #d1d5db; }
+        .book-review-card .review-section h4 { font-size: 1rem; color: var(--purple); margin-bottom: 0.5rem; font-weight: 600; }
+        .book-review-card .review-section p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap; }
+        .book-review-card .rating-hearts { color: var(--pink); font-size: 1.5rem; }
 
+        /* --- Animations --- */
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        @keyframes float-butterfly { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(10deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 0.07; transform: scale(1); } 50% { opacity: 0.12; transform: scale(1.08); } }
+        @keyframes pulse-status { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.4); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .modal-form input[type="text"]:focus,
-        .modal-form input[type="number"]:focus,
-        .modal-form input[type="date"]:focus,
-        .modal-form textarea:focus,
-        .modal-form select:focus,
-        .modal-form input[type="url"]:focus {
-            outline: none;
-            border-color: #f472b6;
-            box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2);
-        }
-
-         .modal-form textarea {
-             min-height: 100px;
-             resize: vertical;
-         }
-
-        .modal-form button[type="submit"] {
-            width: 100%;
-            background: linear-gradient(135deg, #a855f7, #e879f9);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
-        }
-
-        .modal-form button[type="submit"]:hover {
-             transform: translateY(-2px);
-             box-shadow: 0 12px 25px rgba(168, 85, 247, 0.4);
-        }
-
-        /* Modal Decorations */
-        .modal-content::before,
-        .modal-content::after {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.4;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .modal-content::before {
-            content: '🦋';
-            top: 1rem;
-            left: 1rem;
-        }
-
-        .modal-content::after {
-            content: '🌸';
-            bottom: 1rem;
-            right: 1rem;
-        }
-
-        /* --- Calendar Styles --- */
-        #calendarContainer {
-             padding: 1rem;
-             background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(248,250,252,0.6) 100%);
-             border-radius: 24px;
-             border: 1px solid rgba(255, 255, 255, 0.5);
-             backdrop-filter: blur(10px);
-        }
-
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #374151;
-            margin-bottom: 1rem;
-            padding: 0 1rem;
-        }
-
-         .calendar-header .back-btn {
-             padding: 0.5rem 1rem;
-             font-size: 1rem;
-             margin: 0;
-         }
-
-
-        .calendar-weekdays {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            text-align: center;
-            font-weight: 600;
-            color: #f472b6;
-            margin-bottom: 0.5rem;
-        }
-         .calendar-weekdays span {
-             padding: 0.5rem 0.2rem;
-         }
-
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
-
-        }
-
-        .calendar-day {
-            position: relative;
-            background-color: rgba(255, 255, 255, 0.5);
-            padding: 0.75rem 0.25rem;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #4b5563;
-            min-height: 60px;
-             display: flex;
-             flex-direction: column;
-             align-items: center;
-            justify-content: flex-start;
-            overflow: hidden;
-            transition: background-color 0.2s ease;
-            cursor: pointer;
-        }
-
-        .calendar-day:hover {
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-
-        .calendar-day.today {
-             border: 2px solid #f472b6;
-             font-weight: bold;
-        }
-
-        .calendar-day.has-event {
-            background-color: #fce7f3;
-            border-color: #f472b6;
-        }
-
-        .calendar-day-number {
-            font-weight: bold;
-            margin-bottom: 0.2rem;
-            color: #374151;
-        }
-
-        .calendar-day-events {
-            font-size: 0.7rem;
-            color: #a855f7;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-             padding: 0 0.25rem;
-             text-align: left;
-        }
-
-        .calendar-day.empty {
-            background-color: transparent;
-            border: none;
-            box-shadow: none;
-            pointer-events: none;
-        }
-
-         /* --- Tribute Section Styles --- */
-         .tribute-item {
-             background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-             border-radius: 24px;
-             padding: 2rem;
-             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-             border: 1px solid rgba(255, 255, 255, 0.5);
-             position: relative;
-         }
-         .tribute-item::before {
-             content: '✨';
-             position: absolute;
-             top: 1rem;
-             left: 1rem;
-             font-size: 1.2rem;
-             opacity: 0.5;
-         }
-
-         .tribute-item .item-content { margin-left: 2.5rem; }
-         .tribute-item .item-title { color: #374151; margin-bottom: 0.5rem;}
-         .tribute-item .item-subtitle { color: #6b7280; font-weight: 500;}
-         .tribute-item .item-meta { color: #a855f7; font-weight: 600; font-size: 0.9rem; margin-bottom: 1rem;}
-
-         .tribute-content {
-             margin-top: 1rem;
-             padding-top: 1rem;
-             border-top: 1px dashed #e5e7eb;
-         }
-         .tribute-content img {
-             max-width: 100%;
-             height: auto;
-             display: block;
-             margin: 0.5rem auto;
-             border-radius: 12px;
-             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-         }
-         .tribute-content iframe {
-             width: 100%;
-             aspect-ratio: 16 / 9;
-             border: none;
-             border-radius: 12px;
-             margin: 0.5rem 0;
-         }
-         .tribute-content a {
-             color: #60a5fa;
-             text-decoration: none;
-             word-break: break-all;
-         }
-         .tribute-content a:hover {
-             text-decoration: underline;
-         }
-         .tribute-content p {
-             color: #4b5563;
-             white-space: pre-wrap;
-         }
-
-         /* --- Book Review Section Styles --- */
-          .book-review-card {
-              background: linear-gradient(135deg, #fffbeb 0%, #fcd34d 100%);
-              border-radius: 24px;
-              padding: 2rem;
-              box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-              border: 1px solid rgba(255, 255, 255, 0.5);
-              position: relative;
-              word-wrap: break-word;
-          }
-           .book-review-card::before {
-              content: '🖋️';
-              position: absolute;
-              top: 1rem;
-              left: 1rem;
-              font-size: 1.2rem;
-              opacity: 0.5;
-          }
-          .book-review-card .item-content { margin-left: 2.5rem; }
-
-          .book-review-card h3 {
-              font-size: 1.5rem;
-              font-weight: 700;
-              color: #374151;
-              margin-bottom: 0.5rem;
-          }
-          .book-review-card .item-subtitle {
-              color: #6b7280;
-              font-weight: 500;
-              margin-bottom: 1rem;
-          }
-          .book-review-card .review-section {
-              margin-top: 1.5rem;
-              padding-top: 1rem;
-              border-top: 1px dashed #fcd34d;
-          }
-          .book-review-card .review-section h4 {
-               font-size: 1.1rem;
-               color: #78350f;
-               margin-bottom: 0.8rem;
-               border-bottom: none;
-               padding-bottom: 0;
-          }
-          .book-review-card .review-section p,
-           .book-review-card .review-section div {
-              color: #4b5563;
-              font-size: 0.9rem;
-              line-height: 1.5;
-              white-space: pre-wrap;
-          }
-          .book-review-card .rating-hearts {
-              color: #f43f5e;
-              font-size: 1.5rem;
-          }
-
-
-        /* Responsive */
+        /* --- Responsive Styles --- */
         @media (max-width: 768px) {
-            .title { font-size: 2.5rem; }
             .container { padding: 1rem; }
-            .section-header {
-                flex-direction: column;
-                align-items: stretch;
-                text-align: center;
-            }
-             .section-header .back-btn,
-             .section-header .add-btn {
-                width: 100%;
-                text-align: center;
-             }
-
-            .item-content {
-                margin-left: 0;
-                padding-left: 2.5rem;
-            }
-             .item-card::before {
-                left: 1rem;
-            }
-
-            .items-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-content {
-                 padding: 1.5rem;
-            }
-
-            .calendar-day {
-                min-height: 50px;
-            }
-            .calendar-header {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-             .calendar-header .back-btn {
-                 width: auto;
-             }
-             .user-name-input input {
-                 width: 150px;
-             }
+            .section-header { flex-direction: column; align-items: stretch; text-align: center; }
+            .items-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- Elementos decorativos de fondo -->
+
     <div class="bg-decoration bg-book-1">📚</div>
     <div class="bg-decoration bg-book-2">📖</div>
     <div class="bg-decoration bg-butterfly">🦋</div>
-    <div class="bg-decoration bg-star">⭐</div>
+    <div class="bg-decoration bg-star">✨</div>
     <div class="bg-decoration bg-flower">🌸</div>
-    <div class="bg-decoration bg-moon">🌙</div>
 
     <div class="container">
-        <!-- Home Section -->
-        <section id="home" class="nav-section active">
+        <section id="home" class="nav-section">
             <header class="header">
                 <h1 class="title">Merakelysi</h1>
-                 <p class="author-attribution">By Maribel Alba</p>
-                <p class="subtitle">Mi espacio literario</p>
-
+                <p class="author-attribution">By Maribel Alba</p>
                 <div class="user-name-input">
-                    <label for="userName">Hola,</label>
-                    <input type="text" id="userName" placeholder="tu nombre aquí" onchange="saveUserName()">
+                    <label for="userName">Hola, </label>
+                    <input type="text" id="userName" placeholder="tu nombre aquí">
                 </div>
-
                 <div class="status">
                     <div class="status-dot"></div>
-                    <span class="status-text">Datos guardados automáticamente</span>
-                </div>
-
-                <div class="decorative-lines">
-                    <div class="line line-1"></div>
-                    <div class="line line-2"></div>
-                    <div class="line line-3"></div>
+                    <span class="status-text">Datos guardados en tu navegador</span>
                 </div>
             </header>
 
-            <main class="grid">
-                <div class="card card-books" onclick="showSection('books')">
-                    <span class="card-decoration">📚</span>
-                    <div class="card-content">
-                        <span class="card-icon">📚</span>
-                        <h3 class="card-title">Mis Libros por Leer</h3>
-                    </div>
-                </div>
-
-                <div class="card card-clubs" onclick="showSection('clubs')">
-                     <span class="card-decoration">👥</span>
-                    <div class="card-content">
-                        <span class="card-icon">👥</span>
-                        <h3 class="card-title">Mis Clubes de Lectura</h3>
-                    </div>
-                </div>
-
-                <div class="card card-calendar" onclick="showSection('calendar')">
-                     <span class="card-decoration">📅</span>
-                    <div class="card-content">
-                        <span class="card-icon">📅</span>
-                        <h3 class="card-title">Calendario de Lecturas</h3>
-                    </div>
-                </div>
-
-                <div class="card card-quotes" onclick="showSection('quotes')">
-                     <span class="card-decoration">📝</span>
-                    <div class="card-content">
-                        <span class="card-icon">📝</span>
-                        <h3 class="card-title">Frases de Lecturas</h3>
-                    </div>
-                </div>
-
-                <div class="card card-wishlist" onclick="showSection('wishlist')">
-                     <span class="card-decoration">💖</span>
-                    <div class="card-content">
-                        <span class="card-icon">💖</span>
-                        <h3 class="card-title">Wishlist de libros</h3>
-                    </div>
-                </div>
-
-                 <!-- Changed section name and card type -->
-                <div class="card card-book-reviews" onclick="showSection('bookReviews')">
-                     <span class="card-decoration">🖋️</span>
-                    <div class="card-content">
-                        <span class="card-icon">🖋️</span>
-                        <h3 class="card-title">Reseñas Detalladas</h3>
-                    </div>
-                </div>
-
-                <div class="card card-general-reviews" onclick="showSection('generalReviews')"> <!-- Kept original reviews for other media -->
-                     <span class="card-decoration">✍️</span>
-                    <div class="card-content">
-                        <span class="card-icon">✍️</span>
-                        <h3 class="card-title">Reseñas Generales</h3>
-                    </div>
-                </div>
-
-
-                <div class="card card-playlists" onclick="showSection('playlists')">
-                     <span class="card-decoration">🎧</span>
-                    <div class="card-content">
-                        <span class="card-icon">🎧</span>
-                        <h3 class="card-title">Playlist de Spotify</h3>
-                    </div>
-                </div>
-
-                <!-- Removed Scrapbook Section Card -->
-
-
-                <div class="card card-diary" onclick="showSection('diary')">
-                     <span class="card-decoration">📓</span>
-                    <div class="card-content">
-                        <span class="card-icon">📓</span>
-                        <h3 class="card-title">Diario de Lectura</h3>
-                    </div>
-                </div>
-
-                <div class="card card-progress" onclick="showSection('progress')">
-                     <span class="card-decoration">📈</span>
-                    <div class="card-content">
-                        <span class="card-icon">📈</span>
-                        <h3 class="card-title">Mi Progreso</h3>
-                    </div>
-                </div>
-
-                <div class="card card-challenges" onclick="showSection('challenges')">
-                     <span class="card-decoration">🧩</span>
-                    <div class="card-content">
-                        <span class="card-icon">🧩</span>
-                        <h3 class="card-title">Retos Lectores</h3>
-                    </div>
-                </div>
-
-                <div class="card card-tributes" onclick="showSection('tributes')"> <!-- New Section Card -->
-                     <span class="card-decoration">✨</span>
-                    <div class="card-content">
-                        <span class="card-icon">✨</span>
-                        <h3 class="card-title">Homenajes Literarios</h3>
-                    </div>
-                </div>
-
-
-                <div class="card card-stats" onclick="showSection('stats')">
-                     <span class="card-decoration">📊</span>
-                    <div class="card-content">
-                        <span class="card-icon">📊</span>
-                        <h3 class="card-title">Estadísticas</h3>
-                    </div>
-                </div>
-
-                <div class="card card-monthly" onclick="showSection('monthly')">
-                     <span class="card-decoration">🎯</span>
-                    <div class="card-content">
-                        <span class="card-icon">🎯</span>
-                        <h3 class="card-title">Retos del Mes</h3>
-                    </div>
-                </div>
-
-                <div class="card card-finished" onclick="showSection('finished')">
-                     <span class="card-decoration">✅</span>
-                    <div class="card-content">
-                        <span class="card-icon">✅</span>
-                        <h3 class="card-title">Lecturas Terminadas</h3>
-                    </div>
-                </div>
-
-                <div class="card card-favorites" onclick="showSection('favorites')">
-                     <span class="card-decoration">🌟</span>
-                    <div class="card-content">
-                        <span class="card-icon">🌟</span>
-                        <h3 class="card-title">Favoritos del Año</h3>
-                    </div>
-                </div>
-
-                <div class="card card-suggestions" onclick="showSection('suggestions')">
-                     <span class="card-decoration">🤖</span>
-                    <div class="card-content">
-                        <span class="card-icon">🤖</span>
-                        <h3 class="card-title">Sugerencias Automáticas</h3>
-                    </div>
-                </div>
-            </main>
+            <main id="homeGrid" class="grid">
+                </main>
         </section>
 
-        <!-- Books Section -->
-        <section id="books" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">📚 Mis Libros por Leer</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addBookModal')">+ Agregar Libro</button>
-            </div>
-            <div id="booksContainer" class="items-grid"></div>
-        </section>
-
-        <!-- Clubs Section -->
-        <section id="clubs" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">👥 Mis Clubes de Lectura</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addClubModal')">+ Crear Club</button>
-            </div>
-            <div id="clubsContainer" class="items-grid"></div>
-        </section>
-
-        <!-- Calendar Section -->
-        <section id="calendar" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">📅 Calendario de Lecturas</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addEventModal')">+ Nuevo Evento</button>
-            </div>
-            <div id="calendarContainer">
-                 <!-- Calendar will be rendered here by JS -->
-            </div>
-        </section>
-
-        <!-- Other Sections -->
-
-        <section id="quotes" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">📝 Frases de Lecturas</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addQuoteModal')">+ Nueva Frase</button>
-            </div>
-            <div id="quotesContainer" class="items-grid"></div>
-        </section>
-
-        <section id="wishlist" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">💖 Wishlist de libros</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addWishModal')">+ Agregar Deseo</button>
-            </div>
-            <div id="wishlistContainer" class="items-grid"></div>
-        </section>
-
-         <!-- New Section: Detailed Book Reviews -->
-         <section id="bookReviews" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">🖋️ Reseñas Detalladas</h2>
-                 <span class="header-flower-decoration">🌸</span>
-            </div>
-            <div id="bookReviewsContainer" class="items-grid"></div>
-        </section>
-
-        <!-- Original Reviews Section (Renamed) -->
-        <section id="generalReviews" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">✍️ Reseñas Generales</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addGeneralReviewModal')">+ Nueva Reseña General</button>
-            </div>
-            <div id="generalReviewsContainer" class="items-grid"></div>
-        </section>
-
-
-        <section id="playlists" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">🎧 Playlist de Spotify</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addPlaylistModal')">+ Nueva Playlist</button>
-            </div>
-            <div id="playlistsContainer" class="items-grid"></div>
-        </section>
-
-        <!-- Removed Scrapbook Section -->
-
-
-        <section id="diary" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">📓 Diario de Lectura</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addDiaryModal')">+ Nueva Entrada</button>
-            </div>
-            <div id="diaryContainer" class="items-grid"></div>
-        </section>
-
-        <section id="progress" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">📈 Mi Progreso</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addGoalModal')">+ Nuevo Reto</button>
-            </div>
-            <div id="progressContainer" class="items-grid"></div>
-        </section>
-
-        <section id="challenges" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">🧩 Retos Lectores</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addChallengeModal')">+ Nuevo Reto</button>
-            </div>
-            <div id="challengesContainer" class="items-grid"></div>
-        </section>
-
-         <!-- New Section: Literary Tributes -->
-         <section id="tributes" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">✨ Homenajes Literarios</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addTributeModal')">+ Nuevo Homenaje</button>
-            </div>
-            <div id="tributesContainer" class="items-grid"></div>
-        </section>
-
-
-         <section id="stats" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">📊 Estadísticas</h2>
-                 <span class="header-flower-decoration">🌸</span>
-            </div>
-            <div id="statsContainer" class="empty-state">
-                <div class="empty-state-icon">📊</div>
-                <h3>Estadísticas próximamente</h3>
-                <p>Aquí verás tus métricas de lectura.</p>
-            </div>
-        </section>
-
-        <section id="monthly" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">🎯 Retos del Mes</h2>
-                 <span class="header-flower-decoration">🌸</span>
-            </div>
-            <div id="monthlyContainer" class="empty-state">
-                <div class="empty-state-icon">🎯</div>
-                <h3>Retos mensuales próximamente</h3>
-                <p>Desafíos especiales para cada mes.</p>
-            </div>
-        </section>
-
-
-        <section id="finished" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">✅ Lecturas Terminadas</h2>
-                 <span class="header-flower-decoration">🌸</span>
-            </div>
-            <div id="finishedContainer" class="items-grid"></div>
-        </section>
-
-        <section id="favorites" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">🌟 Favoritos del Año</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="openModal('addFavoriteModal')">+ Agregar Favorito</button>
-            </div>
-            <div id="favoritesContainer" class="items-grid"></div>
-        </section>
-
-        <section id="suggestions" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">🤖 Sugerencias Automáticas</h2>
-                 <span class="header-flower-decoration">🌸</span>
-                <button class="add-btn" onclick="generateSuggestions()">🔄 Generar Sugerencias</button>
-            </div>
-            <div id="suggestionsContainer" class="items-grid"></div>
-        </section>
-    </div> <!-- Cierre del container -->
-
-    <!-- --- Modals --- -->
-
-    <!-- Add/Edit Book Modal -->
-    <div id="addBookModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addBookModal')">×</button>
-            <h3 id="addBookModalTitle">Agregar Libro</h3>
-            <form id="addBookForm" class="modal-form">
-                 <input type="hidden" id="bookItemId" name="itemId">
-
-                <label for="bookTitle">Título:</label>
-                <input type="text" id="bookTitle" name="title" required>
-
-                <label for="bookAuthor">Autor/a:</label>
-                <input type="text" id="bookAuthor" name="author" required>
-
-                <label for="bookTotalPages">Total Páginas:</label>
-                <input type="number" id="bookTotalPages" name="totalPages" min="0" value="0" required>
-
-                <label for="bookTotalChapters">Total Capítulos (opcional):</label>
-                <input type="number" id="bookTotalChapters" name="totalChapters" min="0" value="0">
-
-                <label for="bookClub">Club de Lectura (opcional):</label>
-                 <select id="bookClub" name="clubId">
-                     <option value="">-- Ninguno --</option>
-                 </select>
-
-                <h4>Metas de Lectura (Opcional)</h4>
-                <label for="bookTargetFinishDate">Fecha Límite para Terminar:</label>
-                <input type="date" id="bookTargetFinishDate" name="targetFinishDate">
-
-                <label for="bookNotes">Notas Adicionales (opcional):</label>
-                <textarea id="bookNotes" name="notes"></textarea>
-
-                <h4>Progreso Actual</h4>
-                 <label for="bookCurrentPage">Página Actual:</label>
-                <input type="number" id="bookCurrentPage" name="currentPage" value="0" min="0" required>
-
-                 <label for="bookCurrentChapter">Capítulo Actual:</label>
-                <input type="number" id="bookCurrentChapter" name="currentChapter" value="0" min="0" required>
-
-
-                <button type="submit">Guardar Libro</button>
-            </form>
-        </div>
+        <section id="books" class="nav-section"></section>
+        <section id="clubs" class="nav-section"></section>
+        <section id="calendar" class="nav-section"></section>
+        <section id="quotes" class="nav-section"></section>
+        <section id="wishlist" class="nav-section"></section>
+        <section id="bookReviews" class="nav-section"></section>
+        <section id="generalReviews" class="nav-section"></section>
+        <section id="playlists" class="nav-section"></section>
+        <section id="diary" class="nav-section"></section>
+        <section id="progress" class="nav-section"></section>
+        <section id="challenges" class="nav-section"></section>
+        <section id="tributes" class="nav-section"></section>
+        <section id="stats" class="nav-section"></section>
+        <section id="monthly" class="nav-section"></section>
+        <section id="finished" class="nav-section"></section>
+        <section id="favorites" class="nav-section"></section>
+        <section id="suggestions" class="nav-section"></section>
     </div>
 
-    <!-- Add/Edit Club Modal -->
-     <div id="addClubModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addClubModal')">×</button>
-            <h3 id="addClubModalTitle">Crear Club</h3>
-            <form id="addClubForm" class="modal-form">
-                 <input type="hidden" id="clubItemId" name="itemId">
-
-                <label for="clubName">Nombre del Club:</label>
-                <input type="text" id="clubName" name="name" required>
-
-                <label for="clubDescription">Descripción (opcional):</label>
-                <textarea id="clubDescription" name="description"></textarea>
-
-                <label for="clubMeetingDay">Día de Reunión (ej: Lunes):</label>
-                <input type="text" id="clubMeetingDay" name="meetingDay" value="Por definir" required>
-
-                 <label for="clubMeetingTime">Hora de Reunión (ej: 19:00):</label>
-                <input type="text" id="clubMeetingTime" name="meetingTime" value="Por definir" required>
-
-                <label for="clubMembers">Número de Miembros:</label>
-                <input type="number" id="clubMembers" name="members" value="0" min="0" required>
-
-                <button type="submit">Crear Club</button>
-            </form>
-        </div>
-    </div>
-
-     <!-- Add/Edit Event Modal -->
-     <div id="addEventModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addEventModal')">×</button>
-            <h3 id="addEventModalTitle">Nuevo Evento</h3>
-            <form id="addEventForm" class="modal-form">
-                 <input type="hidden" id="eventItemId" name="itemId">
-
-                <label for="eventTitle">Título del Evento:</label>
-                <input type="text" id="eventTitle" name="title" required>
-
-                <label for="eventDate">Fecha:</label>
-                <input type="date" id="eventDate" name="date" required>
-
-                <label for="eventDescription">Descripción (opcional):</label>
-                <textarea id="eventDescription" name="description"></textarea>
-
-                <button type="submit">Guardar Evento</button>
-            </form>
-        </div>
-    </div>
-
-     <!-- Add/Edit Quote Modal -->
-     <div id="addQuoteModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addQuoteModal')">×</button>
-             <h3 id="addQuoteModalTitle">Nueva Frase</h3>
-            <form id="addQuoteForm" class="modal-form">
-                 <input type="hidden" id="quoteItemId" name="itemId">
-
-                <label for="quoteText">Frase:</label>
-                <textarea id="quoteText" name="text" required></textarea>
-
-                <label for="quoteAuthor">Autor/a:</label>
-                <input type="text" id="quoteAuthor" name="author" required>
-
-                <label for="quoteBook">Libro (opcional):</label>
-                <input type="text" id="quoteBook" name="book">
-
-                <button type="submit">Guardar Frase</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add/Edit Wish Modal -->
-     <div id="addWishModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addWishModal')">×</button>
-            <h3 id="addWishModalTitle">Agregar Deseo (Wishlist)</h3>
-            <form id="addWishForm" class="modal-form">
-                 <input type="hidden" id="wishItemId" name="itemId">
-
-                <label for="wishTitle">Título del Libro:</label>
-                <input type="text" id="wishTitle" name="title" required>
-
-                <label for="wishAuthor">Autor/a (opcional):</label>
-                <input type="text" id="wishAuthor" name="author">
-
-                <label for="wishPriority">Prioridad (Alta, Media, Baja):</label>
-                <input type="text" id="wishPriority" name="priority" value="Media">
-
-                <label for="wishReason">¿Por qué quieres leerlo? (opcional):</label>
-                <textarea id="wishReason" name="reason"></textarea>
-
-                <button type="submit">Agregar Deseo</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add/Edit General Review Modal -->
-     <div id="addGeneralReviewModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addGeneralReviewModal')">×</button>
-            <h3 id="addGeneralReviewModalTitle">Nueva Reseña General</h3>
-            <form id="addGeneralReviewForm" class="modal-form">
-                 <input type="hidden" id="generalReviewItemId" name="itemId">
-
-                 <label for="generalReviewBook">Libro/Media Reseñado:</label>
-                <input type="text" id="generalReviewBook" name="book" required>
-
-                <label for="generalReviewAuthor">Autor/a/Artista (opcional):</label>
-                <input type="text" id="generalReviewAuthor" name="author">
-
-                <label for="generalReviewRating">Calificación (1-5):</label>
-                <input type="number" id="generalReviewRating" name="rating" value="5" min="1" max="5" required>
-
-                <label for="generalReviewContent">Tu Reseña:</label>
-                <textarea id="generalReviewContent" name="content" required></textarea>
-
-                <button type="submit">Guardar Reseña General</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add/Edit Playlist Modal -->
-     <div id="addPlaylistModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addPlaylistModal')">×</button>
-            <h3 id="addPlaylistModalTitle">Nueva Playlist</h3>
-            <form id="addPlaylistForm" class="modal-form">
-                 <input type="hidden" id="playlistItemId" name="itemId">
-
-                <label for="playlistName">Nombre de la Playlist:</label>
-                <input type="text" id="playlistName" name="name" required>
-
-                <label for="playlistEmbedCode">Código o URL de Spotify Embed:</label>
-                <textarea id="playlistEmbedCode" name="embedCode" rows="4" placeholder="Pega aquí el código embed o la URL compartible de Spotify"></textarea>
-
-                <label for="playlistBook">Libro Asociado (opcional):</label>
-                <input type="text" id="playlistBook" name="book">
-
-                <label for="playlistGenre">Género Musical (opcional):</label>
-                <input type="text" id="playlistGenre" name="genre">
-
-                <label for="playlistMood">Estado de Ánimo (opcional):</label>
-                <input type="text" id="playlistMood" name="mood">
-
-                <button type="submit">Crear Playlist</button>
-            </form>
-        </div>
-    </div>
-
-
-     <!-- Add/Edit Diary Entry Modal -->
-     <div id="addDiaryModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addDiaryModal')">×</button>
-            <h3 id="addDiaryModalTitle">Nueva Entrada de Diario</h3>
-            <form id="addDiaryForm" class="modal-form">
-                 <input type="hidden" id="diaryItemId" name="itemId">
-
-                <label for="diaryDate">Fecha (opcional):</label>
-                <input type="date" id="diaryDate" name="date" value="">
-
-                <label for="diaryBook">Libro (opcional):</label>
-                <input type="text" id="diaryBook" name="book">
-
-                <label for="diaryChapter">Capítulo (opcional):</label>
-                <input type="text" id="diaryChapter" name="chapter">
-
-                <label for="diaryContent">Tu Reflexión:</label>
-                <textarea id="diaryContent" name="content" required></textarea>
-
-                <button type="submit">Guardar Entrada</button>
-            </form>
-        </div>
-    </div>
-
-     <!-- Add/Edit Goal Modal -->
-     <div id="addGoalModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addGoalModal')">×</button>
-            <h3 id="addGoalModalTitle">Nuevo Reto (Progreso)</h3>
-            <form id="addGoalForm" class="modal-form">
-                 <input type="hidden" id="goalItemId" name="itemId">
-
-                <label for="goalTitle">Título del Reto:</label>
-                <input type="text" id="goalTitle" name="title" required>
-
-                <label for="goalDescription">Descripción (opcional):</label>
-                <textarea id="goalDescription" name="description"></textarea>
-
-                <label for="goalTarget">Meta (número, ej: 5):</label>
-                <input type="number" id="goalTarget" name="target" value="1" min="1" required>
-
-                <h4>Progreso Actual</h4>
-                 <label for="goalCurrent">Progreso:</label>
-                <input type="number" id="goalCurrent" name="current" value="0" min="0" required>
-
-
-                <button type="submit">Establecer Reto</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add/Edit Challenge Modal -->
-     <div id="addChallengeModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addChallengeModal')">×</button>
-            <h3 id="addChallengeModalTitle">Nuevo Reto Lector</h3>
-            <form id="addChallengeForm" class="modal-form">
-                 <input type="hidden" id="challengeItemId" name="itemId">
-
-                <label for="challengeTitle">Título del Reto:</label>
-                <input type="text" id="challengeTitle" name="title" required>
-
-                <label for="challengeDescription">Descripción (opcional):</label>
-                <textarea id="challengeDescription" name="description"></textarea>
-
-                <label for="challengeCategory">Categoría (opcional):</label>
-                <input type="text" id="challengeCategory" name="category">
-
-                <button type="submit">Aceptar Reto</button>
-            </form>
-        </div>
-    </div>
-
-     <!-- Add/Edit Favorite Modal -->
-     <div id="addFavoriteModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addFavoriteModal')">×</button>
-            <h3 id="addFavoriteModalTitle">Agregar Favorito</h3>
-            <form id="addFavoriteForm" class="modal-form">
-                 <input type="hidden" id="favoriteItemId" name="itemId">
-
-                <label for="favoriteTitle">Título del Libro:</label>
-                <input type="text" id="favoriteTitle" name="title" required>
-
-                <label for="favoriteAuthor">Autor/a (opcional):</label>
-                <input type="text" id="favoriteAuthor" name="author">
-
-                <label for="favoriteRating">Calificación (1-5):</label>
-                <input type="number" id="favoriteRating" name="rating" value="5" min="1" max="5" required>
-
-                <label for="favoriteReason">¿Por qué es tu favorito? (opcional):</label>
-                <textarea id="favoriteReason" name="reason"></textarea>
-
-                <button type="submit">Guardar Favorito</button>
-            </form>
-        </div>
-    </div>
-
-     <!-- Add/Edit Tribute Modal -->
-      <div id="addTributeModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addTributeModal')">×</button>
-            <h3 id="addTributeModalTitle">Nuevo Homenaje Literario</h3>
-            <form id="addTributeForm" class="modal-form">
-                 <input type="hidden" id="tributeItemId" name="itemId">
-
-                 <label for="tributeBook">Libro Asociado (opcional):</label>
-                 <select id="tributeBook" name="bookId">
-                     <option value="">-- Ninguno --</option>
-                 </select>
-
-                <label for="tributeTitle">Título del Homenaje:</label>
-                <input type="text" id="tributeTitle" name="title" required>
-
-                <label for="tributeType">Tipo de Contenido:</label>
-                <select id="tributeType" name="type" required onchange="toggleTributeContentField()">
-                    <option value="">-- Seleccionar --</option>
-                    <option value="text">Texto/Notas</option>
-                    <option value="image">Imagen (URL)</option>
-                    <option value="video">Video Embed (URL)</option>
-                    <option value="link">Enlace (URL)</option>
-                     <option value="audio">Audio Embed (URL)</option>
-                </select>
-
-                <div id="tributeContentFields">
-                    <label for="tributeContentField" class="tribute-content-label">Contenido (Texto/URL/Embed):</label>
-                    <textarea id="tributeContentField" name="content" required rows="6"></textarea>
-                </div>
-
-
-                <button type="submit">Guardar Homenaje</button>
-            </form>
-        </div>
-    </div>
-
-     <!-- Add/Edit Detailed Book Review Modal -->
-      <div id="addDetailedBookReviewModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('addDetailedBookReviewModal')">×</button>
-            <h3 id="addDetailedBookReviewModalTitle">Reseña Detallada del Libro</h3>
-            <form id="addDetailedBookReviewForm" class="modal-form">
-                 <input type="hidden" id="bookReviewBookId" name="bookId">
-
-                <h4 id="bookReviewBookTitle">Libro: [Título]</h4>
-                 <p id="bookReviewBookAuthor" style="margin-bottom: 1.5rem; color: #6b7280;">por [Autor/a]</p>
-
-
-                <label for="bookReviewRating">Calificación (1-5):</label>
-                <input type="number" id="bookReviewRating" name="rating" value="5" min="1" max="5" required>
-
-                <label for="bookReviewFavoriteCharacters">Personajes Favoritos:</label>
-                <textarea id="bookReviewFavoriteCharacters" name="favoriteCharacters"></textarea>
-
-                <label for="bookReviewChangeEnding">¿Cambiarías el final?</label>
-                <textarea id="bookReviewChangeEnding" name="changeEnding"></textarea>
-
-                 <label for="bookReviewRecommend">¿Lo recomendarías?</label>
-                <textarea id="bookReviewRecommend" name="recommend"></textarea>
-
-                <label for="bookReviewLearnings">Aprendizajes:</label>
-                <textarea id="bookReviewLearnings" name="learnings"></textarea>
-
-                <label for="bookReviewQuotes">Frases Favoritas:</label>
-                <textarea id="bookReviewQuotes" name="quotes"></textarea>
-
-                <label for="bookReviewLikedMost">Lo que más me gustó:</label>
-                <textarea id="bookReviewLikedMost" name="likedMost"></textarea>
-
-                 <label for="bookReviewSuggestions">Sugerencias para el autor:</label>
-                <textarea id="bookReviewSuggestions" name="suggestions"></textarea>
-
-
-                <button type="submit">Guardar Reseña Detallada</button>
-            </form>
-        </div>
-    </div>
-
-
-    <script>
-        // Definición de colores pastel
-        const pastelColors = ['#FFB6C1', '#87CEEB', '#98FB98', '#DDA0DD', '#F0E68C', '#FFA07A', '#a855f7', '#3b82f6', '#f472b6', '#fde68a', '#ccfbf1', '#bfdbfe'];
-
-        // Sistema de almacenamiento
-        let data = {
-            userName: '',
-            books: [],
-            clubs: [],
-            events: [],
-            quotes: [],
-            wishlist: [],
-            generalReviews: [],
-            playlists: [],
-            // scrapbook: [], // Removed
-            diary: [],
-            goals: [],
-            challenges: [],
-            tributes: [],
-            favorites: [],
-            suggestions: []
+    <div id="modal-container"></div>
+    
+    <div id="notification-container"></div>
+    <div id="celebration-container"></div>
+
+
+<script>
+// ===================================================================================
+// MERAKELYSI APP 2.0 - REFACTORIZADO Y MEJORADO
+// Arquitecto de Código: Tu Asistente IA de Confianza
+// Fecha: 12 de julio de 2025
+// ===================================================================================
+
+/**
+ * @file app.js
+ * @description Lógica principal de la aplicación Merakelysi.
+ * @summary Este script ha sido completamente reestructurado para mejorar la modularidad,
+ * la mantenibilidad y la experiencia de usuario.
+ */
+
+// -----------------------------------------------------------------------------------
+// 1. CONFIGURACIÓN Y ESTADO GLOBAL
+// -----------------------------------------------------------------------------------
+
+const config = {
+    storageKey: 'merakelysi_data_v2',
+    userNameKey: 'merakelysi_userName_v2',
+    pastelColors: ['#FFB6C1', '#87CEEB', '#98FB98', '#DDA0DD', '#F0E68C', '#FFA07A', '#a855f7', '#3b82f6', '#f472b6', '#fde68a', '#ccfbf1', '#bfdbfe'],
+    sections: [
+        { id: 'books', title: 'Mis Libros por Leer', icon: '📚' },
+        { id: 'clubs', title: 'Mis Clubes de Lectura', icon: '👥' },
+        { id: 'calendar', title: 'Calendario de Lecturas', icon: '📅' },
+        { id: 'quotes', title: 'Frases de Lecturas', icon: '📝' },
+        { id: 'wishlist', title: 'Wishlist de Libros', icon: '💖' },
+        { id: 'bookReviews', title: 'Reseñas Detalladas', icon: '🖋️' },
+        { id: 'generalReviews', title: 'Reseñas Generales', icon: '✍️' },
+        { id: 'playlists', title: 'Playlist de Spotify', icon: '🎧' },
+        { id: 'diary', title: 'Diario de Lectura', icon: '📓' },
+        { id: 'progress', title: 'Mi Progreso', icon: '📈' },
+        { id: 'challenges', title: 'Retos Lectores', icon: '🧩' },
+        { id: 'tributes', title: 'Homenajes Literarios', icon: '✨' },
+        { id: 'stats', title: 'Estadísticas', icon: '📊' },
+        { id: 'monthly', title: 'Retos del Mes', icon: '🎯' },
+        { id: 'finished', title: 'Lecturas Terminadas', icon: '✅' },
+        { id: 'favorites', title: 'Favoritos del Año', icon: '🌟' },
+        { id: 'suggestions', title: 'Sugerencias Automáticas', icon: '🤖' },
+    ]
+};
+
+const state = {
+    currentSection: 'home',
+    userName: '',
+    db: {}
+};
+
+// -----------------------------------------------------------------------------------
+// 2. MÓDULO DE ALMACENAMIENTO (STORAGE)
+// -----------------------------------------------------------------------------------
+
+const storage = {
+    save() {
+        try {
+            localStorage.setItem(config.storageKey, JSON.stringify(state.db));
+            console.log('✅ Datos guardados en localStorage');
+        } catch (error) {
+            console.error('❌ Error al guardar datos:', error);
+            ui.showNotification('Error al guardar los datos.', 'error');
+        }
+    },
+    load() {
+        const emptyDB = {
+            books: [], clubs: [], events: [], quotes: [], wishlist: [],
+            generalReviews: [], playlists: [], diary: [], goals: [],
+            challenges: [], tributes: [], favorites: [], suggestions: []
         };
+        
+        try {
+            const savedData = localStorage.getItem(config.storageKey);
+            if (!savedData) {
+                console.log('🆕 No hay datos guardados, iniciando con base de datos vacía.');
+                state.db = emptyDB;
+                return;
+            }
+            
+            const parsedData = JSON.parse(savedData);
+            
+            // Migración inteligente: asegura que todos los campos existan
+            for (const key in emptyDB) {
+                state.db[key] = parsedData[key] || emptyDB[key];
+            }
+            
+            // Asegurar que los objetos internos tengan todos los campos (para futuras actualizaciones)
+            if (state.db.books) {
+                 state.db.books = state.db.books.map(book => ({
+                    isFinished: false,
+                    notes: '',
+                    clubId: null,
+                    review: null,
+                    ...book // Los datos guardados sobreescriben los por defecto
+                }));
+            }
+            
+            console.log('📂 Datos cargados y validados desde localStorage.');
 
-        let currentSection = 'home';
-        let currentMonth = new Date().getMonth();
-        let currentYear = new Date().getFullYear();
-        const today = new Date();
-        today.setHours(0,0,0,0);
+        } catch (error) {
+            console.error('❌ Error al cargar o analizar los datos:', error);
+            state.db = emptyDB;
+            alert('Hubo un error al cargar tus datos. Se ha iniciado una sesión nueva para proteger tu información.');
+        }
+    },
+    loadUserName() {
+        state.userName = localStorage.getItem(config.userNameKey) || '';
+        document.getElementById('userName').value = state.userName;
+    },
+    saveUserName() {
+        state.userName = document.getElementById('userName').value.trim();
+        localStorage.setItem(config.userNameKey, state.userName);
+        console.log(`👤 Nombre de usuario guardado: ${state.userName}`);
+    }
+};
 
+// -----------------------------------------------------------------------------------
+// 3. MÓDULO DE INTERFAZ DE USUARIO (UI)
+// -----------------------------------------------------------------------------------
 
-        // Cargar datos al inicio
-        document.addEventListener('DOMContentLoaded', function() {
-            loadData();
-            renderCurrentSection();
-            window.addEventListener('beforeunload', saveData);
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape') {
-                    closeAllModals();
-                }
-            });
-
-             setupModalForms();
-
-            loadUserName();
-
-            console.log('🦄 Merakelysi cargado');
-             if (data.books.length === 0 && data.suggestions.length === 0) {
-                 generateSuggestions();
-             }
-
-             setRandomButterflyColor();
-             setInterval(setRandomButterflyColor, 5000);
+const ui = {
+    renderSection(sectionId) {
+        // Oculta todas las secciones
+        document.querySelectorAll('.nav-section').forEach(section => {
+            section.classList.remove('active');
         });
 
-         // Function to set a random color for the background butterfly
-         function setRandomButterflyColor() {
-             const butterflyElement = document.querySelector('.bg-butterfly');
-             if (butterflyElement) {
-                 const randomColor = pastelColors[Math.floor(Math.random() * pastelColors.length)];
-                 butterflyElement.style.color = randomColor;
-             }
-         }
-
-         // Function to set a random flower color for the *active* section header
-         function setRandomSectionFlowerColor() {
-             const activeSection = document.getElementById(currentSection);
-             if (activeSection) {
-                 const flowerElement = activeSection.querySelector('.header-flower-decoration');
-                 if (flowerElement) {
-                     const randomColor = pastelColors[Math.floor(Math.random() * pastelColors.length)];
-                     flowerElement.style.color = randomColor;
-
-                      const backButton = activeSection.querySelector('.back-btn');
-                      if (!backButton) {
-                           flowerElement.classList.add('left');
-                      } else {
-                           flowerElement.classList.remove('left');
-                      }
-                 }
-             }
-         }
-
-
-         // User Name Functions
-         function loadUserName() {
-             const savedName = localStorage.getItem('merakelysi_userName');
-             if (savedName) {
-                 data.userName = savedName;
-                 const userNameInput = document.getElementById('userName');
-                 if(userNameInput) userNameInput.value = savedName;
-             }
-         }
-
-         function saveUserName() {
-             const userNameInput = document.getElementById('userName');
-             if(userNameInput) {
-                data.userName = userNameInput.value.trim();
-                localStorage.setItem('merakelysi_userName', data.userName);
-                console.log('👤 Nombre de usuario guardado:', data.userName);
-             }
-         }
-
-
-        // Funciones de guardado
-        function saveData() {
-            try {
-                localStorage.setItem('merakelysi_data', JSON.stringify({
-                    books: data.books,
-                    clubs: data.clubs,
-                    events: data.events,
-                    quotes: data.quotes,
-                    wishlist: data.wishlist,
-                    generalReviews: data.generalReviews,
-                    playlists: data.playlists,
-                    // scrapbook: data.scrapbook, // Removed
-                    diary: data.diary,
-                    goals: data.goals,
-                    challenges: data.challenges,
-                    tributes: data.tributes,
-                    favorites: data.favorites,
-                    suggestions: data.suggestions
-                }));
-                console.log('✅ Datos guardados');
-                return true;
-            } catch (error) {
-                console.error('❌ Error guardando:', error);
-                return false;
-            }
+        // Muestra la sección activa
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.classList.add('active');
+            state.currentSection = sectionId;
+            this.renderContentForCurrentSection();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            console.error(`❌ Sección con ID "${sectionId}" no encontrada. Volviendo a inicio.`);
+            this.renderSection('home');
         }
+    },
 
-        function loadData() {
-            try {
-                const saved = localStorage.getItem('merakelysi_data');
-                if (saved) {
-                    const parsed = JSON.parse(saved);
+    renderContentForCurrentSection() {
+        const sectionConfig = config.sections.find(s => s.id === state.currentSection);
+        if (!sectionConfig) return;
 
-                    // Explicitly load and structure data, adding default values for new fields
-                    data.books = parsed.books ? parsed.books.map(book => ({
-                         id: book.id,
-                         title: book.title,
-                         author: book.author,
-                         totalPages: book.totalPages || 0,
-                         totalChapters: book.totalChapters || 0,
-                         targetFinishDate: book.targetFinishDate || null,
-                         targetClubMeetingDate: book.targetClubMeetingDate || null,
-                         milestones: book.milestones || [],
-                         isFinished: book.isFinished || false,
-                         currentChapter: book.currentChapter || 0,
-                         currentPage: book.currentPage || 0,
-                         review: book.review || null,
-                         clubId: book.clubId || null,
-                         notes: book.notes || ''
-                    })) : [];
+        const sectionElement = document.getElementById(sectionConfig.id);
+        if (!sectionElement) return;
 
-                    data.clubs = parsed.clubs || [];
-                    data.events = parsed.events ? parsed.events.map(event => ({
-                         id: event.id,
-                         title: event.title,
-                         date: event.date || null,
-                         description: event.description || '',
-                         dateCreated: event.dateCreated || new Date().toLocaleDateString()
-                    })) : [];
-                    data.quotes = parsed.quotes || [];
-                    data.wishlist = parsed.wishlist || [];
-                    data.generalReviews = parsed.generalReviews || parsed.reviews || [];
-                    data.playlists = parsed.playlists ? parsed.playlists.map(playlist => ({
-                         id: playlist.id,
-                         name: playlist.name,
-                         embedCode: playlist.embedCode || null,
-                         book: playlist.book || null,
-                         genre: playlist.genre || null,
-                         mood: playlist.mood || null,
-                         dateAdded: playlist.dateAdded || new Date().toLocaleDateString()
-                    })) : [];
-                    // data.scrapbook = parsed.scrapbook || []; // Removed
-                    data.diary = parsed.diary ? parsed.diary.map(entry => ({
-                         id: entry.id,
-                         book: entry.book || null,
-                         chapter: entry.chapter || null,
-                         content: entry.content || '',
-                         date: entry.date || new Date().toLocaleDateString(),
-                         dateAdded: entry.dateAdded || new Date().toLocaleDateString()
-                    })) : [];
-                    data.goals = parsed.goals ? parsed.goals.map(goal => ({
-                         id: goal.id,
-                         title: goal.title,
-                         description: goal.description || '',
-                         target: goal.target || 1,
-                         current: goal.current || 0,
-                         dateAdded: goal.dateAdded || new Date().toLocaleDateString()
-                    })) : [];
-                    data.challenges = parsed.challenges || [];
-                    data.tributes = parsed.tributes ? parsed.tributes.map(tribute => ({
-                         id: tribute.id,
-                         bookId: tribute.bookId || null,
-                         title: tribute.title,
-                         type: tribute.type || 'text',
-                         content: tribute.content || null,
-                         bookTitle: tribute.bookTitle || null,
-                         dateAdded: tribute.dateAdded || new Date().toLocaleDateString()
-                    })) : [];
-                    data.favorites = parsed.favorites || [];
-                    data.suggestions = parsed.suggestions || [];
-
-
-                    console.log('📂 Datos cargados');
-                } else {
-                     console.log('🆕 No se encontraron datos guardados, iniciando vacío.');
-                }
-                 loadUserName();
-            } catch (error) {
-                console.error('❌ Error cargando datos:', error);
-                data = {
-                    userName: data.userName || '',
-                    books: [], clubs: [], events: [], quotes: [], wishlist: [],
-                    generalReviews: [], playlists: [], // scrapbook: [], // Removed
-                    diary: [], goals: [],
-                    challenges: [], tributes: [], favorites: [], suggestions: []
-                };
-                 alert('Error al cargar datos. Se ha creado una nueva sesión vacía.');
-            }
+        sectionElement.innerHTML = this.createSectionHeader(sectionConfig.title, sectionConfig.id);
+        const container = document.createElement('div');
+        container.id = `${sectionConfig.id}Container`;
+        container.className = 'items-grid'; // Clase por defecto
+        sectionElement.appendChild(container);
+        
+        // Llamada a la función de renderizado específica
+        if(typeof rendering[sectionConfig.id] === 'function') {
+            rendering[sectionConfig.id](container);
+        } else {
+            rendering.default(container, sectionConfig.icon, sectionConfig.title);
         }
-
-        // Navegación
-        function showSection(sectionId) {
-            saveData();
-
-            document.querySelectorAll('.nav-section').forEach(section => {
-                section.classList.remove('active');
-            });
-
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-                currentSection = sectionId;
-                renderCurrentSection();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                console.error(`❌ Sección con ID "${sectionId}" no encontrada.`);
-                showSection('home');
-            }
-        }
-
-         // Function to set a random color for the *active* section header flower
-         function setRandomSectionFlowerColor() {
-             const activeSection = document.getElementById(currentSection);
-             if (activeSection) {
-                 const flowerElement = activeSection.querySelector('.header-flower-decoration');
-                 if (flowerElement) {
-                     const randomColor = pastelColors[Math.floor(Math.random() * pastelColors.length)];
-                     flowerElement.style.color = randomColor;
-
-                      const backButton = activeSection.querySelector('.back-btn');
-                      if (!backButton) {
-                           flowerElement.classList.add('left');
-                      } else {
-                           flowerElement.classList.remove('left');
-                      }
-                 }
-             }
-         }
-
-
-        function renderCurrentSection() {
-             console.log(`🔄 Renderizando sección: ${currentSection}`);
-
-             let containerId;
-             switch(currentSection) {
-                case 'books': containerId = 'booksContainer'; break;
-                case 'clubs': containerId = 'clubsContainer'; break;
-                case 'calendar': containerId = 'calendarContainer'; break;
-                case 'quotes': containerId = 'quotesContainer'; break;
-                case 'wishlist': containerId = 'wishlistContainer'; break;
-                case 'generalReviews': containerId = 'generalReviewsContainer'; break;
-                case 'bookReviews': containerId = 'bookReviewsContainer'; break;
-                case 'playlists': containerId = 'playlistsContainer'; break;
-                // case 'scrapbook': containerId = 'scrapbookContainer'; break; // Removed
-                case 'diary': containerId = 'diaryContainer'; break;
-                case 'progress': containerId = 'progressContainer'; break;
-                case 'challenges': containerId = 'challengesContainer'; break;
-                case 'tributes': containerId = 'tributesContainer'; break;
-                case 'stats': containerId = 'statsContainer'; break;
-                case 'monthly': containerId = 'monthlyContainer'; break;
-                case 'finished': containerId = 'finishedContainer'; break;
-                case 'favorites': containerId = 'favoritesContainer'; break;
-                case 'suggestions': containerId = 'suggestionsContainer'; break;
-                 case 'home':
-                 default:
-                    containerId = null;
-                    break;
-            }
-
-             if (containerId && currentSection !== 'calendar') {
-                  const container = document.getElementById(containerId);
-                  if (container) {
-                       container.innerHTML = '';
-                  } else {
-                       console.error(`Container #${containerId} not found for clearing.`);
-                  }
-             }
-
-             setRandomSectionFlowerColor();
-
-
-            switch(currentSection) {
-                case 'home': break;
-                case 'books': renderBooks(); break;
-                case 'clubs': renderClubs(); break;
-                case 'calendar': renderCalendar(currentYear, currentMonth); break;
-                case 'quotes': renderQuotes(); break;
-                case 'wishlist': renderWishlist(); break;
-                case 'generalReviews': renderGeneralReviews(); break;
-                case 'bookReviews': renderBookReviews(); break;
-                case 'playlists': renderPlaylists(); break;
-                // case 'scrapbook': renderScrapbook(); break; // Removed
-                case 'diary': renderDiary(); break;
-                case 'progress': renderProgress(); break;
-                case 'challenges': renderChallenges(); break;
-                case 'tributes': renderTributes(); break;
-                case 'stats': renderStats(); break;
-                case 'monthly': renderMonthly(); break;
-                case 'finished': renderFinished(); break;
-                case 'favorites': renderFavorites(); break;
-                case 'suggestions': renderSuggestions(); break;
-                default:
-                    console.warn(`Sección "${currentSection}" no tiene función de renderizado o no existe.`);
-                    showSection('home');
-            }
-        }
-
-        // --- Rendering Functions ---
-
-        function renderBooks() {
-            const container = document.getElementById('booksContainer');
-            if (!container) { console.error("Container #booksContainer not found"); return; }
-
-            const booksInProgress = data.books.filter(book => !book.isFinished);
-
-            if (booksInProgress.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📚</div>
-                        <h3>¡Agrega tu primer libro!</h3>
-                        <p>Haz clic en "Agregar Libro" para comenzar.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = booksInProgress.map(book => {
-                 const club = book.clubId ? data.clubs.find(c => c.id === book.clubId) : null;
-                 const clubName = club ? club.name : null;
-
-                 let progressHtml = '';
-                 const hasPages = book.totalPages > 0;
-                 const hasChapters = book.totalChapters > 0;
-
-                 if (hasPages || hasChapters) {
-                     if (hasChapters && !hasPages) {
-                         progressHtml = `<p class="item-meta">Capítulo ${book.currentChapter || 0} / ${book.totalChapters}</p>`;
-                     } else if (hasPages) {
-                          progressHtml = `<p class="item-meta">Página ${book.currentPage || 0} / ${book.totalPages}</p>`;
-                     } else {
-                          progressHtml = `<p class="item-meta">Progreso no especificado</p>`;
-                     }
-                 } else {
-                      progressHtml = `<p class="item-meta">Progreso no especificado</p>`;
-                 }
-
-
-                 let goalHtml = '';
-                 if (book.targetFinishDate) {
-                      try {
-                           const targetDate = new Date(book.targetFinishDate + 'T00:00:00');
-                           const dateString = targetDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
-                            const diffDays = Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24));
-                            let dateColor = '#f43f5e';
-                            if (diffDays > 7) dateColor = '#10b981';
-                            else if (diffDays >= 0) dateColor = '#f59e0b';
-                            else dateColor = '#dc2626';
-
-
-                           goalHtml += `<p style="color: ${dateColor}; font-size: 0.9rem; margin-top: 0.5rem; font-weight: 600;">Meta: Terminar para ${dateString}</p>`;
-                      } catch (e) {
-                          console.error("Error rendering targetFinishDate:", book.targetFinishDate, e);
-                      }
-                 }
-
-                 const actionButtons = `
-                     <div class="item-actions">
-                          <button class="action-edit" onclick="openModal('addBookModal', ${book.id})">Editar</button>
-                          ${!book.isFinished ? `<button class="action-finish" onclick="markFinished(${book.id})">✅ Terminado</button>` : ''}
-                     </div>
-                 `;
-
-
-                return `
-                <div class="item-card">
-                    <button class="delete-btn" onclick="deleteItem('books', ${book.id})">×</button>
-                    <div class="item-content">
-                        <h3 class="item-title">${book.isFinished ? '✅ ' : ''}${book.title}</h3>
-                        <p class="item-subtitle">por ${book.author}</p>
-                        ${clubName ? `<p class="item-meta">👥 ${clubName}</p>` : ''}
-                         ${(book.totalPages > 0 || book.totalChapters > 0) ?
-                            `<p class="item-meta">📖 ${book.totalPages || '?'} páginas ${book.totalChapters > 0 ? `(${book.totalChapters} capítulos)` : ''}</p>`
-                            : ''
-                         }
-                        ${progressHtml}
-                        ${goalHtml}
-                        ${book.notes ? `<p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">${book.notes}</p>` : ''}
-                        ${actionButtons}
-                    </div>
-                </div>
-            `;
-            }).join('');
-        }
-
-
-        function renderClubs() {
-            const container = document.getElementById('clubsContainer');
-             if (!container) { console.error("Container #clubsContainer not found"); return; }
-             container.innerHTML = '';
-
-            if (data.clubs.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">👥</div>
-                        <h3>¡Crea tu primer club!</h3>
-                        <p>Haz clic en "Crear Club" para comenzar.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = data.clubs.map(club => `
-                <div class="item-card">
-                    <button class="delete-btn" onclick="deleteItem('clubs', ${club.id})">×</button>
-                    <div class="item-content">
-                        <h3 class="item-title">${club.name}</h3>
-                        <p class="item-subtitle">${club.description || 'Sin descripción'}</p>
-                        <p class="item-meta">📅 ${club.meetingDay}s a las ${club.meetingTime}</p>
-                        <p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">👥 ${club.members || 0} miembros</p>
-                         <div class="item-actions">
-                            <button class="action-edit" onclick="openModal('addClubModal', ${club.id})">Editar</button>
-                         </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-
-         function renderCalendar(year, month) {
-             const container = document.getElementById('calendarContainer');
-             if (!container) { console.error("Container #calendarContainer not found"); return; }
-             container.innerHTML = '';
-
-             const date = new Date(year, month, 1);
-             const today = new Date();
-             today.setHours(0,0,0,0);
-
-             const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-                                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-             const dayNames = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
-
-
-             let calendarHtml = `
-                 <div class="calendar-header">
-                    <button onclick="changeMonth(-1)" class="back-btn">←</button>
-                    <span>${monthNames[month]} ${year}</span>
-                    <button onclick="changeMonth(1)" class="back-btn">→</button>
-                 </div>
-                 <div class="calendar-weekdays">
-                    ${dayNames.map(day => `<span>${day}</span>`).join('')}
-                 </div>
-                 <div class="calendar-grid">
-             `;
-
-             const daysInPrevMonth = new Date(year, month, 0).getDate();
-             const firstDayOfWeek = (date.getDay() + 6) % 7;
-
-             for (let i = firstDayOfWeek; i > 0; i--) {
-                  const day = daysInPrevMonth - i + 1;
-                  calendarHtml += `<div class="calendar-day empty prev-month">${day}</div>`;
-             }
-
-             const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-             for (let day = 1; day <= daysInMonth; day++) {
-                 const currentDayDate = new Date(year, month, day);
-                 currentDayDate.setHours(0,0,0,0);
-
-                 const isToday = currentDayDate.getTime() === today.getTime();
-
-
-                 const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                 const eventsToday = data.events.filter(event => event.date === dateString);
-
-
-                 calendarHtml += `
-                     <div class="calendar-day ${isToday ? 'today' : ''} ${eventsToday.length > 0 ? 'has-event' : ''}"
-                          onclick="showDayEvents('${dateString}')">
-                         <span class="calendar-day-number">${day}</span>
-                         ${eventsToday.map(event => `<div class="calendar-day-events">${event.title}</div>`).join('')}
-                     </div>
-                 `;
-             }
-
-             const totalCells = firstDayOfWeek + daysInMonth;
-             const remainingCellsToFill = (6 * 7) - totalCells;
-
-             for (let i = 1; i <= remainingCellsToFill; i++) {
-                  calendarHtml += `<div class="calendar-day empty next-month">${i}</div>`;
-             }
-
-             calendarHtml += `</div>`;
-
-             container.innerHTML = calendarHtml;
-         }
-
-         function changeMonth(delta) {
-             currentMonth += delta;
-             if (currentMonth > 11) {
-                 currentMonth = 0;
-                 currentYear++;
-             } else if (currentMonth < 0) {
-                 currentMonth = 11;
-                 currentYear--;
-             }
-             renderCalendar(currentYear, currentMonth);
-         }
-
-         function showDayEvents(dateString) {
-              const events = data.events.filter(event => event.date === dateString);
-              if (events.length === 0) {
-                  return;
-              }
-
-              const dateParts = dateString.split('-');
-              const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
-              const options = { year: 'numeric', month: 'long', day: 'numeric' };
-              const formattedDate = dateObj.toLocaleDateString('es-ES', options);
-
-              let details = `Eventos para el ${formattedDate}:\n\n`;
-              events.forEach(event => {
-                  details += `- ${event.title}\n`;
-                  if (event.description) {
-                      details += `  ${event.description}\n`;
-                  }
-                  details += '\n';
-              });
-
-              alert(details);
-         }
-
-
-        function renderQuotes() {
-            const container = document.getElementById('quotesContainer');
-             if (!container) { console.error("Container #quotesContainer not found"); return; }
-             container.innerHTML = '';
-
-            if (data.quotes.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📝</div>
-                        <h3>¡Guarda tu primera frase!</h3>
-                        <p>Haz clic en "Nueva Frase" para comenzar.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = data.quotes.map(quote => `
-                <div class="item-card">
-                    <button class="delete-btn" onclick="deleteItem('quotes', ${quote.id})">×</button>
-                    <div class="item-content">
-                        <h3 class="item-title">"${quote.text}"</h3>
-                        <p class="item-subtitle">— ${quote.author}</p>
-                        ${quote.book ? `<p class="item-meta">${quote.book}</p>` : ''}
-                         <div class="item-actions">
-                            <button class="action-edit" onclick="openModal('addQuoteModal', ${quote.id})">Editar</button>
-                         </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderWishlist() {
-            const container = document.getElementById('wishlistContainer');
-             if (!container) { console.error("Container #wishlistContainer not found"); return; }
-             container.innerHTML = '';
-
-            if (data.wishlist.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">💖</div>
-                        <h3>¡Agrega tu primer deseo!</h3>
-                        <p>Haz clic en "Agregar Deseo" para comenzar.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = data.wishlist.map(item => `
-                <div class="item-card">
-                    <button class="delete-btn" onclick="deleteItem('wishlist', ${item.id})">×</button>
-                    <div class="item-content">
-                        <h3 class="item-title">${item.title}</h3>
-                        <p class="item-subtitle">por ${item.author || 'Autor desconocido'}</p>
-                        <p class="item-meta">Prioridad: ${item.priority || 'Media'}</p>
-                        ${item.reason ? `<p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">${item.reason}</p>` : ''}
-                         <div class="item-actions">
-                            <button class="action-edit" onclick="openModal('addWishModal', ${item.id})">Editar</button>
-                         </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderBookReviews() {
-             const container = document.getElementById('bookReviewsContainer');
-             if (!container) { console.error("Container #bookReviewsContainer not found"); return; }
-             container.innerHTML = '';
-
-             const booksWithReviews = data.books.filter(book => book.review);
-
-             if (booksWithReviews.length === 0) {
-                 container.innerHTML = `
-                     <div class="empty-state">
-                         <div class="empty-state-icon">🖋️</div>
-                         <h3>¡Aún no hay reseñas detalladas!</h3>
-                         <p>Termina un libro y agrega una reseña para verla aquí.</p>
-                     </div>
-                 `;
-                 return;
-             }
-
-             container.innerHTML = booksWithReviews.map(book => `
-                 <div class="book-review-card">
-                      <button class="delete-btn" onclick="deleteDetailedReview(${book.id})">×</button>
-
-                     <div class="item-content">
-                         <h3>Reseña de: ${book.title}</h3>
-                         <p class="item-subtitle">por ${book.author}</p>
-
-                         <div class="review-section">
-                              <h4>Calificación:</h4>
-                              <div class="rating-hearts">${'💖'.repeat(book.review.rating || 0)}</div>
-                              <p>(${book.review.rating || 0}/5)</p>
-                         </div>
-
-                         ${book.review.favoriteCharacters ? `
-                         <div class="review-section">
-                              <h4>Personajes Favoritos:</h4>
-                              <p>${book.review.favoriteCharacters}</p>
-                         </div>` : ''}
-
-                         ${book.review.changeEnding ? `
-                         <div class="review-section">
-                             <h4>¿Cambiarías el final?</h4>
-                             <p>${book.review.changeEnding}</p>
-                         </div>` : ''}
-
-                         ${book.review.recommend ? `
-                         <div class="review-section">
-                              <h4>¿Lo recomendarías?</h4>
-                              <p>${book.review.recommend}</p>
-                         </div>` : ''}
-
-                         ${book.review.learnings ? `
-                         <div class="review-section">
-                             <h4>Aprendizajes:</h4>
-                             <p>${book.review.learnings}</p>
-                         </div>` : ''}
-
-                          ${book.review.quotes ? `
-                          <div class="review-section">
-                              <h4>Frases Favoritas:</h4>
-                              <p>${book.review.quotes}</p>
-                          </div>` : ''}
-
-                          ${book.review.likedMost ? `
-                          <div class="review-section">
-                              <h4>Lo que más me gustó:</h4>
-                              <p>${book.review.likedMost}</p>
-                          </div>` : ''}
-
-                          ${book.review.suggestions ? `
-                          <div class="review-section">
-                             <h4>Sugerencias para el autor:</h4>
-                             <p>${book.review.suggestions}</p>
-                          </div>` : ''}
-
-                          <div class="item-actions">
-                             <button class="action-edit" onclick="openModal('addDetailedBookReviewModal', ${book.id})">Editar Reseña</button>
-                          </div>
-
-                     </div>
-                 </div>
-             `).join('');
-        }
-
-         function deleteDetailedReview(bookId) {
-             const book = data.books.find(b => b.id === bookId);
-              if (!book) {
-                  console.error("Book not found for review deletion:", bookId);
-                  return;
-              }
-
-              if (confirm(`¿Estás segura de que quieres eliminar la reseña detallada de "${book.title}"? El libro permanecerá en tu lista de terminados.`)) {
-                   book.review = null;
-                  if (saveData()) {
-                      renderBookReviews();
-                      renderFinished();
-                      showSuccess('Reseña detallada eliminada');
-                  } else {
-                       alert('Error al eliminar la reseña detallada.');
-                  }
-              }
-         }
-
-
-        function markFinished(bookId) {
-              const book = data.books.find(b => b.id === bookId);
-              if (!book || book.isFinished) {
-                   if (book && book.isFinished) showSuccess(`"${book.title}" ya está terminado.`);
-                  return;
-              }
-
-              if (confirm(`¿Marcar "${book.title}" como terminado?`)) {
-                  book.isFinished = true;
-                  book.currentChapter = book.totalChapters > 0 ? book.totalChapters : book.currentChapter;
-                  book.currentPage = book.totalPages > 0 ? book.totalPages : book.currentPage;
-
-                   const goalAchieved = checkMonthlyGoal(book);
-
-                  if (saveData()) {
-                      renderBooks();
-                      renderFinished();
-
-                      let message = `¡Felicidades! Terminaste "${book.title}" 🎉`;
-                       if (goalAchieved) {
-                           message = `🥳 ¡Meta Cumplida! 🥳\nTerminaste "${book.title}" a tiempo!\n\n${message}`;
-                       }
-
-                       showGoalCelebration(message);
-
-                  } else {
-                       alert('Error al guardar el estado del libro.');
-                  }
-              }
-         }
-
-
-         function checkMonthlyGoal(book) {
-             if (!book.isFinished || !book.targetFinishDate) return false;
-
-             try {
-                  const targetDate = new Date(book.targetFinishDate + 'T00:00:00');
-                  const finishDate = new Date();
-
-                  if (finishDate <= targetDate) {
-                       return true;
-                  }
-             } catch (e) {
-                 console.error("Error checking targetFinishDate:", book.targetFinishDate, e);
-             }
-
-             return false;
-         }
-
-         function showGoalMessage(message) {
-              document.querySelectorAll('.goal-message').forEach(msg => msg.remove());
-
-             const goalMessageDiv = document.createElement('div');
-             goalMessageDiv.className = 'goal-message';
-             goalMessageDiv.innerHTML = message.replace(/\n/g, '<br>');
-
-             document.body.appendChild(goalMessageDiv);
-
-             setTimeout(() => {
-                  if (document.body.contains(goalMessageDiv)) {
-                       goalMessageDiv.remove();
-                  }
-             }, 3500);
-         }
-
-         function showCelebration() {
-             if (document.querySelector('.celebration.active')) {
-                 return;
-             }
-
-            const celebration = document.createElement('div');
-            celebration.className = 'celebration active';
-
-            const colors = pastelColors;
-
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.width = confetti.style.height = (Math.random() * 8 + 4) + 'px';
-                confetti.style.animationDelay = Math.random() * 2 + 's';
-                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                celebration.appendChild(confetti);
-            }
-
-            document.body.appendChild(celebration);
-
-            setTimeout(() => {
-                if (document.body.contains(celebration)) {
-                    celebration.remove();
-                }
-            }, 4000);
-        }
-
-         function showGoalCelebration(message) {
-             showGoalMessage(message);
-
-             showCelebration();
-
-             const balloonColors = ['#f472b6', '#a78bfa', '#60a5fa', '#fde68a', '#fca5a5', '#98FB98'];
-             for (let i = 0; i < 10; i++) {
-                 const balloon = document.createElement('div');
-                 balloon.className = 'balloon';
-                 balloon.style.left = Math.random() * 80 + 10 + '%';
-                 balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
-                 balloon.style.animationDelay = Math.random() * 1 + 's';
-                 balloon.style.animationDuration = (Math.random() * 3 + 5) + 's';
-                 document.body.appendChild(balloon);
-
-                 balloon.addEventListener('animationend', () => {
-                     balloon.remove();
-                 });
-             }
-         }
-
-
-         function generateSuggestions() {
-             showSuccess('Generando sugerencias...');
-
-             const topGoodreadsBooks = [
-                 { title: "El nombre del viento", author: "Patrick Rothfuss", genre: "Fantasía Épica", reason: "Basado en tu posible interés por la fantasía" },
-                 { title: "Eleanor Oliphant está perfectamente", author: "Gail Honeyman", genre: "Ficción Contemporánea", reason: "Para lectores de historias emotivas y de desarrollo personal" },
-                 { title: "Los siete maridos de Evelyn Hugo", author: "Taylor Jenkins Reid", genre: "Drama Histórico/Romance", reason: "Una lectura popular con personajes memorables" },
-                 { title: "Circe", author: "Madeline Miller", genre: "Mitología/Fantasía", reason: "Si te gustan las reinterpretaciones de mitos griegos" },
-                  { title: "Cien años de soledad", author: "Gabriel García Márquez", genre: "Realismo Mágico", reason: "Un clásico esencial de la literatura latinoamericana" },
-                  { title: "Matar a un ruiseñor", author: "Harper Lee", genre: "Ficción Clásica", reason: "Un pilar de la literatura estadounidense, a menudo en listas de 'los mejores'." },
-                  { title: "1984", author: "George Orwell", genre: "Distopía", reason: "Una obra maestra atemporal sobre la vigilancia y el control, muy relevante hoy." },
-                  { title: "Orgullo y prejuicio", author: "Jane Austen", genre: "Novela Romántica Clásica", reason: "Amado por generaciones por su ingenio y personajes memorables." },
-                  { title: "Harry Potter y la piedra filosofal", author: "J.K. Rowling", genre: "Fantasía Juvenil", reason: "El inicio de una saga que definió una generación, con millones de fans." },
-                  { title: "El señor de los anillos", author: "J.R.R. Tolkien", genre: "Alta Fantasía", reason: "El arquetipo de la fantasía épica moderna, con un mundo rico y detallado." },
-                  { title: "El principito", author: "Antoine de Saint-Exupéry", genre: "Fábula Filosófica", reason: "Una historia corta pero profunda, adorada por lectores de todas las edades." },
-                  { title: "Don Quijote de la Mancha", author: "Miguel de Cervantes Saavedra", genre: "Novela Clásica/Satírica", reason: "Considerada la primera novela moderna y una obra maestra universal." },
-                  { title: "Crimen y castigo", author: "Fyodor Dostoevsky", genre: "Novela Filosófica/Psicológica", reason: "Explora la moralidad y la redención con gran profundidad psicológica." },
-                  { title: "El diario de Anne Frank", author: "Anne Frank", genre: "Biografía/Historia", reason: "Un relato conmovedor y fundamental sobre el Holocausto." }
-             ];
-
-              const numSuggestionsToShow = 5;
-              const shuffledSuggestions = topGoodreadsBooks.sort(() => 0.5 - Math.random());
-              const selectedSuggestions = shuffledSuggestions.slice(0, numSuggestionsToShow).map(book => ({
-                  id: Date.now() + Math.random(),
-                  ...book
-              }));
-
-
-             data.suggestions = selectedSuggestions;
-             if (saveData()) {
-                 renderSuggestions();
-                 showSuccess('¡Nuevas sugerencias generadas!');
-             } else {
-                  alert('Error al guardar las sugerencias.');
-             }
-         }
-
-
-        // Debug
-        window.merakelysiDebug = {
-            getData: function() {
-                 console.log('Debug: Accediendo a los datos.', JSON.parse(JSON.stringify(data)));
-                 return JSON.parse(JSON.stringify(data));
-            },
-            clearAll: function() {
-                if (confirm('🚨 ADVERTENCIA: ¿Estás completamente segura de que quieres borrar TODOS los datos? Esta acción es irreversible.')) {
-                    try {
-                         localStorage.removeItem('merakelysi_data');
-                         localStorage.removeItem('merakelysi_userName');
-                         data = {
-                            userName: '',
-                            books: [], clubs: [], events: [], quotes: [], wishlist: [],
-                            generalReviews: [], playlists: [], // scrapbook: [], // Removed
-                            diary: [], goals: [],
-                            challenges: [], tributes: [], favorites: [], suggestions: []
-                        };
-                         const userNameInput = document.getElementById('userName');
-                         if(userNameInput) userNameInput.value = '';
-                        console.log('🗑️ Todos los datos borrados.');
-                        showSuccess('¡Todos los datos han sido borrados!');
-                        renderCurrentSection();
-                    } catch (error) {
-                         console.error('❌ Error borrando datos del localStorage:', error);
-                         alert('Error al borrar datos del navegador.');
-                    }
-                } else {
-                     console.log('🚫 Operación de borrado cancelada.');
-                }
-            },
-            manualSave: function() {
-                 console.log('💾 Guardando datos manualmente...');
-                 saveData();
-                 saveUserName();
-            },
-            manualLoad: function() {
-                 console.log('📂 Cargando datos manualmente...');
-                 loadData();
-                 renderCurrentSection();
-            },
-             markFinished: markFinished,
-             deleteDetailedReview: deleteDetailedReview,
-             openModal: openModal,
-             renderBooks: renderBooks,
-             renderGeneralReviews: renderGeneralReviews,
-             renderBookReviews: renderBookReviews,
-             renderPlaylists: renderPlaylists,
-             renderTributes: renderTributes,
+    },
+
+    createSectionHeader(title, sectionId) {
+        const addButtonConfig = {
+            'books': { label: 'Agregar Libro', modal: 'addBookModal' },
+            'clubs': { label: 'Crear Club', modal: 'addClubModal' },
+            'calendar': { label: 'Nuevo Evento', modal: 'addEventModal' },
+            'quotes': { label: 'Nueva Frase', modal: 'addQuoteModal' },
+            'wishlist': { label: 'Agregar Deseo', modal: 'addWishModal' },
+            'generalReviews': { label: 'Nueva Reseña', modal: 'addGeneralReviewModal'},
+            'playlists': { label: 'Nueva Playlist', modal: 'addPlaylistModal' },
+            'diary': { label: 'Nueva Entrada', modal: 'addDiaryModal' },
+            'progress': { label: 'Nuevo Reto', modal: 'addGoalModal' },
+            'challenges': { label: 'Nuevo Reto', modal: 'addChallengeModal' },
+            'tributes': { label: 'Nuevo Homenaje', modal: 'addTributeModal'},
+            'favorites': { label: 'Agregar Favorito', modal: 'addFavoriteModal' },
+            'suggestions': { label: '🔄 Generar Sugerencias', action: 'generateSuggestions()' }
         };
-         console.log('✅ Objeto de depuración merakelysiDebug disponible.');
 
-    </script>
+        let buttonHtml = '';
+        if(addButtonConfig[sectionId]){
+            if(addButtonConfig[sectionId].modal) {
+                buttonHtml = `<button class="btn" onclick="modals.open('${addButtonConfig[sectionId].modal}')">+ ${addButtonConfig[sectionId].label}</button>`;
+            } else if (addButtonConfig[sectionId].action) {
+                buttonHtml = `<button class="btn" onclick="app.${addButtonConfig[sectionId].action}"> ${addButtonConfig[sectionId].label}</button>`;
+            }
+        }
+
+        return `
+            <div class="section-header">
+                <button class="btn back-btn" onclick="ui.renderSection('home')">← Inicio</button>
+                <h2 class="section-title">${title}</h2>
+                ${buttonHtml}
+            </div>
+        `;
+    },
+
+    createHomeMenu() {
+        const grid = document.getElementById('homeGrid');
+        grid.innerHTML = config.sections.map(section => `
+            <div class="card" onclick="ui.renderSection('${section.id}')">
+                <div class="card-icon">${section.icon}</div>
+                <h3 class="card-title">${section.title}</h3>
+            </div>
+        `).join('');
+    },
+    
+    showNotification(message, type = 'success') {
+        const container = document.getElementById('notification-container');
+        const notif = document.createElement('div');
+        notif.className = `notification ${type}`;
+        notif.textContent = message;
+        
+        container.appendChild(notif);
+        
+        setTimeout(() => {
+            notif.classList.add('out');
+            notif.addEventListener('transitionend', () => notif.remove());
+        }, 3000);
+    },
+    
+    showCelebration(message) {
+        const container = document.getElementById('celebration-container');
+        container.innerHTML = ''; // Limpiar celebraciones anteriores
+
+        // Mensaje central
+        const goalMessage = document.createElement('div');
+        goalMessage.className = 'goal-message';
+        goalMessage.innerHTML = `<span>🎉</span><p>${message}</p>`;
+        container.appendChild(goalMessage);
+        setTimeout(() => goalMessage.remove(), 3500);
+
+        // Confeti
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = `${Math.random() * 100}%`;
+            confetti.style.backgroundColor = config.pastelColors[Math.floor(Math.random() * config.pastelColors.length)];
+            confetti.style.animationDelay = `${Math.random() * 2}s`;
+            container.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 3000);
+        }
+    }
+};
+
+// -----------------------------------------------------------------------------------
+// 4. MÓDULO DE MODALES (MODALS)
+// -----------------------------------------------------------------------------------
+
+const modals = {
+    // Aquí iría la lógica para crear y gestionar los modales dinámicamente.
+    // Por simplicidad en este ejemplo, mantendremos el HTML estático para los modales,
+    // pero la lógica de abrir/cerrar y rellenar se manejará aquí.
+    
+    open(modalId, itemId = null) {
+        const modal = document.getElementById(modalId);
+        if (!modal) {
+            console.error(`❌ Modal con ID "${modalId}" no encontrado.`);
+            return;
+        }
+
+        const form = modal.querySelector('form');
+        form.reset(); // Limpia el formulario
+        form.querySelector('input[type="hidden"]').value = itemId || '';
+        
+        const modalTitle = modal.querySelector('h3');
+
+        if (itemId) {
+            modalTitle.textContent = modalTitle.textContent.replace('Agregar', 'Editar').replace('Nuevo', 'Editar').replace('Crear', 'Editar');
+            const sectionKey = modalId.replace('add', '').replace('Modal', '').toLowerCase();
+            const itemData = state.db[sectionKey + 's']?.find(item => item.id == itemId);
+            if (itemData) {
+                // Rellenar el formulario con los datos del item
+                for (const key in itemData) {
+                    if (form.elements[key]) {
+                        form.elements[key].value = itemData[key];
+                    }
+                }
+            }
+        } else {
+             modalTitle.textContent = modalTitle.textContent.replace('Editar', 'Agregar').replace('Editar', 'Nuevo').replace('Editar', 'Crear');
+        }
+
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+    },
+
+    close(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    },
+
+    closeAll() {
+        document.querySelectorAll('.modal-backdrop').forEach(modal => {
+            modal.classList.remove('active');
+        });
+        document.body.classList.remove('modal-open');
+    }
+};
+
+// -----------------------------------------------------------------------------------
+// 5. MÓDULO DE RENDERIZADO (RENDERING)
+// -----------------------------------------------------------------------------------
+
+const rendering = {
+    createCard(config) {
+        // { id, title, subtitle, meta, notes, section, buttons }
+        const buttonsHtml = config.buttons.map(btn => 
+            `<button class="${btn.class}" onclick="${btn.action}">${btn.label}</button>`
+        ).join('');
+
+        return `
+            <div class="item-card">
+                <button class="delete-btn" onclick="app.deleteItem('${config.section}', ${config.id})">×</button>
+                <div class="item-content">
+                    <h3 class="item-title">${config.title}</h3>
+                    ${config.subtitle ? `<p class="item-subtitle">${config.subtitle}</p>` : ''}
+                    ${config.meta ? `<p class="item-meta">${config.meta}</p>` : ''}
+                    ${config.notes ? `<p class="item-notes">${config.notes}</p>` : ''}
+                    <div class="item-actions">${buttonsHtml}</div>
+                </div>
+            </div>
+        `;
+    },
+    
+    default(container, icon, title) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-icon">${icon}</div>
+                <h3>Sección "${title}"</h3>
+                <p>Esta sección está en construcción.</p>
+            </div>`;
+    },
+
+    books(container) {
+        const booksInProgress = state.db.books.filter(book => !book.isFinished);
+        if (booksInProgress.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📚</div><h3>No hay libros en progreso.</h3><p>¡Agrega un nuevo libro para empezar!</p></div>`;
+            return;
+        }
+
+        container.innerHTML = booksInProgress.map(book => {
+            const clubName = book.clubId ? state.db.clubs.find(c => c.id == book.clubId)?.name : '';
+            return this.createCard({
+                id: book.id,
+                section: 'books',
+                title: book.title,
+                subtitle: `por ${book.author}`,
+                meta: clubName ? `👥 ${clubName}` : '',
+                notes: book.notes,
+                buttons: [
+                    { class: 'action-edit', label: 'Editar', action: `modals.open('addBookModal', ${book.id})` },
+                    { class: 'action-finish', label: '✅ Terminado', action: `app.markBookAsFinished(${book.id})` }
+                ]
+            });
+        }).join('');
+    },
+    
+    finished(container) {
+        const finishedBooks = state.db.books.filter(book => book.isFinished);
+         if (finishedBooks.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">✅</div><h3>Aún no has terminado ningún libro.</h3><p>¡Sigue leyendo!</p></div>`;
+            return;
+        }
+        
+        container.innerHTML = finishedBooks.map(book => {
+             const reviewButton = book.review 
+                ? { class: 'action-edit', label: 'Editar Reseña', action: `modals.open('addDetailedBookReviewModal', ${book.id})` }
+                : { class: 'action-review', label: '✍️ Escribir Reseña', action: `modals.open('addDetailedBookReviewModal', ${book.id})` };
+
+             return this.createCard({
+                id: book.id,
+                section: 'books',
+                title: `✅ ${book.title}`,
+                subtitle: `por ${book.author}`,
+                meta: '¡Lectura completada!',
+                buttons: [reviewButton]
+            });
+        }).join('');
+    },
+
+    // ... aquí irían las demás funciones de renderizado para cada sección ...
+};
+
+
+// -----------------------------------------------------------------------------------
+// 6. MÓDULO DE LÓGICA DE LA APLICACIÓN (APP)
+// -----------------------------------------------------------------------------------
+const app = {
+    init() {
+        storage.load();
+        storage.loadUserName();
+        ui.createHomeMenu();
+        ui.renderSection('home');
+        
+        // Event Listeners
+        document.getElementById('userName').addEventListener('change', storage.saveUserName);
+        window.addEventListener('beforeunload', storage.save);
+
+        console.log("🦄 Merakelysi App 2.0 inicializada.");
+    },
+
+    deleteItem(sectionKey, itemId) {
+        if (confirm('¿Estás segura de que quieres eliminar este elemento?')) {
+            state.db[sectionKey] = state.db[sectionKey].filter(item => item.id != itemId);
+            storage.save();
+            ui.renderContentForCurrentSection();
+            ui.showNotification('Elemento eliminado.', 'success');
+        }
+    },
+
+    handleFormSubmit(event) {
+        event.preventDefault();
+        const form = event.target;
+        const sectionKey = form.id.replace('add', '').replace('Form', '').toLowerCase() + 's';
+        
+        const formData = new FormData(form);
+        const itemData = Object.fromEntries(formData.entries());
+        const itemId = itemData.itemId;
+        
+        if (itemId) { // Editar
+            const index = state.db[sectionKey].findIndex(item => item.id == itemId);
+            if (index > -1) {
+                const existingItem = state.db[sectionKey][index];
+                state.db[sectionKey][index] = { ...existingItem, ...itemData };
+            }
+        } else { // Agregar
+            itemData.id = Date.now();
+            state.db[sectionKey].push(itemData);
+        }
+        
+        storage.save();
+        ui.renderContentForCurrentSection();
+        modals.close(form.closest('.modal-backdrop').id);
+        ui.showNotification('¡Guardado con éxito!', 'success');
+    },
+
+    markBookAsFinished(bookId){
+        const book = state.db.books.find(b => b.id == bookId);
+        if (book && confirm(`¿Marcar "${book.title}" como terminado?`)) {
+            book.isFinished = true;
+            storage.save();
+            ui.renderSection('books');
+            ui.showCelebration(`¡Felicidades por terminar "${book.title}"!`);
+        }
+    },
+    
+    generateSuggestions() {
+        ui.showNotification('Generando nuevas sugerencias...');
+        // Lógica de sugerencias (se puede hacer más compleja)
+        const allBooks = [
+             { title: "El nombre del viento", author: "Patrick Rothfuss"},
+             { title: "Cien años de soledad", author: "Gabriel García Márquez"},
+             { title: "1984", author: "George Orwell"},
+             { title: "Orgullo y prejuicio", author: "Jane Austen"},
+             { title: "La sombra del viento", author: "Carlos Ruiz Zafón"}
+        ];
+        state.db.suggestions = allBooks.sort(() => 0.5 - Math.random()).slice(0, 5)
+            .map(b => ({...b, id: Date.now() + Math.random() }));
+        
+        storage.save();
+        rendering.suggestions(document.getElementById('suggestionsContainer'));
+        ui.showNotification('¡Nuevas sugerencias listas!');
+    }
+};
+
+// -----------------------------------------------------------------------------------
+// 7. INICIALIZACIÓN
+// -----------------------------------------------------------------------------------
+
+document.addEventListener('DOMContentLoaded', () => app.init());
+
+// Este es un ejemplo de cómo podrías empezar a llenar la función de renderizado de sugerencias.
+// Las demás seguirían un patrón similar.
+rendering.suggestions = function(container) {
+    if (!state.db.suggestions || state.db.suggestions.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🤖</div><h3>No hay sugerencias.</h3><p>¡Haz clic en "Generar Sugerencias"!</p></div>`;
+        return;
+    }
+    container.innerHTML = state.db.suggestions.map(s => this.createCard({
+        id: s.id,
+        section: 'suggestions',
+        title: s.title,
+        subtitle: `de ${s.author}`,
+        buttons: [
+            { class: 'action-add', label: '➕ Agregar a Wishlist', action: `console.log('Agregado')` } // Acción a implementar
+        ]
+    })).join('');
+};
+
+
+// Setup de todos los formularios
+function setupModalForms() {
+    document.querySelectorAll('.modal-form').forEach(form => {
+        form.addEventListener('submit', (event) => app.handleFormSubmit(event));
+    });
+}
+
+// Para cerrar modales
+function closeModal(modalId) {
+    modals.close(modalId);
+}
+
+// Para abrir modales (accesible globalmente desde el HTML)
+function openModal(modalId, itemId = null) {
+    modals.open(modalId, itemId);
+}
+
+</script>
 </body>
 </html>
