@@ -1855,6 +1855,336 @@
             });
 
             // FUNCIÓN AÑADIDA: Configura los listeners para todos los formularios.
+
+
+            function renderClubs() {
+    const container = document.getElementById('clubsContainer');
+    if (!container) return;
+    if (data.clubs.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👥</div><h3>¡Crea tu primer club de lectura!</h3><p>Organiza tus grupos y lecturas compartidas.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.clubs.map(club => `
+        <div class="item-card">
+            <button class="delete-btn" onclick="deleteItem('clubs', ${club.id})">×</button>
+            <div class="item-content">
+                <h3 class="item-title">${club.name}</h3>
+                <p class="item-subtitle">${club.description || 'Sin descripción'}</p>
+                <p class="item-meta">📅 ${club.meetingDay} a las ${club.meetingTime}</p>
+                <p style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">👥 ${club.members || 0} miembros</p>
+                <div class="item-actions">
+                    <button class="action-edit" onclick="openModal('addClubModal', ${club.id})">Editar</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderCalendar(year, month) {
+    const container = document.getElementById('calendarContainer');
+    if (!container) return;
+    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const dayNames = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+    const date = new Date(year, month, 1);
+    let calendarHtml = `<div class="calendar-header"><button onclick="changeMonth(-1)" class="back-btn">←</button><span>${monthNames[month]} ${year}</span><button onclick="changeMonth(1)" class="back-btn">→</button></div><div class="calendar-weekdays">${dayNames.map(day => `<span>${day}</span>`).join('')}</div><div class="calendar-grid">`;
+    const firstDayOfWeek = (date.getDay() + 6) % 7;
+    for (let i = 0; i < firstDayOfWeek; i++) { calendarHtml += `<div class="calendar-day empty"></div>`; }
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    for (let day = 1; day <= daysInMonth; day++) {
+        const currentDayDate = new Date(year, month, day);
+        const isToday = currentDayDate.toDateString() === new Date().toDateString();
+        const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const eventsToday = data.events.filter(event => event.date === dateString);
+        calendarHtml += `<div class="calendar-day ${isToday ? 'today' : ''} ${eventsToday.length > 0 ? 'has-event' : ''}" onclick="showDayEvents('${dateString}')"><span class="calendar-day-number">${day}</span>${eventsToday.map(e => `<div class="calendar-day-events">${e.title}</div>`).join('')}</div>`;
+    }
+    container.innerHTML = calendarHtml + '</div>';
+}
+
+function changeMonth(delta) {
+    currentMonth += delta;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    else if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    renderCalendar(currentYear, currentMonth);
+}
+
+function showDayEvents(dateString) {
+    const events = data.events.filter(event => event.date === dateString);
+    if (events.length === 0) return;
+    const formattedDate = new Date(dateString + 'T00:00:00').toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+    let details = `Eventos para el ${formattedDate}:\n\n` + events.map(e => `- ${e.title}${e.description ? `\n  (${e.description})` : ''}`).join('\n\n');
+    alert(details);
+}
+
+function renderQuotes() {
+    const container = document.getElementById('quotesContainer');
+    if (!container) return;
+    if (data.quotes.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📝</div><h3>Guarda tus frases favoritas</h3><p>Esas palabras que te marcaron merecen un lugar especial.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.quotes.map(quote => `
+        <div class="item-card">
+            <button class="delete-btn" onclick="deleteItem('quotes', ${quote.id})">×</button>
+            <div class="item-content">
+                <h3 class="item-title">"${quote.text}"</h3>
+                <p class="item-subtitle">— ${quote.author}</p>
+                ${quote.book ? `<p class="item-meta">${quote.book}</p>` : ''}
+                <div class="item-actions">
+                    <button class="action-edit" onclick="openModal('addQuoteModal', ${quote.id})">Editar</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderWishlist() {
+    const container = document.getElementById('wishlistContainer');
+    if (!container) return;
+    if (data.wishlist.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">💖</div><h3>Tu lista de deseos está vacía</h3><p>Añade aquí los libros que sueñas con leer.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.wishlist.map(item => `
+        <div class="item-card">
+            <button class="delete-btn" onclick="deleteItem('wishlist', ${item.id})">×</button>
+            <div class="item-content">
+                <h3 class="item-title">${item.title}</h3>
+                <p class="item-subtitle">por ${item.author || 'Autor/a desconocido/a'}</p>
+                <p class="item-meta">Prioridad: ${item.priority || 'Media'}</p>
+                ${item.reason ? `<p style="margin-top:1rem;font-size:0.9rem;color:#6b7280;">${item.reason}</p>` : ''}
+                 <div class="item-actions">
+                    <button class="action-edit" onclick="openModal('addWishModal', ${item.id})">Editar</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderGeneralReviews() {
+    const container = document.getElementById('generalReviewsContainer');
+    if (!container) return;
+    if (data.generalReviews.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">✍️</div><h3>Escribe tu primera reseña</h3><p>Comparte tu opinión sobre libros, películas o lo que quieras.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.generalReviews.map(review => `
+        <div class="item-card">
+            <button class="delete-btn" onclick="deleteItem('generalReviews', ${review.id})">×</button>
+            <div class="item-content">
+                <h3 class="item-title">${review.book}</h3>
+                <p class="item-subtitle">${'⭐'.repeat(review.rating)} (${review.rating}/5)</p>
+                <p style="margin-top:1rem;font-size:0.9rem;color:#4b5563;white-space:pre-wrap;">${review.content}</p>
+                 <div class="item-actions">
+                    <button class="action-edit" onclick="openModal('addGeneralReviewModal', ${review.id})">Editar</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderBookReviews() {
+    const container = document.getElementById('bookReviewsContainer');
+    if (!container) return;
+    const booksWithReviews = data.books.filter(book => book.review && book.isFinished);
+    if (booksWithReviews.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🖋️</div><h3>Aún no hay reseñas detalladas</h3><p>Termina un libro y añade una reseña para verla aquí.</p></div>`;
+        return;
+    }
+    container.innerHTML = booksWithReviews.map(book => `
+        <div class="book-review-card">
+            <div class="item-content">
+                <h3>Reseña de: ${book.title}</h3>
+                <p class="item-subtitle">por ${book.author}</p>
+                <div class="review-section"><h4>Calificación:</h4><div class="rating-hearts">${'💖'.repeat(book.review.rating || 0)}</div></div>
+                ${book.review.likedMost ? `<div class="review-section"><h4>Lo que más me gustó:</h4><p>${book.review.likedMost}</p></div>` : ''}
+                ${book.review.quotes ? `<div class="review-section"><h4>Frases Favoritas:</h4><p>${book.review.quotes}</p></div>` : ''}
+                <div class="item-actions"><button class="action-edit" onclick="openModal('addDetailedBookReviewModal', ${book.id})">Editar Reseña</button></div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderPlaylists() {
+    const container = document.getElementById('playlistsContainer');
+    if (!container) return;
+    if (data.playlists.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🎧</div><h3>Crea una playlist</h3><p>Asocia música a tus lecturas para una experiencia inmersiva.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.playlists.map(playlist => {
+        let embedHtml = '<p>No hay código de Spotify.</p>';
+        if (playlist.embedCode) {
+            // Transforma la URL de compartir en una URL de embed
+            if (playlist.embedCode.includes('open.spotify.com')) {
+                const url = new URL(playlist.embedCode);
+                const path = url.pathname; // e.g., /playlist/12345
+                embedHtml = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed${path}?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+            } else { // Asume que es el código embed completo
+                embedHtml = playlist.embedCode;
+            }
+        }
+        return `
+        <div class="item-card">
+            <button class="delete-btn" onclick="deleteItem('playlists', ${playlist.id})">×</button>
+            <div class="item-content">
+                <h3 class="item-title">${playlist.name}</h3>
+                <p class="item-subtitle">${playlist.book || 'Sin libro asociado'}</p>
+                <div style="margin-top:1rem;">${embedHtml}</div>
+                <div class="item-actions">
+                    <button class="action-edit" onclick="openModal('addPlaylistModal', ${playlist.id})">Editar</button>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function renderDiary() {
+    const container = document.getElementById('diaryContainer');
+    if (!container) return;
+    // Ordena las entradas por fecha, las más nuevas primero
+    const sortedDiary = [...data.diary].sort((a, b) => new Date(b.date) - new Date(a.date));
+    if (sortedDiary.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📓</div><h3>Tu diario está en blanco</h3><p>Escribe tus reflexiones sobre lo que lees cada día.</p></div>`;
+        return;
+    }
+    container.innerHTML = sortedDiary.map(entry => {
+        const entryDate = entry.date ? new Date(entry.date + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric'}) : 'Sin fecha';
+        return `
+        <div class="item-card">
+            <button class="delete-btn" onclick="deleteItem('diary', ${entry.id})">×</button>
+            <div class="item-content">
+                <h3 class="item-title">${entryDate}</h3>
+                <p class="item-subtitle">${entry.book ? `Sobre: ${entry.book}` : 'Reflexión general'}</p>
+                <p style="margin-top:1rem;font-size:0.9rem;color:#4b5563;white-space:pre-wrap;">${entry.content}</p>
+                 <div class="item-actions">
+                    <button class="action-edit" onclick="openModal('addDiaryModal', ${entry.id})">Editar</button>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function renderProgress() {
+    const container = document.getElementById('progressContainer');
+    if (!container) return;
+    if (data.goals.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📈</div><h3>Define tus metas</h3><p>Ponte retos de lectura, como leer X libros al mes.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.goals.map(goal => {
+        const percentage = goal.target > 0 ? (goal.current / goal.target) * 100 : 0;
+        return `
+        <div class="item-card">
+            <button class="delete-btn" onclick="deleteItem('goals', ${goal.id})">×</button>
+            <div class="item-content">
+                <h3 class="item-title">${goal.title}</h3>
+                <p class="item-subtitle">${goal.description || ''}</p>
+                <p class="item-meta">Progreso: ${goal.current} / ${goal.target}</p>
+                <div style="background-color:#e5e7eb; border-radius:10px; overflow:hidden; margin-top:1rem;">
+                    <div style="width:${percentage}%; background:linear-gradient(to right, #a855f7, #f472b6); height:10px; border-radius:10px;"></div>
+                </div>
+                 <div class="item-actions">
+                    <button class="action-edit" onclick="openModal('addGoalModal', ${goal.id})">Editar</button>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function renderChallenges() {
+    const container = document.getElementById('challengesContainer');
+    if (!container) return;
+    if (data.challenges.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🧩</div><h3>Acepta un reto</h3><p>Encuentra y participa en retos de lectura para descubrir nuevos géneros.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.challenges.map(challenge => `
+        <div class="item-card">
+            <button class="delete-btn" onclick="deleteItem('challenges', ${challenge.id})">×</button>
+            <div class="item-content">
+                <h3 class="item-title">${challenge.title}</h3>
+                <p class="item-subtitle">Categoría: ${challenge.category || 'General'}</p>
+                <p style="margin-top:1rem;font-size:0.9rem;color:#6b7280;">${challenge.description}</p>
+                 <div class="item-actions">
+                    <button class="action-edit" onclick="openModal('addChallengeModal', ${challenge.id})">Editar</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderTributes() {
+    const container = document.getElementById('tributesContainer');
+    if (!container) return;
+    if (data.tributes.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">✨</div><h3>Crea un homenaje</h3><p>Dedica un espacio a ese libro o autor que te cambió la vida.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.tributes.map(tribute => {
+        let contentHtml = '';
+        switch(tribute.type) {
+            case 'image': contentHtml = `<img src="${tribute.content}" alt="${tribute.title}" style="max-width:100%; border-radius:12px;">`; break;
+            case 'video': contentHtml = `<iframe width="100%" height="315" src="${tribute.content.replace('watch?v=', 'embed/')}" frameborder="0" allowfullscreen></iframe>`; break;
+            case 'link': contentHtml = `<a href="${tribute.content}" target="_blank" rel="noopener noreferrer">${tribute.content}</a>`; break;
+            default: contentHtml = `<p style="white-space:pre-wrap;">${tribute.content}</p>`;
+        }
+        return `
+        <div class="item-card tribute-item">
+            <button class="delete-btn" onclick="deleteItem('tributes', ${tribute.id})">×</button>
+            <div class="item-content">
+                <h3 class="item-title">${tribute.title}</h3>
+                <div class="tribute-content">${contentHtml}</div>
+                 <div class="item-actions">
+                    <button class="action-edit" onclick="openModal('addTributeModal', ${tribute.id})">Editar</button>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function renderFavorites() {
+    const container = document.getElementById('favoritesContainer');
+    if (!container) return;
+    if (data.favorites.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🌟</div><h3>Elige tus favoritos del año</h3><p>Destaca aquí los libros que más te han gustado.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.favorites.map(fav => `
+        <div class="item-card">
+            <button class="delete-btn" onclick="deleteItem('favorites', ${fav.id})">×</button>
+            <div class="item-content">
+                <h3 class="item-title">${fav.title}</h3>
+                <p class="item-subtitle">por ${fav.author || 'Autor/a desconocido/a'}</p>
+                <p class="item-meta">${'🌟'.repeat(fav.rating)}</p>
+                ${fav.reason ? `<p style="margin-top:1rem;font-size:0.9rem;color:#6b7280;">${fav.reason}</p>` : ''}
+                 <div class="item-actions">
+                    <button class="action-edit" onclick="openModal('addFavoriteModal', ${fav.id})">Editar</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderSuggestions() {
+    const container = document.getElementById('suggestionsContainer');
+    if (!container) return;
+    if (data.suggestions.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🤖</div><h3>Genera sugerencias</h3><p>Haz clic en el botón para obtener recomendaciones de lectura.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.suggestions.map(sug => `
+        <div class="item-card">
+            <div class="item-content">
+                <h3 class="item-title">${sug.title}</h3>
+                <p class="item-subtitle">por ${sug.author}</p>
+                <p class="item-meta">${sug.genre}</p>
+                <p style="margin-top:1rem;font-size:0.9rem;color:#6b7280;">${sug.reason}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleTributeContentField() { /* Placeholder for your original function if it existed */ }
             setupModalForms();
 
             loadUserName();
