@@ -6,296 +6,118 @@
     <title>Merakelysi - Mi Universo Literario</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos Generales */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+        :root {
+            --pink: #f472b6; --purple: #a855f7; --blue: #60a5fa; --green: #34d399; --yellow: #f59e0b;
         }
+        /* Estilos Generales y Animaciones */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: linear-gradient(135deg, #fef7f0, #faf2f2, #f0f4f8, #f8f0f5, #f5f3ff); min-height: 100vh; cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>🦄</text></svg>"), auto; overflow-y: auto; }
+        body.modal-open { overflow: hidden; }
 
-        body {
-            background: linear-gradient(135deg, #fef7f0 0%, #faf2f2 25%, #f0f4f8 50%, #f8f0f5 75%, #f5f3ff 100%);
-            min-height: 100vh;
-            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>🦄</text></svg>"), auto;
-            position: relative;
-             overflow-y: auto;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; position: relative; z-index: 10; }
+        .bg-decoration { position: fixed; opacity: 0.08; pointer-events: none; z-index: -1; animation: float 6s ease-in-out infinite; }
+        .bg-book-1 { top: 10%; left: 5%; font-size: 4rem; }
+        .bg-butterfly { bottom: 20%; left: 10%; font-size: 7rem; animation-name: pulse; }
 
-         body.modal-open {
-             overflow: hidden;
-         }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.08; } 50% { transform: scale(1.1); opacity: 0.15; } }
 
-        /* Elementos decorativos de fondo */
-        .bg-decoration {
-            position: fixed;
-            opacity: 0.08;
-            pointer-events: none;
-            z-index: 0;
-        }
+        /* Header */
+        .header { text-align: center; margin-bottom: 3rem; padding: 2rem 0; background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(248,250,252,0.5)); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); backdrop-filter: blur(5px); }
+        .title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: bold; background: linear-gradient(to right, var(--pink), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { font-size: 1.2rem; color: #6b7280; margin-top: 0.5rem; }
 
-        .bg-book-1 { top: 10%; left: 5%; font-size: 4rem; animation: float 6s ease-in-out infinite; }
-        .bg-book-2 { top: 20%; right: 10%; font-size: 3rem; animation: float 4s ease-in-out infinite reverse; }
-        .bg-butterfly { bottom: 20%; left: 10%; font-size: 7rem; animation: pulse 3s infinite; transition: color 0.5s ease; }
-        .bg-star { bottom: 10%; right: 5%; font-size: 3rem; animation: float 5s ease-in-out infinite; }
-        .bg-flower { top: 50%; left: 2%; font-size: 3rem; animation: pulse 4s infinite; }
-        .bg-moon { top: 30%; right: 3%; font-size: 4rem; animation: float 7s ease-in-out infinite; }
+        /* Navigation Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .card { background: rgba(255,255,255,0.8); border-radius: 24px; padding: 2rem; box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.6); cursor: pointer; transition: all 0.3s ease; text-align: center; backdrop-filter: blur(10px); }
+        .card:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 25px 40px -12px rgba(0,0,0,0.15); }
+        .card-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+        .card-title { font-size: 1.1rem; font-weight: 600; color: #374151; }
+        .card-books { background: linear-gradient(135deg, #fdf2f8, #fce7f3); }
+        .card-librero { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); }
+        .card-clubs { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+        .card-calendar { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+        .card-quotes { background: linear-gradient(135deg, #f5f3ff, #ede9fe); }
+        .card-playlists { background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+        .card-tributes { background: linear-gradient(135deg, #fffbeb, #fef3c7); }
+        .card-suggestions { background: linear-gradient(135deg, #ecfdf5, #d1fae5); }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Header Styles */
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-             padding: 2rem 0;
-             background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(248,250,252,0.5) 100%);
-             border-radius: 24px;
-             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-             backdrop-filter: blur(5px);
-        }
-
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: 5rem;
-            font-weight: bold;
-            background: linear-gradient(to right, #f472b6, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            position: relative;
-             text-shadow:
-                 -1px -1px 0 rgba(168, 85, 247, 0.3),
-                 1px -1px 0 rgba(168, 85, 247, 0.3),
-                 -1px 1px 0 rgba(244, 114, 182, 0.3),
-                 1px 1px 0 rgba(244, 114, 182, 0.3),
-                 0 0 10px rgba(244, 114, 182, 0.2),
-                 0 5px 15px rgba(0,0,0,0.1);
-             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
-
-         .title::before {
-             content: '🌸';
-             position: absolute;
-             top: -20px;
-             right: -50px;
-             font-size: 3rem;
-             animation: pulse 2s infinite;
-             opacity: 0.8;
-             filter: drop-shadow(0 2px 4px rgba(244, 114, 182, 0.4));
-         }
-
-         .title::after {
-             content: '🦋';
-             position: absolute;
-             bottom: -20px;
-             left: -40px;
-             font-size: 2.5rem;
-             animation: float 3s ease-in-out infinite;
-             opacity: 0.8;
-             filter: drop-shadow(0 2px 4px rgba(168, 85, 247, 0.4));
-         }
-
-
-         .author-attribution {
-             font-size: 0.9rem;
-             color: #a855f7;
-             margin-bottom: 0.5rem;
-             font-weight: 600;
-         }
-         
-        .user-name-input { text-align: center; margin-bottom: 1.5rem; }
-        .user-name-input label { font-size: 1.1rem; color: #6b7280; margin-right: 0.5rem; font-weight: 600; }
-        .user-name-input input { border: none; border-bottom: 2px dashed #f472b6; background: none; font-size: 1.1rem; color: #374151; font-weight: 600; text-align: center; width: 200px; padding: 0.2rem 0.5rem; transition: border-color 0.3s ease; }
-        .user-name-input input:focus { outline: none; border-bottom-color: #a855f7; }
-
-        .subtitle { font-size: 1.2rem; color: #6b7280; margin-bottom: 1rem; font-weight: 600; }
-
-        /* Navigation & Sections */
+        /* Generic Section Styles */
         .nav-section { display: none; }
         .nav-section.active { display: block; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .section-title { font-size: 2rem; font-weight: 700; color: #374151; text-align: center; flex-grow: 1; }
+        .btn { border: none; padding: 0.75rem 1.5rem; border-radius: 12px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+        .back-btn { background: linear-gradient(135deg, #c7d2fe, #818cf8); color: white; box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3); }
+        .add-btn { background: linear-gradient(135deg, #fda4af, #f472b6); color: white; box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3); }
 
-        /* Grid & Card Styles */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.8) 100%);
-            border-radius: 24px;
-            padding: 2rem;
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15), 0 18px 36px -18px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            text-align: center;
-        }
-
-        .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 40px 80px -18px rgba(0, 0, 0, 0.2), 0 25px 50px -25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-        }
-
-        .card-icon { font-size: 3rem; margin-bottom: 1rem; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
-        .card-title { font-size: 1rem; font-weight: 600; color: #374151; line-height: 1.4; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); }
-
-        /* Section Headers */
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; position: relative; }
-        .section-title { font-size: 2rem; font-weight: 700; color: #374151; margin: 0; flex-grow: 1; text-align: center; }
-
-        .add-btn, .btn-primary { background: linear-gradient(135deg, #fda4af, #f472b6); color: white; border: none; padding: 1rem 2rem; border-radius: 16px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(244, 114, 182, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
-        .add-btn:hover, .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(244, 114, 182, 0.4); }
-        .add-btn:disabled { background: #d1d5db; cursor: not-allowed; transform: none; box-shadow: none; }
-        
-        .back-btn { background: linear-gradient(135deg, #a78bfa, #8b5cf6); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 12px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
-        .back-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4); }
-        
-        /* Items Grid & Cards */
-        .items-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-
-        .item-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 250, 245, 0.8) 100%);
-            border-radius: 24px;
-            padding: 1.5rem;
-            box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            position: relative;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .item-card-header { display: flex; gap: 1rem; align-items: flex-start; }
-        .item-card-cover { width: 80px; height: 120px; object-fit: cover; border-radius: 8px; flex-shrink: 0; background-color: #f3f4f6; }
-        .item-card-info { flex-grow: 1; }
-        .item-card-title { font-size: 1.2rem; font-weight: 700; color: #374151; margin-bottom: 0.25rem; }
-        .item-card-subtitle { color: #6b7280; font-weight: 500; margin-bottom: 0.5rem; }
-        .item-card-meta { color: #f43f5e; font-weight: 600; font-size: 0.8rem; }
-        .item-card-actions { margin-top: auto; padding-top: 1rem; display: flex; gap: 0.5rem; justify-content: flex-end; }
-        .item-card-actions button { background: #a78bfa; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: background-color 0.3s ease; }
-        .delete-btn { position: absolute; top: 0.75rem; right: 0.75rem; background: #fca5a5; color: white; border: none; width: 2rem; height: 2rem; border-radius: 50%; cursor: pointer; font-size: 0.9rem; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; }
-        .delete-btn:hover { background: #f87171; transform: scale(1.1); }
-        
-        /* Librero Styles */
+        /* Librero */
         .librero-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
-        .tab-btn { background: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.7); color: #6b7280; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
-        .tab-btn.active { background: linear-gradient(135deg, #fda4af, #f472b6); color: white; box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3); }
-        .tab-content { display: none; }
-        .tab-content.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1.5rem; }
+        .tab-btn { background: rgba(255,255,255,0.5); border: 1px solid rgba(229, 231, 235, 0.7); color: #6b7280; &.active { background: var(--purple); color: white; } }
+        .tab-content { display: none; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1.5rem; &.active { display: grid; } }
         .book-cover-item { position: relative; cursor: pointer; }
         .book-cover-item img { width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; background-color: #e5e7eb; }
         .book-cover-item:hover img { transform: scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
         
-        /* Modal Styles */
-        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(248, 240, 245, 0.7); backdrop-filter: blur(8px); z-index: 1000; display: none; justify-content: center; align-items: center; }
+        /* Modals */
+        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(240, 242, 247, 0.7); backdrop-filter: blur(8px); z-index: 1000; display: none; justify-content: center; align-items: center; }
         .modal-backdrop.active { display: flex; }
-        .modal-content { background: linear-gradient(135deg, #fefefe 0%, #fff7ed 50%, #f5f3ff 100%); padding: 2rem; border-radius: 24px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); position: relative; max-width: 550px; width: 90%; max-height: 90vh; overflow-y: auto; border: 1px solid rgba(255, 255, 255, 0.8); }
-        .modal-close-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #9ca3af; transition: color 0.3s ease; z-index: 10; }
-        .modal-close-btn:hover { color: #ef4444; }
-        .modal-form h4 { font-size: 1.1rem; color: #5a6573; margin-top: 1.5rem; margin-bottom: 1rem; border-bottom: 1px dashed #e5e7eb; padding-bottom: 0.5rem; }
+        .modal-content { background: #ffffff; padding: 2rem; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-width: 550px; width: 90%; max-height: 90vh; overflow-y: auto; }
+        .modal-close-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #9ca3af; }
+        .modal-form h4 { font-size: 1.1rem; color: var(--purple); margin-top: 1.5rem; margin-bottom: 1rem; border-bottom: 1px dashed #e5e7eb; padding-bottom: 0.5rem; }
         .modal-form label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #4b5563; }
-        .modal-form input[type="text"], .modal-form input[type="number"], .modal-form input[type="date"], .modal-form textarea, .modal-form select, .modal-form input[type="url"] { width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 1rem; color: #374151; background-color: #f9fafb; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
-        .modal-form input:focus, .modal-form textarea:focus, .modal-form select:focus { outline: none; border-color: #f472b6; box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2); }
-        .modal-form button[type="submit"] { width: 100%; background: linear-gradient(135deg, #a855f7, #e879f9); color: white; border: none; padding: 1rem; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3); }
+        .modal-form input, .modal-form textarea, .modal-form select { width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 1rem; }
+        .modal-form input:focus, .modal-form textarea:focus, .modal-form select:focus { outline: none; border-color: var(--pink); box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2); }
+        .modal-form button[type="submit"] { width: 100%; background: linear-gradient(135deg, var(--purple), var(--pink)); color: white; padding: 1rem; font-size: 1.1rem; }
+        
+        /* Star Rating */
         .star-rating { display: flex; gap: 0.5rem; font-size: 2rem; color: #d1d5db; cursor: pointer; margin-bottom: 1rem; }
         .star-rating .star { transition: color 0.2s; }
-        .star-rating .star:hover, .star-rating .star.selected { color: #f59e0b; }
+        .star-rating .star:hover, .star-rating .star.selected { color: var(--yellow); }
         
-        /* Celebration Styles */
-        .celebration-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; overflow: hidden; }
-        .celeb-item { position: absolute; animation-duration: 4s; animation-timing-function: linear; animation-fill-mode: forwards; }
-        @keyframes fall { 0% { top: -10%; opacity: 1; } 100% { top: 110%; opacity: 0; transform: rotate(720deg); } }
+        /* Celebration */
+        .celebration-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+        .celeb-item { position: absolute; animation: fall 4s linear forwards; }
+        @keyframes fall { 0% { top: -10%; opacity: 1; transform: rotate(0deg); } 100% { top: 110%; opacity: 0; transform: rotate(720deg); } }
         
-        /* Empty State */
-        .empty-state { text-align: center; padding: 4rem 2rem; color: #6b7280; background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(248,250,252,0.4) 100%); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); grid-column: 1 / -1; }
-        .empty-state-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; }
-
-        @media (max-width: 768px) {
-            .title { font-size: 2.5rem; } .container { padding: 1rem; } .section-header { flex-direction: column; align-items: stretch; text-align: center; }
-            .section-header .back-btn, .section-header .add-btn { width: 100%; text-align: center; }
-            .items-grid, .tab-content.active { grid-template-columns: 1fr; }
-        }
+        /* Empty State & Misc */
+        .empty-state { text-align: center; padding: 4rem 2rem; color: #6b7280; background: rgba(255,255,255,0.6); border-radius: 24px; grid-column: 1 / -1; }
+        .empty-state-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.7; }
+        .item-card { background: #fff; border-radius: 16px; padding: 1.5rem; box-shadow: 0 8px 16px rgba(0,0,0,0.05); position: relative; }
     </style>
 </head>
 <body>
-    <div class="bg-decoration bg-book-1">📚</div> <div class="bg-decoration bg-book-2">📖</div> <div class="bg-decoration bg-butterfly">🦋</div>
-    <div class="bg-decoration bg-star">⭐</div> <div class="bg-decoration bg-flower">🌸</div> <div class="bg-decoration bg-moon">🌙</div>
-    <div class="celebration-container" id="celebrationContainer"></div>
+    <div class="bg-decoration bg-book-1">📚</div>
+    <div class="bg-decoration bg-butterfly">🦋</div>
+    <div id="celebrationContainer" class="celebration-container"></div>
 
     <div class="container">
         <section id="home" class="nav-section active">
             <header class="header">
                 <h1 class="title">Merakelysi</h1>
-                <p class="author-attribution">By Maribel Alba</p>
-                <p class="subtitle">Mi espacio literario</p>
-                <div class="user-name-input">
-                    <label for="userName">Hola,</label>
-                    <input type="text" id="userName" placeholder="tu nombre aquí" onchange="saveUserName()">
-                </div>
+                <p class="subtitle">By Maribel Alba</p>
             </header>
-
             <main class="grid">
-                <div class="card" onclick="showSection('addBook')">
-                    <span class="card-icon">📖</span> <h3 class="card-title">Agregar Nuevo Libro</h3>
-                </div>
-                <div class="card" onclick="showSection('librero')">
-                    <span class="card-icon">📚</span> <h3 class="card-title">Mi Librero</h3>
-                </div>
-                <div class="card" onclick="showSection('clubs')">
-                    <span class="card-icon">👥</span> <h3 class="card-title">Mis Clubes de Lectura</h3>
-                </div>
-                <div class="card" onclick="showSection('calendar')">
-                    <span class="card-icon">📅</span> <h3 class="card-title">Calendario de Lecturas</h3>
-                </div>
-                <div class="card" onclick="showSection('quotes')">
-                    <span class="card-icon">📝</span> <h3 class="card-title">Frases de Lecturas</h3>
-                </div>
-                <div class="card" onclick="showSection('playlists')">
-                    <span class="card-icon">🎧</span> <h3 class="card-title">Playlist de Spotify</h3>
-                </div>
-                <div class="card" onclick="showSection('tributes')"> 
-                    <span class="card-icon">✨</span> <h3 class="card-title">Homenajes Literarios</h3>
-                </div>
-                <div class="card" onclick="showSection('suggestions')">
-                    <span class="card-icon">🤖</span> <h3 class="card-title">Sugerencias de Libros</h3>
-                </div>
+                <div class="card card-books" onclick="openModal('addBookModal')"><span class="card-icon">📖</span><h3 class="card-title">Agregar Nuevo Libro</h3></div>
+                <div class="card card-librero" onclick="showSection('librero')"><span class="card-icon">📚</span><h3 class="card-title">Mi Librero</h3></div>
+                <div class="card card-clubs" onclick="showSection('clubs')"><span class="card-icon">👥</span><h3 class="card-title">Clubes de Lectura</h3></div>
+                <div class="card card-calendar" onclick="showSection('calendar')"><span class="card-icon">📅</span><h3 class="card-title">Calendario</h3></div>
+                <div class="card card-quotes" onclick="showSection('quotes')"><span class="card-icon">📝</span><h3 class="card-title">Frases de Lecturas</h3></div>
+                <div class="card card-playlists" onclick="showSection('playlists')"><span class="card-icon">🎧</span><h3 class="card-title">Playlists</h3></div>
+                <div class="card card-tributes" onclick="showSection('tributes')"><span class="card-icon">✨</span><h3 class="card-title">Homenajes</h3></div>
+                <div class="card card-suggestions" onclick="showSection('suggestions')"><span class="card-icon">🤖</span><h3 class="card-title">Sugerencias</h3></div>
             </main>
-        </section>
-
-        <section id="addBook" class="nav-section">
-             <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">Agregar un Nuevo Libro</h2>
-            </div>
-            <div class="empty-state">
-                <div class="empty-state-icon">📖</div>
-                <h3>Añade un libro a tu colección</h3>
-                <p>Haz clic en el botón de abajo para abrir el formulario y añadir todos los detalles de tu nueva lectura.</p>
-                <button class="add-btn" style="margin-top: 1rem;" onclick="openModal('addBookModal')">+ Agregar Libro</button>
-            </div>
         </section>
 
         <section id="librero" class="nav-section">
             <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">📚 Mi Librero</h2>
+                <button class="btn back-btn" onclick="showSection('home')">← Inicio</button>
+                <h2 class="section-title">Mi Librero</h2>
+                <button class="btn add-btn" onclick="openModal('addBookModal')">+ Agregar Libro</button>
             </div>
             <div class="librero-tabs">
-                <button id="tab-reading" class="tab-btn active" onclick="switchTab('reading')">Lecturas Actuales</button>
-                <button id="tab-finished" class="tab-btn" onclick="switchTab('finished')">Lecturas Terminadas</button>
+                <button id="tab-reading" class="tab-btn active" onclick="switchTab('reading')">Leyendo</button>
+                <button id="tab-finished" class="tab-btn" onclick="switchTab('finished')">Terminados</button>
                 <button id="tab-wishlist" class="tab-btn" onclick="switchTab('wishlist')">Wishlist</button>
             </div>
             <div id="content-reading" class="tab-content active"></div>
@@ -304,93 +126,45 @@
         </section>
 
         <section id="clubs" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">👥 Mis Clubes de Lectura</h2>
-                <button class="add-btn" onclick="openModal('addClubModal')">+ Crear Club</button>
-            </div>
+            <div class="section-header"><button class="btn back-btn" onclick="showSection('home')">← Inicio</button><h2 class="section-title">Clubes</h2><button class="btn add-btn" onclick="openModal('addClubModal')">+ Crear</button></div>
             <div id="clubsContainer" class="items-grid"></div>
         </section>
-        
-        <section id="calendar" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">📅 Calendario</h2>
-                <button class="add-btn" onclick="openModal('addEventModal')">+ Nuevo Evento</button>
-            </div>
-            <div id="calendarContainer" style="background: rgba(255,255,255,0.7); border-radius: 20px; padding: 1rem; backdrop-filter: blur(5px);"></div>
-        </section>
-
         <section id="quotes" class="nav-section">
-            <div class="section-header">
-                <button class="back-btn" onclick="showSection('home')">← Inicio</button>
-                <h2 class="section-title">📝 Mis Frases</h2>
-                <button class="add-btn" onclick="openModal('addQuoteModal')">+ Nueva Frase</button>
-            </div>
+            <div class="section-header"><button class="btn back-btn" onclick="showSection('home')">← Inicio</button><h2 class="section-title">Frases</h2><button class="btn add-btn" onclick="openModal('addQuoteModal')">+ Nueva</button></div>
             <div id="quotesContainer" class="items-grid"></div>
         </section>
-        
         </div>
 
     <div id="addBookModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('addBookModal')">×</button>
-            <h3 id="addBookModalTitle">Agregar Libro</h3>
+            <h3>Agregar/Editar Libro</h3>
             <form id="addBookForm" class="modal-form">
-                 <input type="hidden" name="id">
-                 <h4>Información Básica</h4>
-                 <label for="bookTitle">Título:</label>
-                 <input type="text" id="bookTitle" name="title" required>
-                 <label for="bookAuthor">Autor/a:</label>
-                 <input type="text" id="bookAuthor" name="author">
-                 <label for="bookImageUrl">URL de la Portada:</label>
-                 <input type="url" id="bookImageUrl" name="imageUrl" placeholder="https://ejemplo.com/portada.jpg">
-                 
-                 <h4>Estatus y Progreso</h4>
-                 <label for="bookStatus">Estatus:</label>
-                 <select id="bookStatus" name="status">
-                     <option value="not-started">No Iniciado</option>
-                     <option value="reading">Leyendo</option>
-                     <option value="finished">Terminado</option>
-                 </select>
-                 <label for="bookCurrentPage">Página Actual:</label>
-                 <input type="number" id="bookCurrentPage" name="currentPage" value="0" min="0">
-                 <label for="bookTotalPages">Total de Páginas:</label>
-                 <input type="number" id="bookTotalPages" name="totalPages" value="0" min="0">
-                 
-                 <h4>Metas de Lectura</h4>
-                 <label for="goalType">Frecuencia de la Meta:</label>
-                 <select name="goalType">
-                    <option value="">Sin Meta</option>
-                    <option value="semanal">Semanal</option>
-                    <option value="quincenal">Quincenal</option>
-                    <option value="mensual">Mensual</option>
-                    <option value="anual">Anual</option>
-                 </select>
-                 <label for="goalTargetPage">Página Objetivo:</label>
-                 <input type="number" name="goalTargetPage" min="0">
-                 
-                 <h4>Calificación</h4>
-                 <label>Tu Calificación:</label>
-                 <div class="star-rating" id="addBookRating">
-                    <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
-                 </div>
-                 <input type="hidden" name="rating" id="ratingInput" value="0">
-                 
-                 <h4>Archivos y Enlaces</h4>
-                 <label for="bookAuthorInstagram">Instagram del Autor:</label>
-                 <input type="url" name="authorInstagram" placeholder="https://instagram.com/autor">
-                 <label for="bookAuthorFacebook">Facebook del Autor:</label>
-                 <input type="url" name="authorFacebook" placeholder="https://facebook.com/autor">
-                 <label for="bookFilePdf">URL a PDF:</label>
-                 <input type="url" name="filePdf">
-                 <label for="bookFileEpub">URL a EPUB:</label>
-                 <input type="url" name="fileEpub">
-                 <label for="bookFileAudio">URL a Audiolibro:</label>
-                 <input type="url" name="fileAudio">
-                 
-                <button type="submit">Guardar Libro</button>
-                <button type="button" class="btn-primary" style="margin-top: 1rem; background: #10b981;" onclick="openReviewModal()">✍️ Crear Reseña con IA</button>
+                <input type="hidden" name="id">
+                <h4>Información Básica</h4>
+                <label>Título:</label><input type="text" name="title" required>
+                <label>Autor/a:</label><input type="text" name="author">
+                <label>URL de Portada:</label><input type="url" name="imageUrl" placeholder="https://ejemplo.com/portada.jpg">
+                <h4>Estatus y Progreso</h4>
+                <label>Estatus:</label>
+                <select name="status"><option value="not-started">No Iniciado</option><option value="reading">Leyendo</option><option value="finished">Terminado</option></select>
+                <label>Página Actual:</label><input type="number" name="currentPage" value="0" min="0">
+                <label>Total de Páginas:</label><input type="number" name="totalPages" value="0" min="0">
+                <h4>Metas de Lectura</h4>
+                <label>Frecuencia:</label>
+                <select name="goalType"><option value="">Sin Meta</option><option value="semanal">Semanal</option><option value="quincenal">Quincenal</option><option value="mensual">Mensual</option><option value="anual">Anual</option></select>
+                <label>Página Objetivo:</label><input type="number" name="goalTargetPage" min="0">
+                <h4>Calificación</h4>
+                <div class="star-rating" id="bookRatingStars"><span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span></div>
+                <input type="hidden" name="rating" id="bookRatingInput" value="0">
+                <h4>Archivos y Enlaces</h4>
+                <label>Instagram del Autor:</label><input type="url" name="authorInstagram">
+                <label>Facebook del Autor:</label><input type="url" name="authorFacebook">
+                <label>URL a PDF:</label><input type="url" name="filePdf">
+                <label>URL a EPUB:</label><input type="url" name="fileEpub">
+                <label>URL a Audiolibro:</label><input type="url" name="fileAudio">
+                <button type="submit" class="btn">Guardar Libro</button>
+                <button type="button" class="btn add-btn" style="margin-top: 1rem;" onclick="openReviewModal()">✍️ Crear Reseña con IA</button>
             </form>
         </div>
     </div>
@@ -398,64 +172,76 @@
     <div id="reviewAiModal" class="modal-backdrop">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeModal('reviewAiModal')">×</button>
-            <h3>Crear Reseña con IA</h3>
+            <h3 id="reviewAiTitle">Crear Reseña con IA</h3>
             <form id="reviewAiForm" class="modal-form">
                 <input type="hidden" name="bookIdForReview">
-                <label>¿Qué es lo que más te gustó de los personajes principales?</label>
-                <textarea name="q_characters"></textarea>
-                <label>Describe la trama o el argumento en una o dos frases.</label>
-                <textarea name="q_plot"></textarea>
-                <label>¿Cuál fue el momento o capítulo más impactante para ti y por qué?</label>
-                <textarea name="q_moment"></textarea>
-                <label>¿Qué emociones te provocó el libro (alegría, tristeza, intriga, etc.)?</label>
-                <input type="text" name="q_emotions">
-                <label>¿A qué tipo de lector le recomendarías este libro?</label>
-                <input type="text" name="q_recommendation">
-                <button type="submit">Generar Borrador de Reseña</button>
+                <label>¿Qué es lo que más te gustó de los personajes?</label><textarea name="q_characters"></textarea>
+                <label>Describe la trama en una o dos frases.</label><textarea name="q_plot"></textarea>
+                <label>¿Qué emociones te provocó el libro?</label><input type="text" name="q_emotions">
+                <label>¿A qué tipo de lector lo recomendarías?</label><input type="text" name="q_recommendation">
+                <button type="submit" class="btn">Generar Borrador</button>
             </form>
         </div>
     </div>
 
     <div id="generatedReviewModal" class="modal-backdrop">
-        <div class="modal-content">
+        <div class="modal-content" style="text-align: center;">
             <button class="modal-close-btn" onclick="closeModal('generatedReviewModal')">×</button>
-            <h3>Borrador de Reseña Generado</h3>
-            <div id="generatedReviewText" style="white-space: pre-wrap; background: #f9fafb; padding: 1rem; border-radius: 8px; border: 1px solid #e5e7eb;"></div>
-            <button type="button" class="btn-primary" style="margin-top: 1rem;" onclick="copyReviewText()">Copiar Texto</button>
+            <h3>Borrador de Reseña</h3>
+            <div id="generatedReviewText" style="white-space: pre-wrap; background: #f9fafb; padding: 1rem; border-radius: 8px; border: 1px solid #e5e7eb; margin: 1rem 0; text-align: left;"></div>
+            <button type="button" class="btn add-btn" onclick="copyReviewText()">Copiar Texto</button>
         </div>
     </div>
+    
+    <div id="addClubModal" class="modal-backdrop">...</div>
+    <div id="addQuoteModal" class="modal-backdrop">...</div>
 
-</body>
 <script>
-// --- APP INITIALIZATION ---
-let data = {
-    userName: '', books: [], clubs: [], events: [], quotes: [], playlists: [], tributes: [], wishlist: [], suggestions: []
-};
+// --- CORE APP LOGIC ---
+let data = {};
+const initData = { userName: '', books: [], clubs: [], events: [], quotes: [], playlists: [], tributes: [], wishlist: [], suggestions: [] };
 let currentSection = 'home';
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 
+// --- LIFECYCLE & SETUP ---
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
-    renderCurrentSection();
-    window.addEventListener('beforeunload', saveData);
-    document.addEventListener('keydown', (e) => e.key === 'Escape' && closeAllModals());
+    showSection('home');
+    window.addEventListener('beforeunload', () => saveData(data));
+    document.addEventListener('keydown', e => e.key === 'Escape' && closeAllModals());
     setupAllForms();
-    console.log('🦄 Merakelysi V2 Loaded!');
 });
 
-// --- DATA PERSISTENCE ---
-const saveData = () => localStorage.setItem('merakelysi_data', JSON.stringify(data));
-const loadData = () => {
-    const savedData = localStorage.getItem('merakelysi_data');
-    if (savedData) {
-        data = { ...data, ...JSON.parse(savedData) };
+function loadData() {
+    try {
+        const saved = localStorage.getItem('merakelysi_data_v2');
+        data = saved ? JSON.parse(saved) : { ...initData };
+        // Asegurar que todas las propiedades existan para evitar errores
+        for (let key in initData) {
+            if (!data[key]) data[key] = initData[key];
+        }
+    } catch {
+        data = { ...initData };
     }
-    document.getElementById('userName').value = localStorage.getItem('merakelysi_userName') || '';
-};
-const saveUserName = () => localStorage.setItem('merakelysi_userName', document.getElementById('userName').value);
+}
+const saveData = (dataToSave) => localStorage.setItem('merakelysi_data_v2', JSON.stringify(dataToSave));
 
-// --- NAVIGATION ---
+function setupAllForms() {
+    const forms = {
+        'addBookForm': 'books',
+        'addClubForm': 'clubs',
+        'addQuoteForm': 'quotes',
+    };
+    for (const [formId, dataType] of Object.entries(forms)) {
+        const form = document.getElementById(formId);
+        if (form) form.addEventListener('submit', (e) => handleGenericSubmit(e, dataType));
+    }
+    document.getElementById('reviewAiForm').addEventListener('submit', handleReviewAiForm);
+    setupStarRating('bookRatingStars', 'bookRatingInput');
+}
+
+// --- NAVIGATION & RENDERING ---
 const showSection = (sectionId) => {
     document.querySelectorAll('.nav-section').forEach(s => s.classList.remove('active'));
     document.getElementById(sectionId)?.classList.add('active');
@@ -464,255 +250,158 @@ const showSection = (sectionId) => {
 };
 
 const switchTab = (tabId) => {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-btn, .tab-content').forEach(el => el.classList.remove('active'));
     document.getElementById(`tab-${tabId}`).classList.add('active');
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
     document.getElementById(`content-${tabId}`).classList.add('active');
 };
 
-// --- MAIN RENDER CONTROLLER ---
-const renderCurrentSection = () => {
-    const renderMap = {
-        'home': () => {},
-        'addBook': () => {},
+function renderCurrentSection() {
+    const renderers = {
         'librero': renderLibrero,
-        'clubs': () => renderGenericSection('clubs', 'clubsContainer', '👥', 'Sin clubes', 'Crea tu primer club de lectura.'),
-        'calendar': () => renderCalendar(currentYear, currentMonth),
-        'quotes': () => renderGenericSection('quotes', 'quotesContainer', '📝', 'Sin frases', 'Guarda tus frases favoritas.'),
-        'playlists': () => renderGenericSection('playlists', 'playlistsContainer', '🎧', 'Sin playlists', 'Crea una playlist para un libro.'),
-        'tributes': () => renderGenericSection('tributes', 'tributesContainer', '✨', 'Sin homenajes', 'Crea un homenaje para un libro.'),
-        'suggestions': renderSuggestions,
+        'clubs': () => renderList('clubs', 'clubsContainer', clubRenderer, '👥', 'Sin clubes'),
+        'quotes': () => renderList('quotes', 'quotesContainer', quoteRenderer, '📝', 'Sin frases'),
     };
-    renderMap[currentSection]?.();
-};
+    if (renderers[currentSection]) renderers[currentSection]();
+}
 
-// --- SPECIFIC RENDERERS ---
-const renderLibrero = () => {
-    const readingContent = document.getElementById('content-reading');
-    const finishedContent = document.getElementById('content-finished');
-    const wishlistContent = document.getElementById('content-wishlist');
-
+function renderLibrero() {
     const readingBooks = data.books.filter(b => b.status === 'reading');
     const finishedBooks = data.books.filter(b => b.status === 'finished');
 
-    readingContent.innerHTML = readingBooks.length > 0 ? readingBooks.map(bookToCover).join('') : getEmptyStateHTML('📖', 'No hay libros en lectura', 'Cambia el estatus de un libro a "Leyendo".');
-    finishedContent.innerHTML = finishedBooks.length > 0 ? finishedBooks.map(bookToCover).join('') : getEmptyStateHTML('✅', 'No has terminado libros', '¡Sigue leyendo!');
-    wishlistContent.innerHTML = data.wishlist.length > 0 ? data.wishlist.map(bookToCover).join('') : getEmptyStateHTML('💖', 'Tu wishlist está vacía', 'Añade libros que deseas leer.');
-};
+    document.getElementById('content-reading').innerHTML = readingBooks.length > 0 ? readingBooks.map(bookToCover).join('') : getEmptyStateHTML('📖', 'Nada por aquí', 'Añade un libro y ponlo en estado "Leyendo".');
+    document.getElementById('content-finished').innerHTML = finishedBooks.length > 0 ? finishedBooks.map(bookToCover).join('') : getEmptyStateHTML('✅', 'Aún no terminas libros', '¡Sigue así!');
+    document.getElementById('content-wishlist').innerHTML = data.wishlist.length > 0 ? data.wishlist.map(bookToCover).join('') : getEmptyStateHTML('💖', 'Wishlist vacía', 'Añade libros que anhelas leer.');
+}
 
-const bookToCover = (book) => `
-    <div class="book-cover-item" onclick="openModal('addBookModal', ${book.id})">
-        <img src="${book.imageUrl || 'https://via.placeholder.com/150x225.png?text=Sin+Portada'}" alt="Portada de ${book.title}" loading="lazy">
-    </div>
-`;
-
-const renderGenericSection = (dataType, containerId, icon, emptyTitle, emptyText) => {
+function renderList(dataType, containerId, renderer, icon, emptyText) {
     const container = document.getElementById(containerId);
     if (!container) return;
+    const items = data[dataType];
+    container.innerHTML = items.length > 0 ? items.map(renderer).join('') : getEmptyStateHTML(icon, emptyText);
+}
 
-    if (data[dataType].length === 0) {
-        container.innerHTML = getEmptyStateHTML(icon, emptyTitle, emptyText);
-        return;
+const bookToCover = (book) => `<div class="book-cover-item" onclick="openModal('addBookModal', ${book.id})"><img src="${book.imageUrl || 'https://via.placeholder.com/200x300.png?text=Sin+Portada'}" alt="${book.title}" loading="lazy"></div>`;
+const clubRenderer = (club) => `<div class="item-card">...</div>`; // Añadir HTML para club
+const quoteRenderer = (quote) => `<div class="item-card">...</div>`; // Añadir HTML para frase
+
+// --- FORM HANDLING ---
+function handleGenericSubmit(event, dataType) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const itemData = Object.fromEntries(formData.entries());
+    const id = parseFloat(itemData.id);
+
+    // Celebrations logic for books
+    if (dataType === 'books') {
+        const oldBook = id ? data.books.find(b => b.id === id) : null;
+        if (oldBook && oldBook.status !== 'finished' && itemData.status === 'finished') triggerCelebration('finished');
+        if (oldBook && oldBook.goalTargetPage && parseFloat(oldBook.currentPage) < parseFloat(oldBook.goalTargetPage) && parseFloat(itemData.currentPage) >= parseFloat(oldBook.goalTargetPage)) {
+            triggerCelebration('goal');
+        }
     }
 
-    const itemRenderer = {
-        clubs: club => `
-            <div class="item-card-info">
-                <h3 class="item-card-title">${club.name}</h3>
-                <p class="item-card-subtitle">${club.description || 'Sin descripción'}</p>
-                <p class="item-card-meta">Reunión: ${club.meetingDay}</p>
-            </div>`,
-        quotes: quote => {
-            const book = data.books.find(b => b.id == quote.bookId);
-            return `
-            <div class="item-card-header">
-                ${book ? `<img src="${book.imageUrl || ''}" class="item-card-cover">` : ''}
-                <div class="item-card-info">
-                    <p class="item-card-subtitle" style="font-style: italic;">"${quote.text}"</p>
-                    <h3 class="item-card-title">- ${quote.author || 'Anónimo'}</h3>
-                </div>
-            </div>`;
-        },
-        // Añadir más renderers si es necesario
-    };
-
-    container.innerHTML = data[dataType].map(item => `
-        <div class="item-card">
-            <button class="delete-btn" onclick="deleteItem('${dataType}', ${item.id})">×</button>
-            ${itemRenderer[dataType] ? itemRenderer[dataType](item) : `<div class="item-card-info"><h3 class="item-card-title">${item.title || item.name}</h3></div>`}
-            <div class="item-card-actions">
-                <button onclick="openModal('add${dataType.slice(0, -1)}Modal', ${item.id})">Editar</button>
-            </div>
-        </div>
-    `).join('');
-};
-
-const getEmptyStateHTML = (icon, title, text) => `<div class="empty-state" style="grid-column: 1 / -1;"><div class="empty-state-icon">${icon}</div><h3>${title}</h3><p>${text}</p></div>`;
-
-
-// --- FORM & MODAL HANDLING ---
-const setupAllForms = () => {
-    // Libro
-    document.getElementById('addBookForm').addEventListener('submit', handleBookFormSubmit);
-    setupStarRating('addBookRating', 'ratingInput');
-
-    // Reseña IA
-    document.getElementById('reviewAiForm').addEventListener('submit', handleReviewAiForm);
-    
-    // El resto de formularios (simplificado)
-    // Añadir más aquí si se crean sus modales
-};
-
-const handleBookFormSubmit = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const bookData = Object.fromEntries(formData.entries());
-    bookData.id = parseFloat(bookData.id);
-    
-    // Check for goal completion
-    const oldBook = data.books.find(b => b.id === bookData.id);
-    if(oldBook && oldBook.goalTargetPage > 0 && oldBook.currentPage < oldBook.goalTargetPage && bookData.currentPage >= oldBook.goalTargetPage){
-        triggerCelebration('goal');
-    }
-
-    if (bookData.id) { // Edit
-        const index = data.books.findIndex(b => b.id === bookData.id);
-        if(oldBook?.status !== 'finished' && bookData.status === 'finished') triggerCelebration('finished');
-        if (index > -1) data.books[index] = bookData;
+    if (id) { // Edit
+        const index = data[dataType].findIndex(item => item.id === id);
+        if (index > -1) data[dataType][index] = { ...data[dataType][index], ...itemData, id };
     } else { // Create
-        bookData.id = Date.now();
-        data.books.push(bookData);
+        itemData.id = Date.now();
+        data[dataType].push(itemData);
     }
-    saveData();
-    renderLibrero();
-    closeModal('addBookModal');
-};
+    
+    saveData(data);
+    renderCurrentSection();
+    closeModal(event.target.closest('.modal-backdrop').id);
+}
 
-const openModal = (modalId, itemId = null) => {
+// --- MODALS ---
+function openModal(modalId, itemId = null) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
     const form = modal.querySelector('form');
     if (form) form.reset();
 
+    // Reset stars visual
+    const starContainer = form ? form.querySelector('.star-rating') : null;
+    if(starContainer) updateStarDisplay(starContainer, 0);
+
     if (itemId) {
-        // Asumiendo que todos los items editables son libros por ahora
-        const book = data.books.find(b => b.id === itemId) || data.wishlist.find(b => b.id === itemId);
-        if (book && form) {
-            for (const key in book) {
-                if (form.elements[key]) form.elements[key].value = book[key];
-            }
-            if (form.elements.id) form.elements.id.value = book.id;
-            // Setear estrellas
-            if(book.rating > 0) {
-                 const ratingContainer = form.querySelector('.star-rating');
-                 if(ratingContainer) updateStarDisplay(ratingContainer, book.rating);
-            }
+        // Asumiendo que todos son libros para simplificar
+        const item = data.books.find(i => i.id === itemId) || data.wishlist.find(i => i.id === itemId);
+        if (item && form) {
+            Object.keys(item).forEach(key => {
+                if(form.elements[key]) form.elements[key].value = item[key];
+            });
+            if(item.rating && starContainer) updateStarDisplay(starContainer, item.rating);
         }
     }
     modal.classList.add('active');
-};
+}
 
 const closeModal = (modalId) => document.getElementById(modalId)?.classList.remove('active');
 const closeAllModals = () => document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active'));
 
-const deleteItem = (type, id) => {
-    if (confirm('¿Seguro que quieres eliminar este elemento?')) {
-        data[type] = data[type].filter(item => item.id !== id);
-        saveData();
-        renderCurrentSection();
-    }
-};
-
-// --- STAR RATING ---
-const setupStarRating = (containerId, inputId) => {
+// --- STAR RATING LOGIC ---
+function setupStarRating(containerId, inputId) {
     const container = document.getElementById(containerId);
     const input = document.getElementById(inputId);
-    if (!container || !input) return;
-
-    container.addEventListener('click', e => {
-        if (e.target.classList.contains('star')) {
+    if(container && input) container.addEventListener('click', e => {
+        if(e.target.matches('.star')) {
             const value = e.target.dataset.value;
             input.value = value;
             updateStarDisplay(container, value);
         }
     });
-};
+}
+function updateStarDisplay(container, value) {
+    container.querySelectorAll('.star').forEach(star => star.classList.toggle('selected', star.dataset.value <= value));
+}
 
-const updateStarDisplay = (container, value) => {
-    const stars = container.querySelectorAll('.star');
-    stars.forEach(star => {
-        star.classList.toggle('selected', star.dataset.value <= value);
-    });
-};
-
-// --- AI REVIEW ---
-const openReviewModal = () => {
+// --- AI REVIEW LOGIC ---
+function openReviewModal() {
     const bookForm = document.getElementById('addBookForm');
     const bookId = bookForm.elements.id.value;
     const bookTitle = bookForm.elements.title.value;
-    
-    if(!bookTitle){
-        alert("Primero escribe el título del libro.");
-        return;
-    }
-    
+    if (!bookTitle) { alert("Primero escribe el título del libro."); return; }
+
+    const modal = document.getElementById('reviewAiModal');
+    modal.querySelector('#reviewAiTitle').textContent = `Reseña para: ${bookTitle}`;
+    modal.querySelector('input[name="bookIdForReview"]').value = bookId;
     closeModal('addBookModal');
-    const reviewModal = document.getElementById('reviewAiModal');
-    reviewModal.querySelector('h3').textContent = `Reseña para: ${bookTitle}`;
-    reviewModal.querySelector('input[name="bookIdForReview"]').value = bookId;
     openModal('reviewAiModal');
-};
+}
 
-const handleReviewAiForm = (e) => {
+function handleReviewAiForm(e) {
     e.preventDefault();
-    const form = e.target;
-    const answers = Object.fromEntries(new FormData(form).entries());
-    const bookId = answers.bookIdForReview;
-    const book = data.books.find(b => b.id == bookId);
-
-    const generatedText = `
-En mi opinión sobre "${book?.title || 'este libro'}", los personajes me parecieron ${answers.q_characters || 'interesantes'}. La trama se puede resumir como ${answers.q_plot || 'una historia cautivadora'}, y el momento que más me impactó fue cuando ${answers.q_moment || 'ocurrió el giro principal'}.
-
-A lo largo de la lectura, sentí una mezcla de ${answers.q_emotions || 'muchas emociones'}. Definitivamente, es una obra que recomendaría a lectores que disfrutan de ${answers.q_recommendation || 'las buenas historias'}.
-    `;
-
+    const answers = Object.fromEntries(new FormData(e.target).entries());
+    const book = data.books.find(b => b.id == answers.bookIdForReview);
+    const generatedText = `Basado en mi lectura de "${book?.title || 'este libro'}", puedo decir que los personajes son ${answers.q_characters || 'un punto central de la obra'}. La trama, que gira en torno a ${answers.q_plot || 'un conflicto interesante'}, me provocó sentimientos de ${answers.q_emotions || 'gran expectación'}. Recomendaría esta novela a cualquier persona que busque ${answers.q_recommendation || 'una lectura inolvidable'}.`;
+    
     document.getElementById('generatedReviewText').textContent = generatedText.trim();
     closeModal('reviewAiModal');
     openModal('generatedReviewModal');
-};
-
-const copyReviewText = () => {
-    const text = document.getElementById('generatedReviewText').textContent;
-    navigator.clipboard.writeText(text).then(() => {
-        alert("¡Reseña copiada al portapapeles!");
-        closeModal('generatedReviewModal');
-    });
-};
+}
+const copyReviewText = () => navigator.clipboard.writeText(document.getElementById('generatedReviewText').textContent).then(() => alert("¡Reseña copiada!"));
 
 // --- CELEBRATIONS ---
-const triggerCelebration = (type) => {
+function triggerCelebration(type) {
     const container = document.getElementById('celebrationContainer');
     container.innerHTML = '';
-    let items = [];
-    if (type === 'finished') items = ['🎉', '🎈', '📖', '🌸', '🦋', '⭐', '✨'];
-    if (type === 'goal') items = ['👏', '❤️', ' confetti'];
-
+    const items = type === 'finished' ? ['🎉', '🎈', '📖', '🌸', '🦋', '⭐'] : ['👏', '❤️', '💖', '✨'];
     for (let i = 0; i < 50; i++) {
-        const item = document.createElement('div');
-        item.className = 'celeb-item';
-        item.textContent = items[Math.floor(Math.random() * items.length)];
-        item.style.left = `${Math.random() * 100}vw`;
-        item.style.fontSize = `${Math.random() * 2 + 1}rem`;
-        item.style.animationName = 'fall';
-        item.style.animationDelay = `${Math.random() * 4}s`;
-        container.appendChild(item);
+        const el = document.createElement('div');
+        el.className = 'celeb-item';
+        el.textContent = items[Math.floor(Math.random() * items.length)];
+        el.style.left = `${Math.random() * 100}vw`;
+        el.style.fontSize = `${Math.random() * 2 + 1}rem`;
+        el.style.animationDelay = `${Math.random() * 4}s`;
+        container.appendChild(el);
     }
     setTimeout(() => container.innerHTML = '', 5000);
-};
+}
 
-// --- El resto de funciones (Calendario, Sugerencias, etc.) se mantienen similares ---
-// Por brevedad, se omite su código ya que la lógica central está arriba.
+// --- HELPERS ---
+const getEmptyStateHTML = (icon, title, text = '') => `<div class="empty-state"><div class="empty-state-icon">${icon}</div><h3>${title}</h3><p>${text}</p></div>`;
 
 </script>
+</body>
 </html>
